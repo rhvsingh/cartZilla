@@ -42,6 +42,15 @@ const Navigation = ({ logged, setLogged }) => {
         dropDown.style.textAlign = "left";
     }
 
+    function childSelector(e) {
+        if (e.target.tagName.toLowerCase() === 'a') {
+          let dropArray = document.getElementsByClassName('dropdown-menu');
+          for (let i = 0; i < dropArray.length; i++) {
+            dropArray[i].style.display = 'none';
+          }
+        }
+      }
+
     return (
         <>
             <header className='d-flex justify-between align-items-center'>
@@ -55,7 +64,7 @@ const Navigation = ({ logged, setLogged }) => {
                         {logged && <li><Link to={baseURL + "/cart"}>Cart</Link></li>}
                         <li style={{ position: 'relative', width: '80px', textAlign: 'right' }}>
                             <button onClick={toggleDropdown}><FaUserCircle style={{ position: 'absolute', left: '2px', top: '6px', fontSize: '40px' }} /> <FaAngleDown className='dropDown-arrow' /></button>
-                            <ul className='dropdown-menu' style={{ display: 'none' }}>
+                            <ul className='dropdown-menu' style={{ display: 'none' }}  onClick={childSelector}>
                                 {logged ? <li onClick={() => setLogged(oldValue => {
                                     if (oldValue === true) {
                                         localStorage.clear()
