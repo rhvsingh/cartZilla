@@ -152,6 +152,42 @@ app.post('/register', (req, res) => {
     })
 })
 
+
+//User Login API
+
+app.post('/login', (req, res) => {
+    const db = app.locals.db;
+    let email = req.body.email;
+    let newOTP = Math.floor(Math.random() * 9000) + 1000;
+
+    const otpCollections = db.collection('otp');
+
+    otpCollections.find({ 'email': email }).limit(1).sort({ _id: -1 }).toArray(function (err, result) {
+        if (err) {
+            console.log(err.message);
+        } else if (result.length) {
+            let name = result[0].name;
+            let mailOptions = {
+                from: myEmail,
+                to: email,
+                subject: 'CartZilla | OTP Verify',
+                html: htmlContext(name, newOTP)
+            };
+            otpCollections.updateOne({ 'email': email }, { $set: { 'otp': newOTP } }, function (err, object) { });
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                    res.json({ 'email': email, 'name': name, 'login': true, 'otpStatus': true, 'msg': 'Login successful' });
+                }
+            });
+        } else {
+            res.json({'msg': 'User not found', 'statusCode': 404, "result": false})
+        }
+    })
+})
+
 //OTP verify
 
 app.post('/otpVerify', (req, res) => {
@@ -194,23 +230,21 @@ app.post('/otpVerify', (req, res) => {
 
 //Get user info but by authorized user only
 
-app.get('/user/:key', (req, res) => {
+app.get('/user/:akey', (req, res) => {
     const db = app.locals.db;
-    let key = req.params.key;
+    let akey = req.params.akey;
     const userCollection = db.collection('user');
-    userCollection.find({ 'akey': key }).limit(1).sort({ _id: -1 }).toArray((err, result) => {
+    userCollection.find({ 'akey': akey }).limit(1).sort({ _id: -1 }).toArray((err, result) => {
         if (err) {
             console.log(err)
         } else if (result.length) {
-            userCollection.find({}).sort({ _id: -1 }).toArray((err2, result2) => {
-                if (err2) {
-                    console.log(err2)
-                } else if (result2.length) {
-                    res.json({ 'result': true, 'data': result2 })
-                } else {
-                    res.json({ 'result': true, 'data': [] })
-                }
-            })
+            let data = {
+                name: result[0].name,
+                email: result[0].email,
+                mobNum: result[0].mobNum ? result[0].mobNum : '',
+                gender: result[0].mobNum ? result[0].gender : '',
+            }
+            res.json({"result": true, "statusCode": 200, "data": data})
         } else {
             res.json({ 'result': false, msg: 'You are not authorized', 'data': [] })
         }
@@ -226,14 +260,14 @@ app.post('/userLogged', (req, res) => {
     let akey = req.body.akey;
 
     const userCollection = db.collection('user');
-    userCollection.find({'email': email, 'akey': akey}).limit(1).toArray((err,result)=>{
-        if(err) {
+    userCollection.find({ 'email': email, 'akey': akey }).limit(1).toArray((err, result) => {
+        if (err) {
             console.log(err)
-            res.json({'err': err})
-        } else if(result.length) {
-            res.json({'result': true, 'statusCode': 200})
+            res.json({ 'err': err })
+        } else if (result.length) {
+            res.json({ 'result': true, 'statusCode': 200 })
         } else {
-            res.json({'result': false, 'statusCode': 404})
+            res.json({ 'result': false, 'statusCode': 404 })
         }
     })
 })

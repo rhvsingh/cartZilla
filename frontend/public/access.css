@@ -184,3 +184,8 @@ h6 {
         transform: scale(0.3);
     }
 }
+
+#locker {
+    position: absolute;
+    inset:0
+}

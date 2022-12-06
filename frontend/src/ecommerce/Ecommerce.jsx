@@ -10,6 +10,8 @@ import ProductShow from './assets/pages/ProductShow'
 import Cart from './assets/pages/Cart'
 import NotFoundPage from './assets/components/NotFoundPage'
 import Login from './assets/components/Login'
+import Profile from './assets/pages/Profile'
+import Address from './assets/components/profile/Address'
 
 const Ecommerce = () => {
     const navigate = useNavigate()
@@ -60,6 +62,7 @@ const Ecommerce = () => {
         return (
             <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
                 <Ecommerce />
+                <ProductShow isAuth={isAuth} />
             </Layout>
         )
     }
@@ -94,12 +97,29 @@ const Ecommerce = () => {
         )
     }
 
+    function ProfileShow() {
+        return (
+            <Layout isAuth={isAuth} setIsAuth={setIsAuth} >
+                <Profile auth={setIsAuth} />
+            </Layout>
+        )
+    }
+
     return (
         <Routes>
             <Route index element={<HomePage />} />
             <Route path="products" element={<Products />} />
             <Route path="cart" element={<CartShow />} />
-            {isAuth ? <Route path='login' element={<LoginRedirect />} /> : <Route path='login' element={<LoginShow />} />}
+            {isAuth ?
+                <>
+                    <Route path="profile" element={<ProfileShow />}>
+                        <Route path="address" element={<Address />} />
+                    </Route>
+                    <Route path='login' element={<LoginRedirect />} />
+                </>
+                :
+                <Route path='login' element={<LoginShow />} />
+            }
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     )

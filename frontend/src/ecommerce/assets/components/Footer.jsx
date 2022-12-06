@@ -12,7 +12,7 @@ const Footer = () => {
 
   return (
     <footer className="footer-sec">
-      <div className="footer-main">
+      <div className="footer-main container">
         <div className="logo row">
           <div className="footer-header">
             CartZilla

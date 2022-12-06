@@ -2,8 +2,8 @@
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 const NotFoundPage = () => {
-    const interval = 500;
-
+    const interval = 1000;
+    const locker = document.getElementById('locker') || ''
     function generateLocks() {
         const lock = document.createElement('div'),
             position = generatePosition();
@@ -11,7 +11,7 @@ const NotFoundPage = () => {
         lock.style.top = position[0];
         lock.style.left = position[1];
         lock.classList = 'lock' // generated';
-        document.body.appendChild(lock);
+        locker.appendChild(lock);
         setTimeout(() => {
             lock.style.opacity = '1';
             lock.classList.add('generated');
@@ -26,8 +26,11 @@ const NotFoundPage = () => {
         const y = Math.round(Math.random() * 100) + '%';
         return [x, y];
     }
-    setInterval(generateLocks, interval);
-    generateLocks();
+
+    if(locker){
+        setInterval(generateLocks, interval);
+        generateLocks();
+    }
     return (
         <div className="main access-denied">
             <HelmetProvider>
@@ -43,6 +46,8 @@ const NotFoundPage = () => {
                 <h3 className="w-100 animate-zoom">🚫🚫🚫🚫</h3>
                 <h6 className="w-100 animate-zoom">error code:403 forbidden</h6>
             </div>
+
+            <div id="locker"></div>
         </div>
     )
 }

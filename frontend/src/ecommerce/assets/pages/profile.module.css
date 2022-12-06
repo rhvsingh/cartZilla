@@ -1,0 +1,34 @@
+.profileContainer {
+    background-color: var(--main-bg-color);
+    padding: 0.5rem
+}
+
+.sideBarBox {
+    background-color: #fff;
+    margin-bottom: 1rem;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 8%)
+}
+
+.sideBarBox:last-child {
+    margin-bottom: 0
+}
+
+.profileContent {
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 1.5rem 2rem
+}
+
+.profileContainer>div:first-child {
+    max-width: 400px;
+    flex-basis: 35%
+}
+
+.profileContainer>div:last-child {
+    flex-basis: 100%
+}
+
+.marginBottom {
+    margin-bottom: 2rem
+}

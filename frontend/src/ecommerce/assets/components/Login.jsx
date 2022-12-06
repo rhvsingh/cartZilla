@@ -17,7 +17,26 @@ const Login = ({ auth }) => {
     const userOTP = useRef()
 
     const [otp, setOtp] = useState(false)
+    const [loginToggler, setLoginToggler] = useState(true)
     const [userInfo, setUserInfo] = useState({})
+
+    async function loginForm(e) {
+        e.preventDefault()
+        document.getElementById('login').setAttribute('disabled', 'disabled')
+
+        let data = {
+            'email': userEmail.current.value
+        }
+
+        await axios.post('http://localhost:4000/login', data).then((response) => {
+            if (response.data.otpStatus) {
+                document.getElementById('login').removeAttribute('disabled')
+                toast.success('🦄 OTP Sent Successfully. Check Email')
+                setUserInfo(response.data)
+                setOtp(oldValue => !oldValue)
+            }
+        })
+    }
 
     async function loginSignUpForm(e) {
         e.preventDefault()
@@ -63,15 +82,29 @@ const Login = ({ auth }) => {
         userOTP.current.value = ''
     }
 
+    const LoginForm = () => {
+        return (
+            <>
+                <h2>Login</h2>
+                <form onSubmit={loginForm}>
+                    <div><input type="email" placeholder='Email' ref={userEmail} required /></div>
+                    <div><input type="submit" value="Next →" id="login" /></div>
+                </form>
+                <button onClick={()=>setLoginToggler(oldValue => !oldValue)}>Don't have account?</button>
+            </>
+        )
+    }
+
     const LoginSignUpForm = () => {
         return (
             <>
-                <h2>Login / Sign Up</h2>
+                <h2>Sign Up</h2>
                 <form onSubmit={loginSignUpForm}>
                     <div><input type="text" placeholder='Name' ref={userName} required /></div>
                     <div><input type="email" placeholder='Email' ref={userEmail} required /></div>
                     <div><input type="submit" value="Next →" id="login" /></div>
                 </form>
+                <button onClick={()=>setLoginToggler(oldValue => !oldValue)}>Already have an account?</button>
             </>
         )
     }
@@ -92,7 +125,7 @@ const Login = ({ auth }) => {
         <>
             <div className={loginClass['login-form']}>
                 <div className={loginClass['login-form-container']}>
-                    {otp ? <OtpVerify /> : <LoginSignUpForm />}
+                    {otp ? <OtpVerify /> : loginToggler ? <LoginForm /> : <LoginSignUpForm />}
                 </div>
             </div>
             <ToastContainer
