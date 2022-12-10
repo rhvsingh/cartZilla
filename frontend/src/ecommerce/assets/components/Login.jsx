@@ -28,12 +28,22 @@ const Login = ({ auth }) => {
             'email': userEmail.current.value
         }
 
+        console.log(data)
+
         await axios.post('http://localhost:4000/login', data).then((response) => {
             if (response.data.otpStatus) {
+                
                 document.getElementById('login').removeAttribute('disabled')
                 toast.success('🦄 OTP Sent Successfully. Check Email')
                 setUserInfo(response.data)
                 setOtp(oldValue => !oldValue)
+            } else {
+                console.log(response.data)
+                if(response.data.statusCode === 404) {
+                    document.getElementById('login').removeAttribute('disabled')
+                    userEmail.current.value = ''
+                    toast.error('You don\'t have account. Please signup. ')
+                }
             }
         })
     }
