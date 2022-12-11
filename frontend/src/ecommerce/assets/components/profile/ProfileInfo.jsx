@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-import ProfileStyle from '../../pages/profile.module.css'
+import PersonalInfo from './profileInfo/PersonalInfo'
+import EmailInfo from './profileInfo/EmailInfo'
+import MobNum from './profileInfo/MobNum'
 
 const ProfileInfo = () => {
 
@@ -23,47 +25,18 @@ const ProfileInfo = () => {
 
     function UserInfoShow() {
         return (
-            <div>
-                <div className={ProfileStyle.marginBottom}>
-                    <div>
-                        Personal Information
-                        <button>Edit</button>
-                    </div>
-                    <div>
-                        <input type="text" value={userDetails.name} readOnly />
-                    </div>
-                    <div>
-                        Your Gender
-                        {userDetails.gender === '' ? 'Select any radio button' : userDetails.gender === 'male' ? 'male' : 'female'}
-
-                    </div>
-                </div>
-                <div className={ProfileStyle.marginBottom}>
-                    <div>
-                        Email Address
-                        <button>Edit</button>
-                    </div>
-                    <div>
-                        <input type="email" value={userDetails.email} readOnly />
-                    </div>
-                </div>
-                <div className={ProfileStyle.marginBottom}>
-                    <div>
-                        Mobile Number
-                        <button>Edit</button>
-                    </div>
-                    <div>
-                        <input type="text" value={userDetails.mobNum} readOnly />
-                    </div>
-                </div>
-            </div>
+            <>
+                <PersonalInfo userDetails={userDetails} setUserDetails={setUserDetails} />
+                <EmailInfo userDetails={userDetails} setUserDetails={setUserDetails} />
+                <MobNum userDetails={userDetails} setUserDetails={setUserDetails} />
+            </>
         )
     }
 
     return (
-        <div>
+        <>
             {userDetails && <UserInfoShow />}
-        </div>
+        </>
     )
 }
 

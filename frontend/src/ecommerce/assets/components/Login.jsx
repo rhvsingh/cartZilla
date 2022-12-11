@@ -32,7 +32,6 @@ const Login = ({ auth }) => {
 
         await axios.post('http://localhost:4000/login', data).then((response) => {
             if (response.data.otpStatus) {
-                
                 document.getElementById('login').removeAttribute('disabled')
                 toast.success('🦄 OTP Sent Successfully. Check Email')
                 setUserInfo(response.data)
