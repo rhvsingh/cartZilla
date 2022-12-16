@@ -26,9 +26,9 @@ const ProfileInfo = () => {
     function UserInfoShow() {
         return (
             <>
-                <PersonalInfo userDetails={userDetails} setUserDetails={setUserDetails} />
+                <PersonalInfo userDetails={userDetails} />
                 <EmailInfo userDetails={userDetails} setUserDetails={setUserDetails} />
-                <MobNum userDetails={userDetails} setUserDetails={setUserDetails} />
+                <MobNum userDetails={userDetails} />
             </>
         )
     }

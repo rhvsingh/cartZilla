@@ -79,7 +79,8 @@
 }
 
 .formFields input:disabled {
-    padding-top: 0
+    padding-top: 0;
+    cursor: not-allowed;
 }
 
 .formFields input:disabled + label {
@@ -98,4 +99,22 @@
     font-weight: 600;
     text-transform: uppercase;
     cursor: pointer
+}
+
+.radioButtonContainer>* {
+    margin-right: 2rem
+}
+
+.radioButtonContainer:has(input:disabled) label,
+.radioButtonContainer:has(input:disabled) input {
+    cursor: not-allowed;
+    color: #777
+}
+
+.radioButtonContainer label {
+    font-weight: 500
+}
+
+.radioButtonContainer input {
+    margin-right: 0.75rem
 }

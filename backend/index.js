@@ -183,7 +183,7 @@ app.post('/login', (req, res) => {
                 }
             });
         } else {
-            res.json({'msg': 'User not found', 'statusCode': 404, "result": false})
+            res.json({ 'msg': 'User not found', 'statusCode': 404, "result": false })
         }
     })
 })
@@ -228,30 +228,6 @@ app.post('/otpVerify', (req, res) => {
     })
 })
 
-//Get user info but by authorized user only
-
-app.get('/user/:akey', (req, res) => {
-    const db = app.locals.db;
-    let akey = req.params.akey;
-    const userCollection = db.collection('user');
-    userCollection.find({ 'akey': akey }).limit(1).sort({ _id: -1 }).toArray((err, result) => {
-        if (err) {
-            console.log(err)
-        } else if (result.length) {
-            let data = {
-                name: result[0].name,
-                email: result[0].email,
-                mobNum: result[0].mobNum ? result[0].mobNum : '',
-                gender: result[0].mobNum ? result[0].gender : '',
-            }
-            res.json({"result": true, "statusCode": 200, "data": data})
-        } else {
-            res.json({ 'result': false, msg: 'You are not authorized', 'data': [] })
-        }
-    })
-})
-
-
 //Check user is authorized or not
 
 app.post('/userLogged', (req, res) => {
@@ -268,6 +244,71 @@ app.post('/userLogged', (req, res) => {
             res.json({ 'result': true, 'statusCode': 200 })
         } else {
             res.json({ 'result': false, 'statusCode': 404 })
+        }
+    })
+})
+
+//Get user info but by authorized user only
+
+app.get('/user/:akey', (req, res) => {
+    const db = app.locals.db;
+    let akey = req.params.akey;
+    const userCollection = db.collection('user');
+    userCollection.find({ 'akey': akey }).limit(1).sort({ _id: -1 }).toArray((err, result) => {
+        if (err) {
+            console.log(err)
+        } else if (result.length) {
+            let data = {
+                name: result[0].name,
+                email: result[0].email,
+                mobNum: result[0].mobNum ? result[0].mobNum : '',
+                gender: result[0].gender ? result[0].gender : '',
+            }
+            res.json({ "result": true, "statusCode": 200, "data": data })
+        } else {
+            res.json({ 'result': false, 'msg': 'You are not authorized', 'data': [] })
+        }
+    })
+})
+
+
+/* Update User Details */
+
+app.post('/user/update', (req, res) => {
+    const db = app.locals.db;
+    let data = req.body;
+
+    const userCollection = db.collection('user');
+
+    userCollection.find({ 'akey': data.akey }).limit(1).toArray((err, result) => {
+        if (err) {
+            console.log(err)
+        } else if (result.length) {
+            let dataToUpdate;
+            if (data.name && data.gender) {
+                dataToUpdate = {
+                    name: data.name,
+                    gender: data.gender
+                }
+            } else if (data.name) {
+                dataToUpdate = {
+                    name: data.name
+                }
+            }
+            else if (data.mobNum) {
+                dataToUpdate = {
+                    mobNum: data.mobNum
+                }
+            }
+            userCollection.updateOne({ 'akey': data.akey }, { $set: dataToUpdate }, (err2, result2) => {
+                if (err2) {
+                    console.log(err.message);
+                } else {
+                    res.json({ 'result': true, 'msg': 'User Updated' });
+                }
+            })
+        } else {
+            res.json({ 'result': false, 'msg': 'You are not authorized', 'data': [] })
         }
     })
 })
