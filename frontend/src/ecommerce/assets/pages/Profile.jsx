@@ -23,12 +23,6 @@ const Profile = ({ auth }) => {
 
     const [userDetails, setUserDetails] = useState([])
 
-    function wait(time) {
-        return new Promise(resolve => {
-            setTimeout(resolve, time)
-        })
-    }
-
     async function getUserDetails() {
         await axios.get(`http://localhost:4000/user/${localStorage.getItem('akey')}`).then(response => {
             let data = response.data
@@ -109,5 +103,11 @@ const Profile = ({ auth }) => {
         </div>
     )
 }
+
+/* function wait(time) {
+        return new Promise(resolve => {
+            setTimeout(resolve, time)
+        })
+    } */
 
 export default Profile

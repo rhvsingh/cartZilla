@@ -94,7 +94,7 @@
     margin-top: 1rem !important
 }
 
-.smallFontList li{
+.smallFontList li {
     font-family: Arial, sans-serif;
     margin-right: 0.5rem;
     color: var(--black-color-7);
@@ -108,7 +108,7 @@
 /* Right Side Content */
 
 .containerHeading {
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
     font-weight: 500;
     font-size: 1.25rem;
     letter-spacing: -1px
@@ -137,7 +137,7 @@
     padding-top: 10px;
     font-weight: 500;
     border: 1px solid var(--bg-color-1, #ccc);
-    border-radius: 5px;
+    border-radius: 3px;
     outline: none;
     letter-spacing: 0.5px
 }
@@ -192,4 +192,33 @@
 .radioButtonContainer input {
     accent-color: var(--main-color-2);
     margin-right: 0.75rem
+}
+
+
+/* Address Section */
+
+.addAddressButton {
+    border: 1px solid var(--white-color-d);
+    padding: 1rem;
+    text-transform: uppercase;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--main-color-2);
+    border-radius: 3px;
+    margin: 1rem auto;
+    cursor: pointer
+}
+
+.addAddressInputs {
+    border: 1px solid var(--white-color-d);
+    padding: 1rem;
+    background-color: var(--bg-trans-1);
+}
+
+.addressFormHeading {
+    display: block;
+    color: var(--main-color-2);
+    font-weight: 600;
+    margin-bottom: 1rem
 }
