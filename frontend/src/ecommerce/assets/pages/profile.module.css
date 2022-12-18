@@ -1,10 +1,26 @@
 .profileContainer {
     background-color: var(--main-bg-color);
+    position: relative;
     padding: 0.5rem
 }
 
+.profileContainer>aside {
+    max-width: 300px;
+    /* width: 25%; */
+    flex-basis: 25%
+}
+
+.profileContent {
+    /* width: 75%; */
+    flex-basis: 75%;
+    position: relative;
+    background-color: var(--white-color-f);
+    border-radius: 3px;
+    padding: 1.5rem 2rem
+}
+
 .sideBarBox {
-    background-color: #fff;
+    background-color: var(--white-color-f);
     margin-bottom: 1rem;
     border-radius: 3px;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 8%)
@@ -14,24 +30,82 @@
     margin-bottom: 0
 }
 
-.profileContent {
-    background-color: #fff;
-    border-radius: 3px;
-    padding: 1.5rem 2rem
+.userBox {
+    padding: 0.5rem 1rem;
 }
 
-.profileContainer>div:first-child {
-    max-width: 400px;
-    flex-basis: 35%
+.noProfile {
+    font-size: 1.75rem;
+    color: var(--main-color-2);
+    background-color: var(--bg-trans-1);
+    padding: 0.55rem 0.75rem;
+    display: inline-block;
+    border-radius: 50%
 }
 
-.profileContainer>div:last-child {
-    flex-basis: 100%
+.welcome {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.username {
+    font-weight: 600;
+    font-size: 0.85rem
+}
+
+.header {
+    padding: 20px 12px 5px 24px;
+    color: var(--main-color-2)
+}
+
+.headerHeading {
+    padding: 0 0 12px 20px !important;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--black-color-7)
+}
+
+.sideBarBox ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.logoutButton {
+    cursor: pointer
+}
+
+.logoutButton:hover>.headerHeading {
+    color: var(--main-color-2);
+}
+
+.sideBarBox:has(.smallHeading) {
+    padding: 1rem;
+}
+
+.smallHeading {
+    letter-spacing: 0px;
+    font-size: 0.7rem;
+    font-weight: 600
+}
+
+.smallFontList {
+    margin-top: 1rem !important
+}
+
+.smallFontList li{
+    font-family: Arial, sans-serif;
+    margin-right: 0.5rem;
+    color: var(--black-color-7);
+    font-size: 0.7rem
 }
 
 .marginBottom {
     margin-bottom: 2rem
 }
+
+/* Right Side Content */
 
 .containerHeading {
     margin-bottom: 2rem;
@@ -44,7 +118,7 @@
     outline: none;
     border: 0;
     background-color: transparent;
-    color: #2270eb;
+    color: var(--main-color-2, #2270eb);
     font-weight: 600;
     font-size: 0.9rem;
     margin-left: 1rem;
@@ -62,7 +136,7 @@
     width: 250px;
     padding-top: 10px;
     font-weight: 500;
-    border: 1px solid var(--bg-color-1,#ccc);
+    border: 1px solid var(--bg-color-1, #ccc);
     border-radius: 5px;
     outline: none;
     letter-spacing: 0.5px
@@ -74,7 +148,7 @@
     left: 23px;
     font-size: 0.7rem;
     top: 5px;
-    color: #555;
+    color: var(--black-color-5);
     display: block
 }
 
@@ -83,7 +157,7 @@
     cursor: not-allowed;
 }
 
-.formFields input:disabled + label {
+.formFields input:disabled+label {
     display: none
 }
 
@@ -94,8 +168,8 @@
     padding: 1rem 3rem;
     border-radius: 4px;
     font-size: 1rem;
-    color: #fff;
-    background-color: #2270eb;
+    color: var(--white-color-f);
+    background-color: var(--main-color-2);
     font-weight: 600;
     text-transform: uppercase;
     cursor: pointer
@@ -108,7 +182,7 @@
 .radioButtonContainer:has(input:disabled) label,
 .radioButtonContainer:has(input:disabled) input {
     cursor: not-allowed;
-    color: #777
+    color: var(--black-color-7)
 }
 
 .radioButtonContainer label {
@@ -116,5 +190,6 @@
 }
 
 .radioButtonContainer input {
+    accent-color: var(--main-color-2);
     margin-right: 0.75rem
 }

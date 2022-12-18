@@ -9,7 +9,24 @@
     --main-color-2: #2da17b;
     --main-bg-color: #f1f3f6;
 
+    --bg-trans-1: rgba(113, 199, 167, 0.094);
+
     --bg-color-1: #ccc;
+    --bg-color-2: #171717;
+
+    --white-color-f: #fff;
+    --white-color-e: #eee;
+    --white-color-c: #ccc;
+    --white-color-a: #aaa;
+    --black-color-0: #000;
+    --black-color-1: #111;
+    --black-color-2: #222;
+    --black-color-3: #333;
+    --black-color-4: #444;
+    --black-color-5: #555;
+    --black-color-7: #777;
+    --black-color-9: #999;
+
 }
 
 .d-flex {
@@ -38,6 +55,10 @@
 
 .flex-direc-row {
     flex-direction: row
+}
+
+.flex-wrap-wrap {
+    flex-wrap: wrap
 }
 
 .gap-1 {
@@ -107,7 +128,7 @@
 }
 
 #root {
-    background-color: var(--main-bg-color,#ddd)
+    background-color: var(--main-bg-color, #ddd)
 }
 
 #root:has(.access-denied) {
@@ -181,6 +202,34 @@
     70%,
     100% {
         opacity: 1
+    }
+}
+
+.loading-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+}
+
+.loading-screen-loader {
+    border: 5px solid var(--main-color-2);
+    border-right-color: transparent;
+    border-radius: 50%;
+    padding: 1rem;
+    animation: rotate360 1s linear infinite forwards;
+}
+
+@keyframes rotate360 {
+    0% {
+        rotate: 0deg;
+    }
+
+    70% {
+        rotate: 300deg;
+    }
+
+    100% {
+        rotate: 360deg;
     }
 }
 
@@ -355,7 +404,7 @@ footer {
     display: flex;
     padding: 3rem;
     gap: 50px;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
     flex-wrap: wrap
 }
 
