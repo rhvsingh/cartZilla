@@ -222,3 +222,36 @@
     font-weight: 600;
     margin-bottom: 1rem
 }
+
+.addressInputContainer {
+    position: relative;
+    margin-bottom: 0.7rem
+}
+
+.addressInputContainer label {
+    position: absolute;
+    font-size: 0.8rem
+}
+
+.addressInputContainer input,
+.addressInputContainer textarea,
+.addressInputContainer select {
+    width: 250px;
+    border: 1px solid var(--white-color-d);
+    border-radius: 3px;
+    padding: 1rem 0.25rem 0.25rem 1rem
+}
+
+.addressInputContainer:has(textarea),
+.addressInputContainer textarea {
+    width: 100%
+}
+
+.addressInputContainer textarea {
+    border: 1px solid var(--white-color-d)
+}
+
+.addressInputContainer:has(select),
+.addressInputContainer select {
+    width: 100%
+}
