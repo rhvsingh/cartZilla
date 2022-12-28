@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react'
-import { FaPlus } from 'react-icons/fa'
+import React, { useState, useRef } from "react"
+import { FaPlus } from "react-icons/fa"
+import axios from "axios"
 
-import ProfileStyle from '../../pages/profile.module.css'
+import ProfileStyle from "../../pages/profile.module.css"
 
 const Address = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -12,17 +13,19 @@ const Address = () => {
   const address = useRef()
   const city = useRef()
   const state = useRef()
-  const landmark = useRef()
-  const alternatePhoneNumber = useRef()
+  /* const landmark = useRef()
+  const alternatePhoneNumber = useRef() */
   const addressType = useRef()
 
   function addressTypeChange(e) {
     addressType.current = e.target.value
   }
 
-  function handleForm(e) {
+  async function handleForm(e) {
     e.preventDefault()
     let data = {
+      akey: localStorage.getItem("akey"),
+      email: localStorage.getItem("email"),
       name: name.current.value,
       mobNum: mobNum.current.value,
       pinCode: pinCode.current.value,
@@ -30,85 +33,184 @@ const Address = () => {
       address: address.current.value,
       city: city.current.value,
       state: state.current.value,
-      landmark: landmark.current.value,
-      alternatePhoneNumber: alternatePhoneNumber.current.value
+      /* landmark: landmark.current.value,
+      alternatePhoneNumber: alternatePhoneNumber.current.value */
     }
+
+    await axios
+      .post("http://localhost:4000/user/address", data)
+      .then((response) => {
+        console.log(response.data)
+        let data = response.data
+        if (data.result) {
+          setIsOpen((oldValue) => !oldValue)
+        }
+      })
+
     console.log(data)
   }
 
   function AddAddress() {
     return (
       <form onSubmit={handleForm} className={ProfileStyle.addAddressInputs}>
-        <span className={ProfileStyle.addressFormHeading}>Add A New Address</span>
-        <div style={{display:'inline-block'}}>
-          <div className='d-flex gap-75'>
+        <span className={ProfileStyle.addressFormHeading}>
+          Add A New Address
+        </span>
+        <div style={{ display: "inline-block" }}>
+          <div className="d-flex gap-75">
             <div className={ProfileStyle.addressInputContainer}>
-              <label htmlFor="">Name</label>
-              <input type="text" ref={name} required />
+              <input
+                type="text"
+                id="address_client_name"
+                name="address_client_name"
+                ref={name}
+                autoComplete="name"
+                tabIndex={1}
+                required
+              />
+              <label htmlFor="address_client_name">Name</label>
             </div>
             <div className={ProfileStyle.addressInputContainer}>
-              <label htmlFor="">10-digit mobile number</label>
-              <input type="text" ref={mobNum} required />
+              <input
+                type="text"
+                id="address_phoneNumber"
+                ref={mobNum}
+                name="address_phoneNumber"
+                autoComplete="tel"
+                maxLength={10}
+                tabIndex={2}
+                required
+              />
+              <label htmlFor="address_phoneNumber">
+                10-digit mobile number
+              </label>
             </div>
           </div>
-          <div className='d-flex gap-75'>
+          <div className="d-flex gap-75">
             <div className={ProfileStyle.addressInputContainer}>
-              <label htmlFor="">Pincode</label>
-              <input type="text" ref={pinCode} required />
+              <input
+                type="text"
+                inputMode="numeric"
+                id="address_pincode"
+                name="address_pincode"
+                autoComplete="postal-code"
+                maxLength={6}
+                tabIndex={3}
+                ref={pinCode}
+                required
+              />
+              <label htmlFor="address_pincode">Pincode</label>
             </div>
             <div className={ProfileStyle.addressInputContainer}>
-              <label htmlFor="">Locality</label>
-              <input type="text" ref={locality} required />
+              <input
+                type="text"
+                id="address_locality"
+                name="address_locality"
+                ref={locality}
+                tabIndex={4}
+                required
+              />
+              <label htmlFor="address_locality">Locality</label>
             </div>
           </div>
-          <div className='d-flex gap-75'>
+          <div className="d-flex gap-75">
             <div className={ProfileStyle.addressInputContainer}>
-              <label htmlFor="">Address(Area and Street)</label>
-              <textarea name="" id="" ref={address} required></textarea>
+              <textarea
+                id="address_actualAddress"
+                name="address_actualAddress"
+                ref={address}
+                autoComplete="street-address"
+                spellCheck={false}
+                tabIndex={5}
+                required
+              ></textarea>
+              <label htmlFor="address_actualAddress">
+                Address(Area and Street)
+              </label>
             </div>
           </div>
-          <div className='d-flex gap-75'>
+          <div className="d-flex gap-75">
             <div className={ProfileStyle.addressInputContainer}>
-              <label htmlFor="">City/District/Town</label>
-              <input type="text" ref={city} required />
+              <input
+                type="text"
+                id="address_city"
+                autoComplete="on"
+                name="address_city"
+                ref={city}
+                tabIndex={6}
+                required
+              />
+              <label htmlFor="address_city">City/District/Town</label>
             </div>
             <div className={ProfileStyle.addressInputContainer}>
-              <label htmlFor="">State</label>
-              <select ref={state} defaultValue={'DEFAULT'} required>
-                <option value="DEFAULT" disabled>--Select State--</option>
+              <select
+                ref={state}
+                defaultValue={"DEFAULT"}
+                id="address_state"
+                name="address_state"
+                tabIndex={7}
+                required
+              >
+                <option value="DEFAULT" disabled>
+                  --Select State--
+                </option>
                 <option value="UP">UP</option>
               </select>
+              <label htmlFor="address_state">State</label>
             </div>
           </div>
-          <div className='d-flex gap-75'>
+          {/* <div className='d-flex gap-75'>
             <div className={ProfileStyle.addressInputContainer}>
-              <label htmlFor="">Landmark (Optional)</label>
-              <input type="text" ref={landmark} />
+              <input type="text" id='address_landmark' autoComplete="off" ref={landmark} />
+              <label htmlFor="address_landmark">Landmark (Optional)</label>
             </div>
             <div className={ProfileStyle.addressInputContainer}>
-              <label htmlFor="">Alternate Phone (Optional)</label>
-              <input type="text" ref={alternatePhoneNumber} />
+              <input type="text" id='address_alternate_phone' autoComplete="off" ref={alternatePhoneNumber} />
+              <label htmlFor="address_alternate_phone">Alternate Phone (Optional)</label>
             </div>
-          </div>
+          </div> */}
           <div>
-            <p>Address Type</p>
-            <div className='d-flex gap-75' onChange={addressTypeChange}>
+            <p className={ProfileStyle.radioHeading}>Address Type</p>
+            <div
+              className={"d-flex gap-50 " + ProfileStyle.radioButtonContainer}
+              onChange={addressTypeChange}
+            >
               <label htmlFor="address_type_home">
-                <input type="radio" name='address-type' id='address_type_home' value="Home" required />
+                <input
+                  type="radio"
+                  name="address-type"
+                  id="address_type_home"
+                  value="Home"
+                  required
+                />
                 Home
               </label>
               <label htmlFor="address_type_work">
-                <input type="radio" name='address-type' id='address_type_work' value="Work" required />
+                <input
+                  type="radio"
+                  name="address-type"
+                  id="address_type_work"
+                  value="Work"
+                  required
+                />
                 Work
               </label>
             </div>
           </div>
         </div>
-        <div className='d-flex gap-2'>
-          <button type='submit'>Save</button>
-          <button type='button' onClick={() => {
-            setIsOpen(oldValue => !oldValue)
-          }}>Cancle</button>
+        <div className={"d-flex gap-2 " + ProfileStyle.formAddressButton}>
+          <button type="submit" className={ProfileStyle.saveAddressButton}>
+            Save
+          </button>
+          <button
+            type="button"
+            className={ProfileStyle.cancleAddressButton}
+            onClick={() => {
+              setIsOpen((oldValue) => !oldValue)
+            }}
+          >
+            Cancle
+          </button>
         </div>
       </form>
     )
@@ -116,16 +218,23 @@ const Address = () => {
 
   return (
     <>
-      <div className={ProfileStyle.containerHeading}>
-        Manage Addresses
-      </div>
+      <div className={ProfileStyle.containerHeading}>Manage Addresses</div>
       <div>
         <div>
-          {isOpen ? <AddAddress /> : <div className={ProfileStyle.addAddressButton + ' d-flex align-items-center'} onClick={() => setIsOpen(oldValue => !oldValue)}><FaPlus /> Add A New Address</div>}
+          {isOpen ? (
+            <AddAddress />
+          ) : (
+            <div
+              className={
+                ProfileStyle.addAddressButton + " d-flex align-items-center"
+              }
+              onClick={() => setIsOpen((oldValue) => !oldValue)}
+            >
+              <FaPlus /> Add A New Address
+            </div>
+          )}
         </div>
-        <div>
-          Show Addresses
-        </div>
+        <div>Show Addresses</div>
       </div>
     </>
   )
