@@ -311,6 +311,7 @@ app.get("/user/:akey", (req, res) => {
           email: result[0].email,
           mobNum: result[0].mobNum ? result[0].mobNum : "",
           gender: result[0].gender ? result[0].gender : "",
+          addresses: result[0].addresses ? result[0].addresses.reverse() : "",
         }
         res.json({ result: true, statusCode: 200, data: data })
       } else {
@@ -380,6 +381,7 @@ app.post("/user/address", (req, res) => {
     address: data.address,
     city: data.city,
     state: data.state,
+    addressType: data.addressType,
     address_id: uid,
   }
 
