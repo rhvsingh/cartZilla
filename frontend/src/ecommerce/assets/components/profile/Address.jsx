@@ -18,7 +18,10 @@ const Address = () => {
       <div>
         <div>
           {isOpen ? (
-            <AddNewAddress setIsOpen={setIsOpen} />
+            <AddNewAddress
+              setUserDetails={setUserDetails}
+              setIsOpen={setIsOpen}
+            />
           ) : (
             <div
               className={

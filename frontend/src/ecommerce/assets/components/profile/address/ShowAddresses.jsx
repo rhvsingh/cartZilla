@@ -1,32 +1,53 @@
-import { FaEllipsisV } from "react-icons/fa"
+import axios from "axios"
+
+import ShowEachAddress from "./ShowEachAddress"
 
 const ShowAddresses = ({ userDetails, setUserDetails }) => {
   const userAddresses = userDetails.addresses
 
+  const baseURL = "http://localhost:4000"
+
+  const deleteAddress = async (address_id) => {
+    const confirmBox = window.confirm(
+      "Do you really want to delete this address?"
+    )
+
+    if (confirmBox) {
+      let newArray = userDetails.addresses.filter(
+        (item) => item.address_id !== address_id
+      )
+
+      let data = {
+        akey: localStorage.getItem("akey"),
+        email: localStorage.getItem("email"),
+        address_id: address_id,
+      }
+
+      await axios
+        .post(baseURL + "/user/address/delete", data)
+        .then((response) => {
+          if (response.data.result) {
+            setUserDetails((oldValue) => {
+              return { ...oldValue, addresses: newArray }
+            })
+          }
+        })
+    }
+  }
+
   function ShowAddressesScreen() {
     return userAddresses.map((item) => (
-      <div className="each-address" key={item.address_id}>
-        <div className="d-flex justify-between">
-          <div className="address-type">{item.addressType}</div>
-          <div>
-            <FaEllipsisV />
-          </div>
-        </div>
-        <div className="my-1">
-          <span className="sm-b-heading">{item.name}</span>{" "}
-          <span className="px-1 sm-b-heading">{item.mobNum}</span>
-        </div>
-        <span className="address-full-show">
-          {item.address}, {item.locality}, {item.city}, {item.state} -{" "}
-          <span className="sm-b-heading">{item.pinCode}</span>
-        </span>
-      </div>
+      <ShowEachAddress item={item} deleteAddress={deleteAddress} />
     ))
   }
 
   return (
     <div className="address-container">
-      {userAddresses && <ShowAddressesScreen />}
+      {userAddresses && userAddresses.length ? (
+        <ShowAddressesScreen />
+      ) : (
+        "No Addresses"
+      )}
     </div>
   )
 }

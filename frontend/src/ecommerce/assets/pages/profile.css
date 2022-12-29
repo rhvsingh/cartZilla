@@ -45,7 +45,7 @@
 }
 
 .each-address {
-  padding: 1rem;
+  padding: 1.25rem 1rem;
   border: 1px solid var(--white-color-c);
   border-bottom: 0;
   font-size: 0.85rem;
@@ -74,4 +74,39 @@
   color: var(--black-color-9);
   padding: 0.25rem 0.5rem;
   text-transform: uppercase;
+}
+
+.address-menu-option {
+  cursor: pointer;
+}
+
+.address-menu-option:hover .address-updation {
+  opacity: 1;
+  visibility: visible;
+}
+
+.address-updation {
+  position: absolute;
+  text-align: left;
+  background-color: var(--white-color-f);
+  right: 0;
+  top: 0;
+  box-shadow: 0 0 6px -1px var(--black-color-9);
+  border-radius: 3px;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.1s ease-in-out;
+}
+
+.address-updation > * {
+  outline: none;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+}
+
+.address-updation > *:hover {
+  color: var(--main-color-2);
 }

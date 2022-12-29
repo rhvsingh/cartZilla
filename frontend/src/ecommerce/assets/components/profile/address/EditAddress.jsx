@@ -3,7 +3,7 @@ import axios from "axios"
 
 import ProfileStyle from "../../../pages/profile.module.css"
 
-const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
+const EditAddress = ({ content, setIsOpen }) => {
   const name = useRef()
   const mobNum = useRef()
   const pinCode = useRef()
@@ -35,38 +35,13 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
       /* landmark: landmark.current.value,
       alternatePhoneNumber: alternatePhoneNumber.current.value */
     }
-    await axios
-      .post("http://localhost:4000/user/address", data)
-      .then((response) => {
-        let resData = response.data
-        if (resData.result) {
-          let newAddress = {
-            name: data.name,
-            mobNum: data.mobNum,
-            pinCode: data.pinCode,
-            locality: data.locality,
-            address: data.address,
-            city: data.city,
-            state: data.state,
-            addressType: data.addressType,
-            address_id: resData.address_id,
-          }
-          setUserDetails((oldValue) => {
-            let newArray = oldValue.addresses
-            newArray.unshift(newAddress)
-            return {
-              ...oldValue,
-              addresses: newArray,
-            }
-          })
-          setIsOpen((oldValue) => !oldValue)
-        }
-      })
+
+    setIsOpen((oldValue) => !oldValue)
   }
 
   return (
-    <form onSubmit={handleForm} className={ProfileStyle.addAddressInputs}>
-      <span className={ProfileStyle.addressFormHeading}>Add A New Address</span>
+    <form onSubmit={handleForm}>
+      <span className={ProfileStyle.addressFormHeading}>Edit Address</span>
       <div style={{ display: "inline-block" }}>
         <div className="d-flex gap-75">
           <div className={ProfileStyle.addressInputContainer}>
@@ -75,6 +50,7 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
               id="address_client_name"
               name="address_client_name"
               ref={name}
+              value={content.name}
               autoComplete="name"
               tabIndex={1}
               required
@@ -86,6 +62,7 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
               type="text"
               id="address_phoneNumber"
               ref={mobNum}
+              value={content.mobNum}
               name="address_phoneNumber"
               autoComplete="tel"
               maxLength={10}
@@ -106,6 +83,7 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
               maxLength={6}
               tabIndex={3}
               ref={pinCode}
+              value={content.pinCode}
               required
             />
             <label htmlFor="address_pincode">Pincode</label>
@@ -116,6 +94,7 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
               id="address_locality"
               name="address_locality"
               ref={locality}
+              value={content.locality}
               tabIndex={4}
               required
             />
@@ -132,7 +111,9 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
               spellCheck={false}
               tabIndex={5}
               required
-            ></textarea>
+            >
+              {content.address}
+            </textarea>
             <label htmlFor="address_actualAddress">
               Address(Area and Street)
             </label>
@@ -146,6 +127,7 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
               autoComplete="on"
               name="address_city"
               ref={city}
+              value={content.city}
               tabIndex={6}
               required
             />
@@ -190,6 +172,9 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
                 name="address-type"
                 id="address_type_home"
                 value="Home"
+                checked={
+                  content.addressType.toLowerCase() === "home" ? true : false
+                }
                 required
               />
               Home
@@ -200,6 +185,9 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
                 name="address-type"
                 id="address_type_work"
                 value="Work"
+                checked={
+                  content.addressType.toLowerCase() === "work" ? true : false
+                }
                 required
               />
               Work
@@ -225,4 +213,4 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
   )
 }
 
-export default AddNewAddress
+export default EditAddress

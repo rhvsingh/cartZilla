@@ -403,7 +403,11 @@ app.post("/user/address", (req, res) => {
               if (err3) {
                 console.log(err3.message)
               } else {
-                res.json({ result: true, msg: "Added Another Address" })
+                res.json({
+                  result: true,
+                  msg: "Added Another Address",
+                  address_id: uid,
+                })
               }
             }
           )
@@ -423,6 +427,44 @@ app.post("/user/address", (req, res) => {
         }
       } else {
         res.json({ result: false, msg: "User Not Autherized" })
+      }
+    })
+})
+
+/* User Address Delete */
+
+app.post("/user/address/delete", (req, res) => {
+  const db = app.locals.db
+  let akey = req.body.akey
+  let email = req.body.email
+  let address_id = req.body.address_id
+
+  const userCollection = db.collection("user")
+
+  userCollection
+    .find({ akey: akey, email: email })
+    .limit(1)
+    .toArray((err, result) => {
+      if (err) {
+        console.log(err)
+      } else if (result.length) {
+        let newArray = result[0].addresses.filter(
+          (item) => item.address_id !== address_id
+        )
+
+        userCollection.updateOne(
+          { akey: akey, email: email },
+          { $set: { addresses: newArray } },
+          (err3, result3) => {
+            if (err3) {
+              console.log(err3.message)
+            } else {
+              res.json({ result: true, msg: "Addresses Deleted" })
+            }
+          }
+        )
+      } else {
+        res.json({ result: false, msg: "You are not authorized" })
       }
     })
 })
