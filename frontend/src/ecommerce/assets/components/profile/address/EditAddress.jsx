@@ -124,7 +124,7 @@ const EditAddress = ({ content, updateAddress, setIsOpen }) => {
           <div className={ProfileStyle.addressInputContainer}>
             <select
               onChange={(e) => setState(e.target.value)}
-              defaultValue={"DEFAULT"}
+              defaultValue={state ? state : "DEFAULT"}
               id="address_state"
               name="address_state"
               tabIndex={7}
@@ -133,7 +133,9 @@ const EditAddress = ({ content, updateAddress, setIsOpen }) => {
               <option value="DEFAULT" disabled>
                 --Select State--
               </option>
-              <option value="UP">UP</option>
+              <option value="Andra-Pradesh">Andra Pradesh</option>
+              <option value="Delhi">Delhi</option>
+              <option value="Uttar-Pradesh">Uttar Pradesh</option>
             </select>
             <label htmlFor="address_state">State</label>
           </div>

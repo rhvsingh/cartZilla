@@ -455,6 +455,7 @@ app.post("/user/address/update", async (req, res) => {
             locality: postData.locality,
             address: postData.address,
             city: postData.city,
+            state: postData.state,
             addressType: postData.addressType,
           }
         : addressId

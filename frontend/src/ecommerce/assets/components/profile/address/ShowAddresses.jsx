@@ -18,6 +18,7 @@ const ShowAddresses = ({ userDetails, setUserDetails }) => {
             locality: addressData.locality,
             address: addressData.address,
             city: addressData.city,
+            state: addressData.state,
             addressType: addressData.addressType,
           }
         : addressId
