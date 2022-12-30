@@ -3,11 +3,16 @@ import ProfileStyle from "../../../pages/profile.module.css"
 const InputField = ({
   idName,
   content,
+  setContent,
   label,
   maxLength,
   tabIndex,
   autoComplete,
 }) => {
+  const handleInputChange = (e) => {
+    setContent(e.target.value)
+  }
+
   return (
     <div className={ProfileStyle.addressInputContainer}>
       <input
@@ -18,6 +23,7 @@ const InputField = ({
         autoComplete={autoComplete}
         tabIndex={tabIndex}
         maxLength={maxLength}
+        onChange={handleInputChange}
         required
       />
       <label htmlFor={"address_" + idName}>{label}</label>

@@ -7,6 +7,26 @@ const ShowAddresses = ({ userDetails, setUserDetails }) => {
 
   const baseURL = "http://localhost:4000"
 
+  const updateAddress = async (addressData) => {
+    let newArray = userDetails.addresses.map((addressId) => {
+      return addressId.address_id === addressData.address_id
+        ? {
+            ...addressId,
+            name: addressData.name,
+            mobNum: addressData.mobNum,
+            pinCode: addressData.pinCode,
+            locality: addressData.locality,
+            address: addressData.address,
+            city: addressData.city,
+            addressType: addressData.addressType,
+          }
+        : addressId
+    })
+    setUserDetails((oldValue) => {
+      return { ...oldValue, addresses: newArray }
+    })
+  }
+
   const deleteAddress = async (address_id) => {
     const confirmBox = window.confirm(
       "Do you really want to delete this address?"
@@ -39,6 +59,7 @@ const ShowAddresses = ({ userDetails, setUserDetails }) => {
     return userAddresses.map((item) => (
       <ShowEachAddress
         item={item}
+        updateAddress={updateAddress}
         deleteAddress={deleteAddress}
         key={item.address_id}
       />

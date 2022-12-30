@@ -1,44 +1,53 @@
-import { useRef } from "react"
+import { useState } from "react"
 import axios from "axios"
 
 import InputField from "./InputField"
 
 import ProfileStyle from "../../../pages/profile.module.css"
 
-const EditAddress = ({ content, setIsOpen }) => {
-  const name = useRef()
-  const mobNum = useRef()
-  const pinCode = useRef()
-  const locality = useRef()
-  const address = useRef()
-  const city = useRef()
-  const state = useRef()
+const EditAddress = ({ content, updateAddress, setIsOpen }) => {
+  const [name, setName] = useState(content.name)
+  const [mobNum, setMobNum] = useState(content.mobNum)
+  const [pinCode, setPinCode] = useState(content.pinCode)
+  const [locality, setLocality] = useState(content.locality)
+  const [address, setAddress] = useState(content.address)
+  const [city, setCity] = useState(content.city)
+  const [state, setState] = useState(content.state)
   /* const landmark = useRef()
   const alternatePhoneNumber = useRef() */
-  const addressType = useRef()
+  const [addressType, setAddressType] = useState(content.addressType)
 
   function addressTypeChange(e) {
-    addressType.current = e.target.value
+    setAddressType(e.target.value)
   }
+
+  const baseURL = "http://localhost:4000"
 
   async function handleForm(e) {
     e.preventDefault()
     let data = {
       akey: localStorage.getItem("akey"),
       email: localStorage.getItem("email"),
-      name: name.current.value,
-      mobNum: mobNum.current.value,
-      pinCode: pinCode.current.value,
-      locality: locality.current.value,
-      address: address.current.value,
-      city: city.current.value,
-      state: state.current.value,
-      addressType: addressType.current,
+      address_id: content.address_id,
+      name: name,
+      mobNum: mobNum,
+      pinCode: pinCode,
+      locality: locality,
+      address: address,
+      city: city,
+      state: state,
+      addressType: addressType,
       /* landmark: landmark.current.value,
       alternatePhoneNumber: alternatePhoneNumber.current.value */
     }
-
-    setIsOpen((oldValue) => !oldValue)
+    await axios
+      .post(baseURL + "/user/address/update", data)
+      .then((response) => {
+        if (response.data.result) {
+          updateAddress(data)
+          setIsOpen((oldValue) => !oldValue)
+        }
+      })
   }
 
   return (
@@ -48,15 +57,17 @@ const EditAddress = ({ content, setIsOpen }) => {
         <div className="d-flex gap-75">
           <InputField
             idName="client_name"
-            content={content.name}
+            content={name}
+            setContent={setName}
             label="name"
             tabIndex={1}
-            maxLength={false}
+            maxLength="false"
             autoComplete="name"
           />
           <InputField
             idName="phoneNumber"
-            content={content.mobNum}
+            content={mobNum}
+            setContent={setMobNum}
             label="10-digit mobile number"
             tabIndex={2}
             maxLength={10}
@@ -64,69 +75,55 @@ const EditAddress = ({ content, setIsOpen }) => {
           />
         </div>
         <div className="d-flex gap-75">
-          <div className={ProfileStyle.addressInputContainer}>
-            <input
-              type="text"
-              inputMode="numeric"
-              id="address_pincode"
-              name="address_pincode"
-              autoComplete="postal-code"
-              maxLength={6}
-              tabIndex={3}
-              ref={pinCode}
-              value={content.pinCode}
-              required
-            />
-            <label htmlFor="address_pincode">Pincode</label>
-          </div>
-          <div className={ProfileStyle.addressInputContainer}>
-            <input
-              type="text"
-              id="address_locality"
-              name="address_locality"
-              ref={locality}
-              value={content.locality}
-              tabIndex={4}
-              required
-            />
-            <label htmlFor="address_locality">Locality</label>
-          </div>
+          <InputField
+            idName="pincode"
+            content={pinCode}
+            setContent={setPinCode}
+            label="Pincode"
+            tabIndex={3}
+            maxLength={6}
+            autoComplete="postal-code"
+          />
+          <InputField
+            idName="locality"
+            content={locality}
+            setContent={setLocality}
+            label="Locality"
+            tabIndex={4}
+            maxLength="false"
+            autoComplete="on"
+          />
         </div>
         <div className="d-flex gap-75">
           <div className={ProfileStyle.addressInputContainer}>
             <textarea
               id="address_actualAddress"
               name="address_actualAddress"
-              ref={address}
+              onChange={(e) => setAddress(e.target.value)}
               autoComplete="street-address"
               spellCheck={false}
               tabIndex={5}
+              value={address}
               required
-            >
-              {content.address}
-            </textarea>
+            ></textarea>
             <label htmlFor="address_actualAddress">
               Address(Area and Street)
             </label>
           </div>
         </div>
         <div className="d-flex gap-75">
-          <div className={ProfileStyle.addressInputContainer}>
-            <input
-              type="text"
-              id="address_city"
-              autoComplete="on"
-              name="address_city"
-              ref={city}
-              value={content.city}
-              tabIndex={6}
-              required
-            />
-            <label htmlFor="address_city">City/District/Town</label>
-          </div>
+          <InputField
+            idName="city"
+            content={city}
+            setContent={setCity}
+            label="City/District/Town"
+            tabIndex={6}
+            maxLength="false"
+            autoComplete="on"
+          />
           <div className={ProfileStyle.addressInputContainer}>
             <select
-              ref={state}
+              onChange={(e) => setState(e.target.value)}
               defaultValue={"DEFAULT"}
               id="address_state"
               name="address_state"
@@ -163,10 +160,9 @@ const EditAddress = ({ content, setIsOpen }) => {
                 name="address-type"
                 id="address_type_home"
                 value="Home"
-                checked={
-                  content.addressType.toLowerCase() === "home" ? true : false
-                }
+                checked={addressType.toLowerCase() === "home" ? true : false}
                 required
+                readOnly
               />
               Home
             </label>
@@ -176,10 +172,9 @@ const EditAddress = ({ content, setIsOpen }) => {
                 name="address-type"
                 id="address_type_work"
                 value="Work"
-                checked={
-                  content.addressType.toLowerCase() === "work" ? true : false
-                }
+                checked={addressType.toLowerCase() === "work" ? true : false}
                 required
+                readOnly
               />
               Work
             </label>

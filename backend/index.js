@@ -367,7 +367,7 @@ app.post("/user/update", (req, res) => {
     })
 })
 
-/* User Add Address */
+/* User Address Add */
 
 app.post("/user/address", (req, res) => {
   const db = app.locals.db
@@ -429,6 +429,50 @@ app.post("/user/address", (req, res) => {
         res.json({ result: false, msg: "User Not Autherized" })
       }
     })
+})
+
+/* User Address Update */
+
+app.post("/user/address/update", async (req, res) => {
+  const db = app.locals.db
+  let postData = req.body
+
+  const userCollection = db.collection("user")
+
+  let dataFound = await userCollection.findOne({
+    akey: postData.akey,
+    email: postData.email,
+  })
+
+  if (dataFound !== null && dataFound !== undefined) {
+    let newArray = dataFound.addresses.map((addressId) => {
+      return addressId.address_id === postData.address_id
+        ? {
+            ...addressId,
+            name: postData.name,
+            mobNum: postData.mobNum,
+            pinCode: postData.pinCode,
+            locality: postData.locality,
+            address: postData.address,
+            city: postData.city,
+            addressType: postData.addressType,
+          }
+        : addressId
+    })
+    userCollection.updateOne(
+      { akey: postData.akey, email: postData.email },
+      { $set: { addresses: newArray } },
+      (err3, result3) => {
+        if (err3) {
+          console.log(err3.message)
+        } else {
+          res.json({ result: true, msg: "Address Updated" })
+        }
+      }
+    )
+  } else {
+    res.json({ result: false, msg: "User Not Autherized" })
+  }
 })
 
 /* User Address Delete */

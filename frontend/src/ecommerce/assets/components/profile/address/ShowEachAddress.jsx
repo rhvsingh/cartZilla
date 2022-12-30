@@ -2,7 +2,7 @@ import { useState } from "react"
 import { FaEllipsisV } from "react-icons/fa"
 import EditAddress from "./EditAddress"
 
-const ShowEachAddress = ({ item, deleteAddress }) => {
+const ShowEachAddress = ({ item, updateAddress, deleteAddress }) => {
   const [isEdit, setIsEdit] = useState(false)
 
   const styles = {
@@ -11,7 +11,11 @@ const ShowEachAddress = ({ item, deleteAddress }) => {
   return (
     <div className="each-address" style={styles} key={item.address_id}>
       {isEdit ? (
-        <EditAddress content={item} setIsOpen={setIsEdit} />
+        <EditAddress
+          content={item}
+          updateAddress={updateAddress}
+          setIsOpen={setIsEdit}
+        />
       ) : (
         <>
           <div className="d-flex justify-between">
