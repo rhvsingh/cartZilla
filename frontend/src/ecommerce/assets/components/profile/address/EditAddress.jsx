@@ -1,6 +1,8 @@
 import { useRef } from "react"
 import axios from "axios"
 
+import InputField from "./InputField"
+
 import ProfileStyle from "../../../pages/profile.module.css"
 
 const EditAddress = ({ content, setIsOpen }) => {
@@ -44,33 +46,22 @@ const EditAddress = ({ content, setIsOpen }) => {
       <span className={ProfileStyle.addressFormHeading}>Edit Address</span>
       <div style={{ display: "inline-block" }}>
         <div className="d-flex gap-75">
-          <div className={ProfileStyle.addressInputContainer}>
-            <input
-              type="text"
-              id="address_client_name"
-              name="address_client_name"
-              ref={name}
-              value={content.name}
-              autoComplete="name"
-              tabIndex={1}
-              required
-            />
-            <label htmlFor="address_client_name">Name</label>
-          </div>
-          <div className={ProfileStyle.addressInputContainer}>
-            <input
-              type="text"
-              id="address_phoneNumber"
-              ref={mobNum}
-              value={content.mobNum}
-              name="address_phoneNumber"
-              autoComplete="tel"
-              maxLength={10}
-              tabIndex={2}
-              required
-            />
-            <label htmlFor="address_phoneNumber">10-digit mobile number</label>
-          </div>
+          <InputField
+            idName="client_name"
+            content={content.name}
+            label="name"
+            tabIndex={1}
+            maxLength={false}
+            autoComplete="name"
+          />
+          <InputField
+            idName="phoneNumber"
+            content={content.mobNum}
+            label="10-digit mobile number"
+            tabIndex={2}
+            maxLength={10}
+            autoComplete="tel"
+          />
         </div>
         <div className="d-flex gap-75">
           <div className={ProfileStyle.addressInputContainer}>

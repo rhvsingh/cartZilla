@@ -37,7 +37,11 @@ const ShowAddresses = ({ userDetails, setUserDetails }) => {
 
   function ShowAddressesScreen() {
     return userAddresses.map((item) => (
-      <ShowEachAddress item={item} deleteAddress={deleteAddress} />
+      <ShowEachAddress
+        item={item}
+        deleteAddress={deleteAddress}
+        key={item.address_id}
+      />
     ))
   }
 

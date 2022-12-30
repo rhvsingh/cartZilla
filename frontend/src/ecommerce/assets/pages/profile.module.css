@@ -236,6 +236,7 @@
   color: var(--black-color-7);
   transition: 0.3s ease-in-out;
   font-size: 0.8rem;
+  text-transform: capitalize;
 }
 
 .addressInputContainer input:focus,
