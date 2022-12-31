@@ -140,7 +140,10 @@ const Profile = ({ auth }) => {
               <Outlet context={[userDetails, setUserDetails]} />
             </Suspense>
           ) : (
-            <ProfileInfo />
+            <ProfileInfo
+              userDetails={userDetails}
+              setUserDetails={setUserDetails}
+            />
           )}
         </div>
       </div>
