@@ -40,114 +40,118 @@ const Profile = ({ auth }) => {
   }
   useEffect(() => {
     getUserDetails()
+
   }, [])
 
   return (
-    <div className="container-2">
+    <>
       <HelmetProvider>
         <Helmet>
           <title>Profile</title>
         </Helmet>
       </HelmetProvider>
-      <div className={"d-flex gap-1 " + ProfileStyles.profileContainer}>
-        <aside>
-          <div
-            className={`${ProfileStyles.sideBarBox} ${ProfileStyles.userBox} d-flex align-items-center gap-1`}
-          >
-            <div>
-              {userDetails.gender === "male" ? (
-                <img src={MaleProfilePic} alt="Male" />
-              ) : userDetails.gender === "female" ? (
-                <img src={FemaleProfilePic} alt="Female" />
-              ) : (
-                <div className={ProfileStyles.noProfile}>
-                  <FaUserAlt />
+      {userDetails && userDetails.name ?
+        <div className="container-2">
+          <div className={"d-flex gap-1 " + ProfileStyles.profileContainer}>
+            <aside>
+              <div
+                className={`${ProfileStyles.sideBarBox} ${ProfileStyles.userBox} d-flex align-items-center gap-1`}
+              >
+                <div>
+                  {userDetails.gender === "male" ? (
+                    <img src={MaleProfilePic} alt="Male" />
+                  ) : userDetails.gender === "female" ? (
+                    <img src={FemaleProfilePic} alt="Female" />
+                  ) : (
+                    <div className={ProfileStyles.noProfile}>
+                      <FaUserAlt />
+                    </div>
+                  )}
                 </div>
+                <div>
+                  <span className={ProfileStyles.welcome}>Hello,</span>
+                  <br />
+                  <span className={ProfileStyles.username}>{userDetails.name}</span>
+                </div>
+              </div>
+              <div className={ProfileStyles.sideBarBox}>
+                <div className="border-bottom">
+                  <div className={"d-flex flex-wrap-wrap " + ProfileStyles.header}>
+                    <FaUserAlt />
+                    <div className={ProfileStyles.headerHeading}>
+                      Account Settings
+                    </div>
+                  </div>
+                  <ul>
+                    <Link
+                      to="/profile"
+                      relative="route"
+                      className={
+                        endPoint === "profile"
+                          ? "child-selector active-child"
+                          : "child-selector"
+                      }
+                    >
+                      <li>Profile Information</li>
+                    </Link>
+                    <Link
+                      to="address"
+                      className={
+                        endPoint === "address"
+                          ? "child-selector active-child"
+                          : "child-selector"
+                      }
+                    >
+                      <li>Manage Addresses</li>
+                    </Link>
+                  </ul>
+                </div>
+                {/* <div className='border-bottom'></div>
+                        <div className='border-bottom'></div> */}
+                <div className="border-bottom">
+                  <div
+                    className={`d-flex flex-wrap-wrap ${ProfileStyles.logoutButton} ${ProfileStyles.header}`}
+                    onClick={() =>
+                      auth((oldValue) => {
+                        if (oldValue === true) {
+                          localStorage.clear()
+                          navigate("/")
+                        }
+                        return !oldValue
+                      })
+                    }
+                  >
+                    <FaPowerOff />
+                    <div className={ProfileStyles.headerHeading}>Logout</div>
+                  </div>
+                </div>
+              </div>
+              <div className={ProfileStyles.sideBarBox}>
+                <h6 className={ProfileStyles.smallHeading}>Frequently Visited:</h6>
+                <ul
+                  className={"d-flex flex-wrap-wrap " + ProfileStyles.smallFontList}
+                >
+                  <li>Change Password</li>
+                  <li>Track Order</li>
+                  <li>Help Center</li>
+                </ul>
+              </div>
+            </aside>
+            <div className={ProfileStyles.profileContent}>
+              {outlet ? (
+                <Suspense fallback={<LoadingScreen />}>
+                  <Outlet context={[userDetails, setUserDetails]} />
+                </Suspense>
+              ) : (
+                <ProfileInfo
+                  userDetails={userDetails}
+                  setUserDetails={setUserDetails}
+                />
               )}
             </div>
-            <div>
-              <span className={ProfileStyles.welcome}>Hello,</span>
-              <br />
-              <span className={ProfileStyles.username}>{userDetails.name}</span>
-            </div>
           </div>
-          <div className={ProfileStyles.sideBarBox}>
-            <div className="border-bottom">
-              <div className={"d-flex flex-wrap-wrap " + ProfileStyles.header}>
-                <FaUserAlt />
-                <div className={ProfileStyles.headerHeading}>
-                  Account Settings
-                </div>
-              </div>
-              <ul>
-                <Link
-                  to="/profile"
-                  relative="route"
-                  className={
-                    endPoint === "profile"
-                      ? "child-selector active-child"
-                      : "child-selector"
-                  }
-                >
-                  <li>Profile Information</li>
-                </Link>
-                <Link
-                  to="address"
-                  className={
-                    endPoint === "address"
-                      ? "child-selector active-child"
-                      : "child-selector"
-                  }
-                >
-                  <li>Manage Addresses</li>
-                </Link>
-              </ul>
-            </div>
-            {/* <div className='border-bottom'></div>
-                        <div className='border-bottom'></div> */}
-            <div className="border-bottom">
-              <div
-                className={`d-flex flex-wrap-wrap ${ProfileStyles.logoutButton} ${ProfileStyles.header}`}
-                onClick={() =>
-                  auth((oldValue) => {
-                    if (oldValue === true) {
-                      localStorage.clear()
-                      navigate("/")
-                    }
-                    return !oldValue
-                  })
-                }
-              >
-                <FaPowerOff />
-                <div className={ProfileStyles.headerHeading}>Logout</div>
-              </div>
-            </div>
-          </div>
-          <div className={ProfileStyles.sideBarBox}>
-            <h6 className={ProfileStyles.smallHeading}>Frequently Visited:</h6>
-            <ul
-              className={"d-flex flex-wrap-wrap " + ProfileStyles.smallFontList}
-            >
-              <li>Change Password</li>
-              <li>Track Order</li>
-              <li>Help Center</li>
-            </ul>
-          </div>
-        </aside>
-        <div className={ProfileStyles.profileContent}>
-          {outlet ? (
-            <Suspense fallback={<LoadingScreen />}>
-              <Outlet context={[userDetails, setUserDetails]} />
-            </Suspense>
-          ) : (
-            <ProfileInfo
-              userDetails={userDetails}
-              setUserDetails={setUserDetails}
-            />
-          )}
-        </div>
-      </div>
-    </div>
+        </div> : ""}
+    </>
   )
 }
 

@@ -1,8 +1,7 @@
 import { useEffect } from "react"
-import { useNavigate, redirect, useNavigationType, useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 const Checkout = (props) => {
   const navigate = useNavigate()
-  const navType = useNavigationType()
   const loc = useLocation()
 
   function LocationRedirect() {
@@ -11,14 +10,22 @@ const Checkout = (props) => {
     }, [])
   }
 
-  if (!props.isAuth) {
-    //return <LocationRedirect />
-    return redirect("/login")
+  function LocationRedirectToHome() {
+    useEffect(() => {
+      navigate("/")
+    }, [])
   }
 
+  if (!props.isAuth) {
+    return <LocationRedirect />
+  }
 
+  if (loc.state === null) {
+    return <LocationRedirectToHome />
+  } else if (!loc.state.prevPath === "/cart") {
+    return <LocationRedirectToHome />
+  }
 
-  console.log(loc, navType)
   return <div>Checkout</div>
 }
 
