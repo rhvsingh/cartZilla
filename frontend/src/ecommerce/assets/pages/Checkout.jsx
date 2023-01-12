@@ -26,6 +26,8 @@ const Checkout = (props) => {
     return <LocationRedirectToHome />
   }
 
+  /* Just adding comment to check gpg is working or not. signed commits working or not */
+
   return <div>Checkout</div>
 }
 
