@@ -1010,3 +1010,6 @@ app.post(
 app.listen(port, () => {
   console.log(`Ecommerce app listening at http://localhost:${port}`)
 })
+
+//Export the Express API
+module.exports = app

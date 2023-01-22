@@ -27,6 +27,8 @@ const Ecommerce = () => {
     const navigate = useNavigate()
 
     const [localSet, setLocalSet] = useState(false)
+    const [loading, setLoading] = useState(true)
+
 
     async function UserLogCheck() {
         if (localStorage.getItem("email") && localStorage.getItem("akey")) {
@@ -36,7 +38,9 @@ const Ecommerce = () => {
             })
             let data = await callData.data
             if (data.statusCode === 200) {
-                if (!localSet) setLocalSet(true)
+                if (!localSet) {
+                    setLocalSet(true)
+                }
             } else if (localSet) {
                 setLocalSet(false)
             }
@@ -45,6 +49,7 @@ const Ecommerce = () => {
                 setLocalSet(false)
             }
         }
+        setLoading(false)
     }
 
     UserLogCheck()
@@ -122,6 +127,7 @@ const Ecommerce = () => {
 
     function CartCheckout() {
         return (
+            !loading &&
             <Suspense fallback={<LoadingScreen />}>
                 <Checkout isAuth={isAuth} />
             </Suspense>
