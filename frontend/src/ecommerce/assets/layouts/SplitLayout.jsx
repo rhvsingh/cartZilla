@@ -1,12 +1,10 @@
 const SplitLayout = (props) => {
-    console.log(props);
-
     return (
-        <section className='container-2 d-flex justify-between'>
-            <div>
+        <section className={`container-2 d-flex justify-between`}>
+            <div style={{ flex: `${props.div1}` }}>
                 {props.children[0]}
             </div>
-            <div>
+            <div style={{ flex: `${props.div2}` }}>
                 {props.children[1]}
             </div>
         </section>

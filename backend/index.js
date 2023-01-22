@@ -11,8 +11,19 @@ const path = require("path")
 const nodemailer = require("nodemailer")
 const port = process.env.PORT_NUMBER
 
+const allowlist = ["http://localhost:3000", "http://localhost:7000"]
+const corsOptionsDelegate = function (req, callback) {
+  let corsOptions
+  if (allowlist.indexOf(req.header("Origin")) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
+
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors(corsOptionsDelegate))
 
 app.use("/uploads", express.static("uploads"))
 
@@ -1010,6 +1021,3 @@ app.post(
 app.listen(port, () => {
   console.log(`Ecommerce app listening at http://localhost:${port}`)
 })
-
-//Export the Express API
-module.exports = app
