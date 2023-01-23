@@ -15,6 +15,7 @@ const Checkout = (props) => {
 
   //const [orderDetailsShow, setOrderDetailsShow] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [step, setStep] = useState(0)
   const [orderDetails, setOrderDetails] = useState({
     shippingAddressSelected: "",
     paymentMethodSelected: "",
@@ -76,6 +77,29 @@ const Checkout = (props) => {
 
   /* Just adding comment to check gpg is working or not. signed commits working or not */
 
+  const stepButtonShow = [
+    "Select Delivery Address",
+    "Select Payment Method",
+    "Check Items",
+    "Place your order",
+  ]
+
+  const handleEvent = () => {
+    switch (step) {
+      case 0:
+        setStep(1)
+        break
+      case 1:
+        setStep(2)
+        break
+      case 2:
+        setStep(3)
+        break
+      case 3:
+        console.log("Order Placed")
+    }
+  }
+
   return (
     <main
       className="d-flex flex-direc-col justify-between"
@@ -97,8 +121,20 @@ const Checkout = (props) => {
       </header>
       <div style={{ flex: "100%" }}>
         <SplitLayout div1={75} div2={25}>
-          <CheckoutSteps setOrderDetails={setOrderDetails} />
-          <OrderSummary orderDetails={orderDetails} />
+          <CheckoutSteps
+            setOrderDetails={setOrderDetails}
+            step={step}
+            setStep={setStep}
+            handleEvent={handleEvent}
+            stepButtonShow={stepButtonShow}
+          />
+          <OrderSummary
+            orderDetails={orderDetails}
+            step={step}
+            setStep={setStep}
+            handleEvent={handleEvent}
+            stepButtonShow={stepButtonShow}
+          />
         </SplitLayout>
       </div>
     </main>

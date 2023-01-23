@@ -1,13 +1,23 @@
 import CheckoutStyles from "../../pages/checkout.module.css"
 
 const OrderSummary = (props) => {
+  const styles = {
+    color: "#3689ba",
+  }
+
   return (
     <div className={"order-summary " + CheckoutStyles.orderSummary}>
       <div className={CheckoutStyles.eventButtons}>
-        <button className={CheckoutStyles.stepButton}>Place your order</button>
+        <button
+          className={CheckoutStyles.stepButton}
+          onClick={props.handleEvent}
+        >
+          {props.stepButtonShow[props.step]}
+        </button>
         <div className={CheckoutStyles.disclaimer}>
-          By placing your order, you agree to CartZilla's <a>privacy notice</a>
-          and <a>conditions of use</a>.
+          By placing your order, you agree to CartZilla's{" "}
+          <span style={styles}>privacy notice</span> and{" "}
+          <span style={styles}>conditions of use</span>.
         </div>
       </div>
       <div>
