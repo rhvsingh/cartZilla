@@ -29,7 +29,6 @@ const Ecommerce = () => {
     const [localSet, setLocalSet] = useState(false)
     const [loading, setLoading] = useState(true)
 
-
     async function UserLogCheck() {
         if (localStorage.getItem("email") && localStorage.getItem("akey")) {
             let callData = await axios.post("http://localhost:4000/userLogged", {

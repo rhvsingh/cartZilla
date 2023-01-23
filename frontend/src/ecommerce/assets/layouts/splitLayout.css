@@ -1,0 +1,12 @@
+@media screen and (max-width: 600px) {
+  .split-layout {
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .split-layout:has(.order-summary) > div {
+    width: 100%;
+  }
+}
