@@ -11,7 +11,10 @@ const path = require("path")
 const nodemailer = require("nodemailer")
 const port = process.env.PORT_NUMBER
 
-const allowlist = ["http://localhost:3000", "http://localhost:7000"]
+const allowlist = [
+  "http://localhost:3000",
+  "https://cart-zilla-rhvsingh.vercel.app",
+]
 const corsOptionsDelegate = function (req, callback) {
   let corsOptions
   if (allowlist.indexOf(req.header("Origin")) !== -1) {

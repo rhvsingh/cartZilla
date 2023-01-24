@@ -1,11 +1,13 @@
 import axios from "axios"
 
+import { config } from "../../../../utils/Constants"
+
 import ShowEachAddress from "./ShowEachAddress"
 
 const ShowAddresses = ({ userDetails, setUserDetails }) => {
   const userAddresses = userDetails.addresses
 
-  const baseURL = "http://localhost:4000"
+  const baseURL = config.url.API_URL
 
   const updateAddress = async (addressData) => {
     let newArray = userDetails.addresses.map((addressId) => {
@@ -45,7 +47,7 @@ const ShowAddresses = ({ userDetails, setUserDetails }) => {
       }
 
       await axios
-        .post(baseURL + "/user/address/delete", data)
+        .post(baseURL + "user/address/delete", data)
         .then((response) => {
           if (response.data.result) {
             setUserDetails((oldValue) => {

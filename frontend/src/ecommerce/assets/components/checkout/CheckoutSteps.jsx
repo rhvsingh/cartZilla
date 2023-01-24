@@ -4,7 +4,7 @@ import CheckoutStyles from "../../pages/checkout.module.css"
 
 const CheckoutSteps = (props) => {
   return (
-    <div>
+    <div className={CheckoutStyles.checkoutSteps}>
       <SelectAddress setOrderDetails={props.setOrderDetails} />
       <br />
       1. Select Delivery Address

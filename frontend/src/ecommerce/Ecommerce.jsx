@@ -7,9 +7,10 @@ import {
 } from "react-router-dom"
 import axios from "axios"
 
-import "react-toastify/dist/ReactToastify.css"
-
+import { config } from "./utils/Constants"
 import Layout from "./assets/layouts/Layout"
+
+import "react-toastify/dist/ReactToastify.css"
 
 /* import ProductShow from './assets/pages/ProductShow'
 import Cart from './assets/pages/Cart'
@@ -34,13 +35,15 @@ const Ecommerce = () => {
   const [isAuth, setIsAuth] = useState(false)
   const [loading, setLoading] = useState(true)
 
+  const baseURL = config.url.API_URL
+
   async function UserLogCheck() {
     if (
       !isAuth &&
       localStorage.getItem("email") &&
       localStorage.getItem("akey")
     ) {
-      let callData = await axios.post("http://localhost:4000/userLogged", {
+      let callData = await axios.post(baseURL + "userLogged", {
         email: localStorage.getItem("email"),
         akey: localStorage.getItem("akey"),
       })
@@ -57,9 +60,8 @@ const Ecommerce = () => {
         setIsAuth(false)
       }
     }
-    setLoading(false)
+    if (loading) setLoading(false)
   }
-
   useEffect(() => {
     UserLogCheck()
   }, [])
@@ -68,22 +70,7 @@ const Ecommerce = () => {
   } else {
   }
 
-  const Ecommerce = () => {
-    return <p>This is Ecommerce section</p>
-  }
-
   function HomePage() {
-    return (
-      <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
-        <Suspense fallback={<LoadingScreen />}>
-          <Ecommerce />
-          <ProductShow isAuth={isAuth} />
-        </Suspense>
-      </Layout>
-    )
-  }
-
-  function Products() {
     return (
       <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
         <Suspense fallback={<LoadingScreen />}>
@@ -143,7 +130,6 @@ const Ecommerce = () => {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/products" element={<Products />} />
           {isAuth ? (
             <>
               <Route path="/cart" element={<CartShow />} />
@@ -156,7 +142,14 @@ const Ecommerce = () => {
           ) : (
             <Route path="/login" element={<LoginShow />} />
           )}
-          <Route path="*" element={<NotFoundPage />} />
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={<LoadingScreen />}>
+                <NotFoundPage />
+              </Suspense>
+            }
+          />
         </Routes>
       </Router>
     )
