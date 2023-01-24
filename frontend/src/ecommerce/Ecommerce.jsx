@@ -31,10 +31,8 @@ const Profile = React.lazy(() => import("./assets/pages/Profile"))
 const Address = React.lazy(() => import("./assets/components/profile/Address"))
 
 const Ecommerce = () => {
-  const [localSet, setLocalSet] = useState(false)
+  const [isAuth, setIsAuth] = useState(false)
   const [loading, setLoading] = useState(true)
-
-  const [isAuth, setIsAuth] = useState(localSet)
 
   async function UserLogCheck() {
     if (
@@ -48,25 +46,23 @@ const Ecommerce = () => {
       })
       let data = await callData.data
       if (data.statusCode === 200) {
-        if (!localSet) {
-          setLocalSet(true)
+        if (!isAuth) {
+          setIsAuth(true)
         }
-      } else if (localSet) {
-        setLocalSet(false)
+      } else if (isAuth) {
+        setIsAuth(false)
       }
     } else {
-      if (localSet) {
-        setLocalSet(false)
+      if (isAuth) {
+        setIsAuth(false)
       }
     }
     setLoading(false)
   }
 
-  UserLogCheck()
-
   useEffect(() => {
-    setIsAuth(localSet)
-  }, [localSet])
+    UserLogCheck()
+  }, [])
 
   if (isAuth) {
   } else {
