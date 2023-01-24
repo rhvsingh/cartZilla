@@ -14,16 +14,18 @@ import Layout from "./assets/layouts/Layout"
 /* import ProductShow from './assets/pages/ProductShow'
 import Cart from './assets/pages/Cart'
 import Login from './assets/components/Login'
+import NotFoundPage from "./assets/components/NotFoundPage"
 import Profile from './assets/pages/Profile' */
 /* import Address from './assets/components/profile/Address' */
 
-import NotFoundPage from "./assets/components/NotFoundPage"
 import LoadingScreen from "./assets/components/LoadingScreen"
 
 const ProductShow = React.lazy(() => import("./assets/pages/ProductShow"))
 const Cart = React.lazy(() => import("./assets/pages/Cart"))
 const Checkout = React.lazy(() => import("./assets/pages/Checkout"))
-/* const NotFoundPage = React.lazy(() => import('./assets/components/NotFoundPage')) */
+const NotFoundPage = React.lazy(() =>
+  import("./assets/components/NotFoundPage")
+)
 const Login = React.lazy(() => import("./assets/components/Login"))
 const Profile = React.lazy(() => import("./assets/pages/Profile"))
 const Address = React.lazy(() => import("./assets/components/profile/Address"))
@@ -137,25 +139,27 @@ const Ecommerce = () => {
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route index element={<HomePage />} />
-        <Route path="products" element={<Products />} />
-        {isAuth ? (
-          <>
-            <Route path="cart" element={<CartShow />} />
-            <Route path="checkout" element={<CartCheckout />} />
-            <Route path="profile" element={<ProfileShow />}>
-              <Route path="address" element={<Address />} />
-            </Route>
-            <Route path="login" element={<LoginRedirect />} />
-          </>
-        ) : (
-          <Route path="login" element={<LoginShow />} />
-        )}
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Router>
+    !loading && (
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<Products />} />
+          {isAuth ? (
+            <>
+              <Route path="/cart" element={<CartShow />} />
+              <Route path="/checkout" element={<CartCheckout />} />
+              <Route path="/profile" element={<ProfileShow />}>
+                <Route path="address" element={<Address />} />
+              </Route>
+              <Route path="/login" element={<LoginRedirect />} />
+            </>
+          ) : (
+            <Route path="/login" element={<LoginShow />} />
+          )}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Router>
+    )
   )
 }
 
