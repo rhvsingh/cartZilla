@@ -34,8 +34,14 @@ const Ecommerce = () => {
   const [localSet, setLocalSet] = useState(false)
   const [loading, setLoading] = useState(true)
 
+  const [isAuth, setIsAuth] = useState(localSet)
+
   async function UserLogCheck() {
-    if (localStorage.getItem("email") && localStorage.getItem("akey")) {
+    if (
+      !isAuth &&
+      localStorage.getItem("email") &&
+      localStorage.getItem("akey")
+    ) {
       let callData = await axios.post("http://localhost:4000/userLogged", {
         email: localStorage.getItem("email"),
         akey: localStorage.getItem("akey"),
@@ -57,8 +63,6 @@ const Ecommerce = () => {
   }
 
   UserLogCheck()
-
-  const [isAuth, setIsAuth] = useState(localSet)
 
   useEffect(() => {
     setIsAuth(localSet)
