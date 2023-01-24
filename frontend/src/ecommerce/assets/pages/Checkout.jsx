@@ -97,6 +97,9 @@ const Checkout = (props) => {
         break
       case 3:
         console.log("Order Placed")
+        break
+      default:
+        break
     }
   }
 
@@ -120,22 +123,24 @@ const Checkout = (props) => {
         </div>
       </header>
       <div style={{ flex: "100%" }}>
-        <SplitLayout div1={75} div2={25}>
-          <CheckoutSteps
-            setOrderDetails={setOrderDetails}
-            step={step}
-            setStep={setStep}
-            handleEvent={handleEvent}
-            stepButtonShow={stepButtonShow}
-          />
-          <OrderSummary
-            orderDetails={orderDetails}
-            step={step}
-            setStep={setStep}
-            handleEvent={handleEvent}
-            stepButtonShow={stepButtonShow}
-          />
-        </SplitLayout>
+        {isLoading && (
+          <SplitLayout div1={75} div2={25}>
+            <CheckoutSteps
+              setOrderDetails={setOrderDetails}
+              step={step}
+              setStep={setStep}
+              handleEvent={handleEvent}
+              stepButtonShow={stepButtonShow}
+            />
+            <OrderSummary
+              orderDetails={orderDetails}
+              step={step}
+              setStep={setStep}
+              handleEvent={handleEvent}
+              stepButtonShow={stepButtonShow}
+            />
+          </SplitLayout>
+        )}
       </div>
     </main>
   )
