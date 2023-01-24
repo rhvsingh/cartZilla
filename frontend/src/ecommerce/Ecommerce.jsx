@@ -24,134 +24,135 @@ const Profile = React.lazy(() => import("./assets/pages/Profile"))
 const Address = React.lazy(() => import("./assets/components/profile/Address"))
 
 const Ecommerce = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    const [localSet, setLocalSet] = useState(false)
-    const [loading, setLoading] = useState(true)
+  const [localSet, setLocalSet] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-    async function UserLogCheck() {
-        if (localStorage.getItem("email") && localStorage.getItem("akey")) {
-            let callData = await axios.post("http://localhost:4000/userLogged", {
-                email: localStorage.getItem("email"),
-                akey: localStorage.getItem("akey"),
-            })
-            let data = await callData.data
-            if (data.statusCode === 200) {
-                if (!localSet) {
-                    setLocalSet(true)
-                }
-            } else if (localSet) {
-                setLocalSet(false)
-            }
-        } else {
-            if (localSet) {
-                setLocalSet(false)
-            }
+  async function UserLogCheck() {
+    if (localStorage.getItem("email") && localStorage.getItem("akey")) {
+      let callData = await axios.post("http://localhost:4000/userLogged", {
+        email: localStorage.getItem("email"),
+        akey: localStorage.getItem("akey"),
+      })
+      let data = await callData.data
+      if (data.statusCode === 200) {
+        if (!localSet) {
+          setLocalSet(true)
         }
-        setLoading(false)
-    }
-
-    UserLogCheck()
-
-    const [isAuth, setIsAuth] = useState(localSet)
-
-    useEffect(() => {
-        setIsAuth(localSet)
-    }, [localSet])
-
-    if (isAuth) {
+      } else if (localSet) {
+        setLocalSet(false)
+      }
     } else {
+      if (localSet) {
+        setLocalSet(false)
+      }
     }
+    setLoading(false)
+  }
 
-    const Ecommerce = () => {
-        return <p>This is Ecommerce section</p>
-    }
+  UserLogCheck()
 
-    function HomePage() {
-        return (
-            <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
-                <Suspense fallback={<LoadingScreen />}>
-                    <Ecommerce />
-                    <ProductShow isAuth={isAuth} />
-                </Suspense>
-            </Layout>
-        )
-    }
+  const [isAuth, setIsAuth] = useState(localSet)
 
-    function Products() {
-        return (
-            <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
-                <Suspense fallback={<LoadingScreen />}>
-                    <ProductShow isAuth={isAuth} />
-                </Suspense>
-            </Layout>
-        )
-    }
+  useEffect(() => {
+    setIsAuth(localSet)
+  }, [localSet])
 
-    function CartShow() {
-        return (
-            <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
-                <Suspense fallback={<LoadingScreen />}>
-                    <Cart isAuth={isAuth} />
-                </Suspense>
-            </Layout>
-        )
-    }
+  if (isAuth) {
+  } else {
+  }
 
-    function LoginRedirect() {
-        useEffect(() => {
-            navigate("/")
-        }, [])
-    }
+  const Ecommerce = () => {
+    return <p>This is Ecommerce section</p>
+  }
 
-    function LoginShow() {
-        return (
-            <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
-                <Suspense fallback={<LoadingScreen />}>
-                    <Login auth={setIsAuth} />
-                </Suspense>
-            </Layout>
-        )
-    }
-
-    function ProfileShow() {
-        return (
-            <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
-                <Suspense fallback={<LoadingScreen />}>
-                    <Profile auth={setIsAuth} />
-                </Suspense>
-            </Layout>
-        )
-    }
-
-    function CartCheckout() {
-        return (
-            !loading &&
-            <Suspense fallback={<LoadingScreen />}>
-                <Checkout isAuth={isAuth} />
-            </Suspense>
-        )
-    }
-
+  function HomePage() {
     return (
-        <Routes>
-            <Route index element={<HomePage />} />
-            <Route path="products" element={<Products />} />
-            <Route path="cart" element={<CartShow />} />
-            <Route path="checkout" element={<CartCheckout />} />
-            {isAuth ? (
-                <>
-                    <Route path="profile" element={<ProfileShow />}>
-                        <Route path="address" element={<Address />} />
-                    </Route>
-                    <Route path="login" element={<LoginRedirect />} />
-                </>
-            ) : (
-                <Route path="login" element={<LoginShow />} />
-            )}
-            <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+      <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
+        <Suspense fallback={<LoadingScreen />}>
+          <Ecommerce />
+          <ProductShow isAuth={isAuth} />
+        </Suspense>
+      </Layout>
     )
+  }
+
+  function Products() {
+    return (
+      <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
+        <Suspense fallback={<LoadingScreen />}>
+          <ProductShow isAuth={isAuth} />
+        </Suspense>
+      </Layout>
+    )
+  }
+
+  function CartShow() {
+    return (
+      <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
+        <Suspense fallback={<LoadingScreen />}>
+          <Cart isAuth={isAuth} />
+        </Suspense>
+      </Layout>
+    )
+  }
+
+  function LoginRedirect() {
+    useEffect(() => {
+      navigate("/")
+    }, [])
+  }
+
+  function LoginShow() {
+    return (
+      <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
+        <Suspense fallback={<LoadingScreen />}>
+          <Login auth={setIsAuth} />
+        </Suspense>
+      </Layout>
+    )
+  }
+
+  function ProfileShow() {
+    return (
+      <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
+        <Suspense fallback={<LoadingScreen />}>
+          <Profile auth={setIsAuth} />
+        </Suspense>
+      </Layout>
+    )
+  }
+
+  function CartCheckout() {
+    return (
+      !loading && (
+        <Suspense fallback={<LoadingScreen />}>
+          <Checkout isAuth={isAuth} />
+        </Suspense>
+      )
+    )
+  }
+
+  return (
+    <Routes>
+      <Route index element={<HomePage />} />
+      <Route path="products" element={<Products />} />
+      {isAuth ? (
+        <>
+          <Route path="cart" element={<CartShow />} />
+          <Route path="checkout" element={<CartCheckout />} />
+          <Route path="profile" element={<ProfileShow />}>
+            <Route path="address" element={<Address />} />
+          </Route>
+          <Route path="login" element={<LoginRedirect />} />
+        </>
+      ) : (
+        <Route path="login" element={<LoginShow />} />
+      )}
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  )
 }
 
 export default Ecommerce
