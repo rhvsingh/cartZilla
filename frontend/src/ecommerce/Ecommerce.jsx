@@ -1,5 +1,10 @@
 import React, { useState, useEffect, Suspense } from "react"
-import { Routes, Route, useNavigate } from "react-router-dom"
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom"
 import axios from "axios"
 
 import "react-toastify/dist/ReactToastify.css"
@@ -24,8 +29,6 @@ const Profile = React.lazy(() => import("./assets/pages/Profile"))
 const Address = React.lazy(() => import("./assets/components/profile/Address"))
 
 const Ecommerce = () => {
-  const navigate = useNavigate()
-
   const [localSet, setLocalSet] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -99,9 +102,8 @@ const Ecommerce = () => {
   }
 
   function LoginRedirect() {
-    useEffect(() => {
-      navigate("/")
-    }, [])
+    const navigate = useNavigate()
+    return navigate("/")
   }
 
   function LoginShow() {
@@ -135,23 +137,25 @@ const Ecommerce = () => {
   }
 
   return (
-    <Routes>
-      <Route index element={<HomePage />} />
-      <Route path="products" element={<Products />} />
-      {isAuth ? (
-        <>
-          <Route path="cart" element={<CartShow />} />
-          <Route path="checkout" element={<CartCheckout />} />
-          <Route path="profile" element={<ProfileShow />}>
-            <Route path="address" element={<Address />} />
-          </Route>
-          <Route path="login" element={<LoginRedirect />} />
-        </>
-      ) : (
-        <Route path="login" element={<LoginShow />} />
-      )}
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+    <Router>
+      <Routes>
+        <Route index element={<HomePage />} />
+        <Route path="products" element={<Products />} />
+        {isAuth ? (
+          <>
+            <Route path="cart" element={<CartShow />} />
+            <Route path="checkout" element={<CartCheckout />} />
+            <Route path="profile" element={<ProfileShow />}>
+              <Route path="address" element={<Address />} />
+            </Route>
+            <Route path="login" element={<LoginRedirect />} />
+          </>
+        ) : (
+          <Route path="login" element={<LoginShow />} />
+        )}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Router>
   )
 }
 

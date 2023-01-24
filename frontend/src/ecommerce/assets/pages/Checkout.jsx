@@ -11,7 +11,6 @@ import OrderSummary from "../components/checkout/OrderSummary"
 import CheckoutStyles from "./checkout.module.css"
 
 const Checkout = (props) => {
-  const navigate = useNavigate()
   const loc = useLocation()
 
   //const [orderDetailsShow, setOrderDetailsShow] = useState([])
@@ -30,15 +29,13 @@ const Checkout = (props) => {
   const baseURL = "http://localhost:4000/"
 
   function LocationRedirect() {
-    useEffect(() => {
-      navigate("/login")
-    }, [])
+    const navigate = useNavigate()
+    navigate("/login")
   }
 
   function LocationRedirectToHome() {
-    useEffect(() => {
-      navigate("/")
-    }, [])
+    const navigate = useNavigate()
+    navigate("/")
   }
 
   useEffect(() => {
