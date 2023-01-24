@@ -147,7 +147,7 @@ const Ecommerce = () => {
           {isAuth ? (
             <>
               <Route path="/cart" element={<CartShow />} />
-              <Route path="/checkout" element={<CartCheckout />} />
+              {/* <Route path="/checkout" element={<CartCheckout />} /> */}
               <Route path="/profile" element={<ProfileShow />}>
                 <Route path="address" element={<Address />} />
               </Route>
