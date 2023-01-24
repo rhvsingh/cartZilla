@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { FaLock } from "react-icons/fa"
+import { HelmetProvider, Helmet } from "react-helmet-async"
 import axios from "axios"
 
 import SplitLayout from "../layouts/SplitLayout"
@@ -104,45 +105,52 @@ const Checkout = (props) => {
   }
 
   return (
-    <main
-      className="d-flex flex-direc-col justify-between"
-      style={{ minHeight: "100vh" }}
-    >
-      <header className="px-1">
-        <div
-          className={
-            "container-2 d-flex justify-between align-items-center py-1 " +
-            CheckoutStyles.main
-          }
-        >
-          <div className="main-heading">CartZilla</div>
-          <div style={{ fontSize: "1.5rem" }}>Checkout</div>
-          <div>
-            <FaLock style={{ fontSize: "1.5rem" }} />
+    <>
+      <HelmetProvider>
+        <Helmet>
+          <title>Checkout | CartZilla</title>
+        </Helmet>
+      </HelmetProvider>
+      <main
+        className="d-flex flex-direc-col justify-between"
+        style={{ minHeight: "100vh" }}
+      >
+        <header className="px-1">
+          <div
+            className={
+              "container-2 d-flex justify-between align-items-center py-1 " +
+              CheckoutStyles.main
+            }
+          >
+            <div className="main-heading">CartZilla</div>
+            <div style={{ fontSize: "1.5rem" }}>Checkout</div>
+            <div>
+              <FaLock style={{ fontSize: "1.5rem" }} />
+            </div>
           </div>
+        </header>
+        <div style={{ flex: "100%" }}>
+          {!isLoading && (
+            <SplitLayout div1={75} div2={25}>
+              <CheckoutSteps
+                setOrderDetails={setOrderDetails}
+                step={step}
+                setStep={setStep}
+                handleEvent={handleEvent}
+                stepButtonShow={stepButtonShow}
+              />
+              <OrderSummary
+                orderDetails={orderDetails}
+                step={step}
+                setStep={setStep}
+                handleEvent={handleEvent}
+                stepButtonShow={stepButtonShow}
+              />
+            </SplitLayout>
+          )}
         </div>
-      </header>
-      <div style={{ flex: "100%" }}>
-        {isLoading && (
-          <SplitLayout div1={75} div2={25}>
-            <CheckoutSteps
-              setOrderDetails={setOrderDetails}
-              step={step}
-              setStep={setStep}
-              handleEvent={handleEvent}
-              stepButtonShow={stepButtonShow}
-            />
-            <OrderSummary
-              orderDetails={orderDetails}
-              step={step}
-              setStep={setStep}
-              handleEvent={handleEvent}
-              stepButtonShow={stepButtonShow}
-            />
-          </SplitLayout>
-        )}
-      </div>
-    </main>
+      </main>
+    </>
   )
 }
 
