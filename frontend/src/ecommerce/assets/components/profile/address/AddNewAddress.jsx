@@ -1,6 +1,8 @@
 import { useRef } from "react"
 import axios from "axios"
 
+import { config } from "../../../../utils/Constants"
+
 import ProfileStyle from "../../../pages/profile.module.css"
 
 const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
@@ -14,6 +16,8 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
   /* const landmark = useRef()
   const alternatePhoneNumber = useRef() */
   const addressType = useRef()
+
+  const baseURL = config.url.API_URL
 
   function addressTypeChange(e) {
     addressType.current = e.target.value
@@ -35,33 +39,31 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
       /* landmark: landmark.current.value,
       alternatePhoneNumber: alternatePhoneNumber.current.value */
     }
-    await axios
-      .post("http://localhost:4000/user/address", data)
-      .then((response) => {
-        let resData = response.data
-        if (resData.result) {
-          let newAddress = {
-            name: data.name,
-            mobNum: data.mobNum,
-            pinCode: data.pinCode,
-            locality: data.locality,
-            address: data.address,
-            city: data.city,
-            state: data.state,
-            addressType: data.addressType,
-            address_id: resData.address_id,
-          }
-          setUserDetails((oldValue) => {
-            let newArray = oldValue.addresses
-            newArray.unshift(newAddress)
-            return {
-              ...oldValue,
-              addresses: newArray,
-            }
-          })
-          setIsOpen((oldValue) => !oldValue)
+    await axios.post(baseURL + "user/address", data).then((response) => {
+      let resData = response.data
+      if (resData.result) {
+        let newAddress = {
+          name: data.name,
+          mobNum: data.mobNum,
+          pinCode: data.pinCode,
+          locality: data.locality,
+          address: data.address,
+          city: data.city,
+          state: data.state,
+          addressType: data.addressType,
+          address_id: resData.address_id,
         }
-      })
+        setUserDetails((oldValue) => {
+          let newArray = oldValue.addresses
+          newArray.unshift(newAddress)
+          return {
+            ...oldValue,
+            addresses: newArray,
+          }
+        })
+        setIsOpen((oldValue) => !oldValue)
+      }
+    })
   }
 
   return (

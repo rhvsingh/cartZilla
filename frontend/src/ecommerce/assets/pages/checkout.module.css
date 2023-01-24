@@ -1,8 +1,18 @@
+.checkoutSteps,
+.orderSummary {
+  background-color: var(--white-color-f);
+  box-shadow: 0 0 10px -4px var(--white-color-d);
+  border-radius: 6px;
+}
+
+.checkoutSteps {
+  padding: 1rem;
+}
+
 .orderSummary {
   position: sticky;
   top: 1rem;
-  border-radius: 8px;
-  border: 1px solid var(--white-color-d);
+  border: 1px solid var(--white-color-e);
   padding: 0.45rem 0.75rem;
 }
 

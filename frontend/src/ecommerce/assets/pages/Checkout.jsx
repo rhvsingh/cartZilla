@@ -4,6 +4,7 @@ import { FaLock } from "react-icons/fa"
 import { HelmetProvider, Helmet } from "react-helmet-async"
 import axios from "axios"
 
+import { config } from "../../utils/Constants"
 import SplitLayout from "../layouts/SplitLayout"
 import CheckoutSteps from "../components/checkout/CheckoutSteps"
 import OrderSummary from "../components/checkout/OrderSummary"
@@ -26,7 +27,7 @@ const Checkout = (props) => {
     discountPrice: 0,
   })
 
-  const baseURL = "http://localhost:4000/"
+  const baseURL = config.url.API_URL
 
   function LocationRedirect() {
     const navigate = useNavigate()

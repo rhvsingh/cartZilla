@@ -1,6 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 
+import { config } from "../../../../utils/Constants"
 import InputField from "./InputField"
 
 import ProfileStyle from "../../../pages/profile.module.css"
@@ -21,7 +22,7 @@ const EditAddress = ({ content, updateAddress, setIsOpen }) => {
     setAddressType(e.target.value)
   }
 
-  const baseURL = "http://localhost:4000"
+  const baseURL = config.url.API_URL
 
   async function handleForm(e) {
     e.preventDefault()
@@ -40,14 +41,12 @@ const EditAddress = ({ content, updateAddress, setIsOpen }) => {
       /* landmark: landmark.current.value,
       alternatePhoneNumber: alternatePhoneNumber.current.value */
     }
-    await axios
-      .post(baseURL + "/user/address/update", data)
-      .then((response) => {
-        if (response.data.result) {
-          updateAddress(data)
-          setIsOpen((oldValue) => !oldValue)
-        }
-      })
+    await axios.post(baseURL + "user/address/update", data).then((response) => {
+      if (response.data.result) {
+        updateAddress(data)
+        setIsOpen((oldValue) => !oldValue)
+      }
+    })
   }
 
   return (

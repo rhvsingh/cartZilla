@@ -10,6 +10,7 @@ import axios from "axios"
 import { HelmetProvider, Helmet } from "react-helmet-async"
 import { FaUserAlt, FaPowerOff } from "react-icons/fa"
 
+import { config } from "../../utils/Constants"
 import ProfileInfo from "../components/profile/ProfileInfo"
 import LoadingScreen from "../components/LoadingScreen"
 
@@ -26,9 +27,11 @@ const Profile = ({ auth }) => {
 
   const [userDetails, setUserDetails] = useState([])
 
+  const baseURL = config.url.API_URL
+
   async function getUserDetails() {
     await axios
-      .get(`http://localhost:4000/user/${localStorage.getItem("akey")}`)
+      .get(`${baseURL}user/${localStorage.getItem("akey")}`)
       .then((response) => {
         let data = response.data
         if (data.result === false && data.statusCode === 404) {
@@ -40,7 +43,6 @@ const Profile = ({ auth }) => {
   }
   useEffect(() => {
     getUserDetails()
-
   }, [])
 
   return (
@@ -50,7 +52,7 @@ const Profile = ({ auth }) => {
           <title>Profile</title>
         </Helmet>
       </HelmetProvider>
-      {userDetails && userDetails.name ?
+      {userDetails && userDetails.name ? (
         <div className="container-2">
           <div className={"d-flex gap-1 " + ProfileStyles.profileContainer}>
             <aside>
@@ -71,12 +73,16 @@ const Profile = ({ auth }) => {
                 <div>
                   <span className={ProfileStyles.welcome}>Hello,</span>
                   <br />
-                  <span className={ProfileStyles.username}>{userDetails.name}</span>
+                  <span className={ProfileStyles.username}>
+                    {userDetails.name}
+                  </span>
                 </div>
               </div>
               <div className={ProfileStyles.sideBarBox}>
                 <div className="border-bottom">
-                  <div className={"d-flex flex-wrap-wrap " + ProfileStyles.header}>
+                  <div
+                    className={"d-flex flex-wrap-wrap " + ProfileStyles.header}
+                  >
                     <FaUserAlt />
                     <div className={ProfileStyles.headerHeading}>
                       Account Settings
@@ -127,9 +133,13 @@ const Profile = ({ auth }) => {
                 </div>
               </div>
               <div className={ProfileStyles.sideBarBox}>
-                <h6 className={ProfileStyles.smallHeading}>Frequently Visited:</h6>
+                <h6 className={ProfileStyles.smallHeading}>
+                  Frequently Visited:
+                </h6>
                 <ul
-                  className={"d-flex flex-wrap-wrap " + ProfileStyles.smallFontList}
+                  className={
+                    "d-flex flex-wrap-wrap " + ProfileStyles.smallFontList
+                  }
                 >
                   <li>Change Password</li>
                   <li>Track Order</li>
@@ -150,7 +160,10 @@ const Profile = ({ auth }) => {
               )}
             </div>
           </div>
-        </div> : ""}
+        </div>
+      ) : (
+        ""
+      )}
     </>
   )
 }
