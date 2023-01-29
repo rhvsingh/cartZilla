@@ -126,33 +126,31 @@ const Ecommerce = () => {
   }
 
   return (
-    !loading && (
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          {isAuth ? (
-            <>
-              <Route path="/cart" element={<CartShow />} />
-              <Route path="/checkout" element={<CartCheckout />} />
-              <Route path="/profile" element={<ProfileShow />}>
-                <Route path="address" element={<Address />} />
-              </Route>
-              <Route path="/login" element={<LoginRedirect />} />
-            </>
-          ) : (
-            <Route path="/login" element={<LoginShow />} />
-          )}
-          <Route
-            path="*"
-            element={
-              <Suspense fallback={<LoadingScreen />}>
-                <NotFoundPage />
-              </Suspense>
-            }
-          />
-        </Routes>
-      </Router>
-    )
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        {isAuth ? (
+          <>
+            <Route path="/cart" element={<CartShow />} />
+            <Route path="/checkout" element={<CartCheckout />} />
+            <Route path="/profile" element={<ProfileShow />}>
+              <Route path="address" element={<Address />} />
+            </Route>
+            <Route path="/login" element={<LoginRedirect />} />
+          </>
+        ) : (
+          <Route path="/login" element={<LoginShow />} />
+        )}
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<LoadingScreen />}>
+              <NotFoundPage />
+            </Suspense>
+          }
+        />
+      </Routes>
+    </Router>
   )
 }
 
