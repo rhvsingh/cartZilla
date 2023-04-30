@@ -22,6 +22,7 @@ import Profile from './assets/pages/Profile' */
 
 import LoadingScreen from "./assets/components/LoadingScreen"
 
+const AdminPanel = React.lazy(() => import("./admin/AdminPanel"))
 const ProductShow = React.lazy(() => import("./assets/pages/ProductShow"))
 const Cart = React.lazy(() => import("./assets/pages/Cart"))
 const Checkout = React.lazy(() => import("./assets/pages/Checkout"))
@@ -95,6 +96,14 @@ const Ecommerce = () => {
 
   if (loading) setLoading(false)
 
+  function AdminPanelRoute() {
+    return (
+      <Suspense fallback={<LoadingScreen />}>
+        <AdminPanel />
+      </Suspense>
+    )
+  }
+
   function HomePage() {
     return (
       <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
@@ -154,6 +163,7 @@ const Ecommerce = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/admin-panel" element={<AdminPanelRoute />} />
         {isAuth ? (
           <>
             <Route path="/cart" element={<CartShow />} />

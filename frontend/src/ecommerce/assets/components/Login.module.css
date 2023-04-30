@@ -2,21 +2,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: translateY(80px);
+    margin-top: 2.5rem;
 }
 
 .login-form-container {
     width: 400px;
-    background-color: rgba(51, 51, 51,0.8);
-    text-align: center;
-    border-radius: 4px;
     text-align: center;
     color: #fff;
-    padding: 1rem 0
+    backdrop-filter: blur(10px);
+    background-color: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px -20px rgba(8, 7, 16, 0.6);
+    border-radius: 10px;
+    padding: 2rem 1rem;
 }
 
-.login-form-container form>div {
-    margin-block: 0.75rem
+.login-form-container form > div {
+    margin-block: 0.75rem;
 }
 
 .login-form-container input {
@@ -24,24 +26,27 @@
     border: 0;
     height: 30px;
     text-indent: 4px;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--white-color-f);
     border-radius: 3px;
     max-width: 300px;
-    width: 100%
+    width: 100%;
 }
 
 .login-form-container input[type="submit"] {
     max-width: unset;
     width: 100px;
     cursor: pointer;
-    transition: 0.3s ease
+    transition: 0.3s ease;
 }
 
 .login-form-container input[type="submit"]:hover {
-    background-color: var(--main-color);
-    color: #fff
+    background-color: var(--black-color-3);
+    color: var(--white-color-f);
 }
 
 .login-form-container input[type="submit"]:disabled:hover {
     background-color: unset;
-    color: unset
+    color: unset;
 }

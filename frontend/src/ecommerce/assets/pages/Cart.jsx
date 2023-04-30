@@ -9,6 +9,8 @@ import CartEach from "../components/cart/CartEach"
 
 import "./cart.css"
 
+const baseURL = config.url.API_URL
+
 const Cart = ({ isAuth }) => {
   const navigate = useNavigate()
   const location = useLocation()
@@ -18,7 +20,6 @@ const Cart = ({ isAuth }) => {
     navigate("/login")
   }
 
-  const baseURL = config.url.API_URL
   const [cartCount, setCartCount] = useState(-1)
   const [totalCartCount, setTotalCartCount] = useState(0)
   const [tPriceShow, setTPriceShow] = useState(0)
@@ -82,7 +83,9 @@ const Cart = ({ isAuth }) => {
     })
   }
 
-  return cartCount ? (
+  return isLoading ? (
+    <></>
+  ) : cartCount ? (
     <>
       <HelmetProvider>
         <Helmet>

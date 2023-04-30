@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react"
-import ProductCards from "../components/product/ProductCards"
-//import ProductCardAdd from "../components/product/ProductCardAdd"
 import ProductCardSkeleton from "../components/product/ProductCardSkeleton"
 import { ToastContainer, toast } from "react-toastify"
 import axios from "axios"
@@ -9,11 +7,14 @@ import { HelmetProvider, Helmet } from "react-helmet-async"
 import { config } from "../../utils/Constants"
 import "./productShow.css"
 
+import ProductCards from "../components/product/ProductCards"
+//import ProductCardAdd from "../components/product/ProductCardAdd"
+
+const baseURL = config.url.API_URL
+
 const ProductShow = ({ isAuth }) => {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-
-  const baseURL = config.url.API_URL
 
   function addToCart(pid) {
     let apiURL = baseURL + "addCart/" + localStorage.getItem("akey")
