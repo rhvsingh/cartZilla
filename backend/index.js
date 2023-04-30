@@ -28,7 +28,16 @@ const corsOptionsDelegate = function (req, callback) {
 app.use(bodyParser.json())
 app.use(cors(corsOptionsDelegate))
 
+//Accessing Image Files
 app.use("/uploads", express.static("uploads"))
+
+//var http = require('http');
+
+//http.get({'host': 'api.ipify.org', 'port': 80, 'path': '/'}, function(resp) {
+//resp.on('data', function(ip) {
+//console.log("My public IP address is: " + ip);
+//});
+//});
 
 //MongoDb Connection
 const MongoClient = require("mongodb").MongoClient
