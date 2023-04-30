@@ -89,7 +89,10 @@ const PersonalInfo = ({ userDetails }) => {
         )}
       </div>
       <div
-        className={ProfileStyle.formFields + " d-flex align-items-center gap-1"}
+        className={
+          ProfileStyle.formFields +
+          " d-flex align-items-center gap-1 flex-wrap-wrap"
+        }
       >
         <input
           type="text"

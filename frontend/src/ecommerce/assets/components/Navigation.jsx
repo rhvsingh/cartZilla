@@ -1,6 +1,12 @@
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { FaTimes, FaBars, FaUserCircle, FaAngleDown } from "react-icons/fa"
+import {
+  FaTimes,
+  FaBars,
+  FaUserCircle,
+  FaAngleDown,
+  FaSearch,
+} from "react-icons/fa"
 
 import ScrollIndicator from "./ScrollIndicator"
 
@@ -11,6 +17,7 @@ const Navigation = ({ logged, setLogged }) => {
   //console.log(baseURL, window.location.hostname)
 
   const [clickCheck, setClickCheck] = useState(1)
+  const [search, setSearch] = useState("")
 
   const navToggler = () => {
     if (clickCheck === 1) {
@@ -50,11 +57,33 @@ const Navigation = ({ logged, setLogged }) => {
     }
   }
 
+  function clickSearch(e) {
+    console.log(search)
+    setSearch("")
+  }
+
   return (
     <>
       <header>
-        <div className="container d-flex justify-between align-items-center">
-          <div className="logo">CartZilla</div>
+        <div className="container d-flex gap-75 justify-between align-items-center">
+          <div className="logo">
+            <Link to=".." relative="path">
+              CartZilla
+            </Link>
+          </div>
+
+          <div className="navigation-search">
+            <div id="search-input">
+              <input
+                type="text"
+                placeholder="Search for products, brands, and more"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <FaSearch id="search-icon-button" onClick={clickSearch} />
+            </div>
+            <div id="search-results"></div>
+          </div>
           <div className="menu-toggler" onClick={() => navToggler()}>
             {clickCheck ? <FaBars /> : <FaTimes />}
           </div>

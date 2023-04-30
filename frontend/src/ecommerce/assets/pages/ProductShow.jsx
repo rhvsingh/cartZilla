@@ -34,16 +34,26 @@ const ProductShow = ({ isAuth }) => {
     let apiURL
     if (isAuth) {
       apiURL = baseURL + "products/" + localStorage.getItem("akey")
-      axios.get(apiURL).then((response) => {
-        setProducts(response.data.data)
-        setIsLoading(false)
-      })
+      axios
+        .get(apiURL)
+        .then((response) => {
+          setProducts(response.data.data)
+          setIsLoading(false)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     } else {
       apiURL = baseURL + "productList/"
-      axios.get(apiURL).then((response) => {
-        setProducts(response.data)
-        setIsLoading(false)
-      })
+      axios
+        .get(apiURL)
+        .then((response) => {
+          setProducts(response.data)
+          setIsLoading(false)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }, [isAuth])
 

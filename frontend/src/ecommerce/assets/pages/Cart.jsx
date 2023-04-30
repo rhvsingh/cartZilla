@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation, Link } from "react-router-dom"
 import axios from "axios"
 import { HelmetProvider, Helmet } from "react-helmet-async"
 
@@ -19,7 +19,7 @@ const Cart = ({ isAuth }) => {
   }
 
   const baseURL = config.url.API_URL
-  const [cartCount, setCartCount] = useState(0)
+  const [cartCount, setCartCount] = useState(-1)
   const [totalCartCount, setTotalCartCount] = useState(0)
   const [tPriceShow, setTPriceShow] = useState(0)
   const [cartDetails, setCartDetails] = useState([])
@@ -82,7 +82,7 @@ const Cart = ({ isAuth }) => {
     })
   }
 
-  return (
+  return cartCount ? (
     <>
       <HelmetProvider>
         <Helmet>
@@ -142,6 +142,26 @@ const Cart = ({ isAuth }) => {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+    </>
+  ) : (
+    <>
+      <HelmetProvider>
+        <Helmet>
+          <title>Cart | CartZilla</title>
+        </Helmet>
+      </HelmetProvider>
+      <div className="container d-flex justify-between py-2 px-2 gap-2">
+        <div className="px-2 py-2">
+          <span style={{ fontSize: "2rem", fontWeight: "500" }}>
+            Your CartZilla Cart is empty.
+          </span>
+
+          <br />
+          <Link to=".." relative="path">
+            Continue shopping
+          </Link>
         </div>
       </div>
     </>
