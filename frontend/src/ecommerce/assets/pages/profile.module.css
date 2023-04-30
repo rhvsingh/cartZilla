@@ -10,6 +10,10 @@
   flex-basis: 25%;
 }
 
+.mobileMenuButton {
+  display: none;
+}
+
 .profileContent {
   /* width: 75%; */
   flex-basis: 75%;
@@ -17,6 +21,51 @@
   background-color: var(--white-color-f);
   border-radius: 3px;
   padding: 1.5rem 2rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .profileContainer > aside {
+    width: 300px;
+    flex-basis: 80%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .profileContainer {
+    display: block;
+    min-height: 400px;
+  }
+
+  .profileContainer > aside {
+    padding-top: 0.3rem;
+    width: 300px;
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background-color: var(--white-color-f);
+    transform: translateX(-300px);
+    transition: 0.3s ease-in-out;
+  }
+
+  .mobileMenuButton {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    top: 5px;
+    right: -40px;
+    padding: 0.2rem 0.5rem;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+    background-color: var(--white-color-f);
+    border: 2px solid var(--black-color-7);
+    border-radius: 4px;
+  }
+
+  .profileContent {
+    padding-left: 5rem;
+    flex-basis: 100%;
+    width: auto;
+  }
 }
 
 .sideBarBox {
@@ -295,10 +344,10 @@
   border: 1px solid var(--white-color-d);
 }
 
-.addressInputContainer:has(select),
+/* .addressInputContainer:has(select),
 .addressInputContainer select {
   width: 100%;
-}
+} */
 
 .radioHeading {
   padding: 0 1rem;

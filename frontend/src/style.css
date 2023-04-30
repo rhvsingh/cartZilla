@@ -253,6 +253,40 @@ header .logo {
   margin-left: 10px;
 }
 
+header .logo a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+  user-select: none;
+}
+
+header .navigation-search {
+  position: relative;
+  flex: 1;
+  max-width: 500px;
+  text-align: center;
+}
+
+header #search-input {
+  position: relative;
+}
+
+header #search-input input {
+  width: 100%;
+  border-radius: 5px;
+  border: 0;
+  outline: none;
+  height: 30px;
+  padding-inline: 1rem;
+}
+
+header #search-icon-button {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.45rem;
+  color: var(--black-color-1);
+}
+
 header nav {
   --padding-block: 0.94rem;
   --padding-inline: 0.625rem;
@@ -343,7 +377,7 @@ nav ul button:hover {
 }
 
 @media screen and (max-width: 500px) {
-  header {
+  header > div {
     /* display: block !important; */
     display: block !important;
     /* justify-content: flex-start !important; */
@@ -352,6 +386,11 @@ nav ul button:hover {
 
   header .logo {
     padding: 0.94rem 0.625rem;
+  }
+
+  header .navigation-search {
+    padding-block: 0 0.5rem;
+    padding-inline: 1rem;
   }
 
   .menu-toggler {

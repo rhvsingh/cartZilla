@@ -8,7 +8,7 @@ import {
 } from "react-router-dom"
 import axios from "axios"
 import { HelmetProvider, Helmet } from "react-helmet-async"
-import { FaUserAlt, FaPowerOff } from "react-icons/fa"
+import { FaUserAlt, FaPowerOff, FaBars, FaTimes } from "react-icons/fa"
 
 import { config } from "../../utils/Constants"
 import ProfileInfo from "../components/profile/ProfileInfo"
@@ -26,24 +26,33 @@ const Profile = ({ auth }) => {
   const endPoint = useLocation().pathname.split("/").at(-1)
 
   const [userDetails, setUserDetails] = useState([])
+  const [clickCheck, setClickCheck] = useState(1)
 
-  const baseURL = config.url.API_URL
-
-  async function getUserDetails() {
-    await axios
-      .get(`${baseURL}user/${localStorage.getItem("akey")}`)
-      .then((response) => {
-        let data = response.data
-        if (data.result === false && data.statusCode === 404) {
-          console.log("User not authorized")
-        } else {
-          setUserDetails(data.data)
-        }
-      })
-  }
   useEffect(() => {
+    const baseURL = config.url.API_URL
+    async function getUserDetails() {
+      await axios
+        .get(`${baseURL}user/${localStorage.getItem("akey")}`)
+        .then((response) => {
+          let data = response.data
+          if (data.result === false && data.statusCode === 404) {
+            console.log("User not authorized")
+          } else {
+            setUserDetails(data.data)
+          }
+        })
+    }
     getUserDetails()
   }, [])
+
+  function profileMenuBarClick() {
+    document.getElementById("mobileMenuButton").classList.toggle("profile-menu")
+    if (clickCheck === 1) {
+      setClickCheck(0)
+    } else {
+      setClickCheck(1)
+    }
+  }
 
   return (
     <>
@@ -55,11 +64,18 @@ const Profile = ({ auth }) => {
       {userDetails && userDetails.name ? (
         <div className="container-2">
           <div className={"d-flex gap-1 " + ProfileStyles.profileContainer}>
-            <aside>
+            <aside className="asideClass">
+              <button
+                className={ProfileStyles.mobileMenuButton}
+                onClick={profileMenuBarClick}
+                id="mobileMenuButton"
+              >
+                {clickCheck ? <FaBars /> : <FaTimes />}
+              </button>
               <div
                 className={`${ProfileStyles.sideBarBox} ${ProfileStyles.userBox} d-flex align-items-center gap-1`}
               >
-                <div>
+                <div className={ProfileStyles.iconsShow}>
                   {userDetails.gender === "male" ? (
                     <img src={MaleProfilePic} alt="Male" />
                   ) : userDetails.gender === "female" ? (

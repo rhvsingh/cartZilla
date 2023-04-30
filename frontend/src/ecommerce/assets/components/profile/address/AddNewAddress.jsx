@@ -70,7 +70,7 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
     <form onSubmit={handleForm} className={ProfileStyle.addAddressInputs}>
       <span className={ProfileStyle.addressFormHeading}>Add A New Address</span>
       <div style={{ display: "inline-block" }}>
-        <div className="d-flex gap-75">
+        <div className="d-flex gap-75 flex-wrap-wrap">
           <div className={ProfileStyle.addressInputContainer}>
             <input
               type="text"
@@ -97,7 +97,7 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
             <label htmlFor="address_phoneNumber">10-digit mobile number</label>
           </div>
         </div>
-        <div className="d-flex gap-75">
+        <div className="d-flex gap-75 flex-wrap-wrap">
           <div className={ProfileStyle.addressInputContainer}>
             <input
               type="text"
@@ -124,7 +124,7 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
             <label htmlFor="address_locality">Locality</label>
           </div>
         </div>
-        <div className="d-flex gap-75">
+        <div className="d-flex gap-75 flex-wrap-wrap">
           <div className={ProfileStyle.addressInputContainer}>
             <textarea
               id="address_actualAddress"
@@ -140,7 +140,7 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
             </label>
           </div>
         </div>
-        <div className="d-flex gap-75">
+        <div className="d-flex gap-75 flex-wrap-wrap">
           <div className={ProfileStyle.addressInputContainer}>
             <input
               type="text"
@@ -185,7 +185,10 @@ const AddNewAddress = ({ setUserDetails, setIsOpen }) => {
         <div>
           <p className={ProfileStyle.radioHeading}>Address Type</p>
           <div
-            className={"d-flex gap-50 " + ProfileStyle.radioButtonContainer}
+            className={
+              "d-flex gap-50 flex-wrap-wrap " +
+              ProfileStyle.radioButtonContainer
+            }
             onChange={addressTypeChange}
           >
             <label htmlFor="address_type_home">
