@@ -1,0 +1,4 @@
+.active-admin-sidebar {
+    background-color: var(--black-color-1);
+    color: var(--white-color-f) !important;
+}

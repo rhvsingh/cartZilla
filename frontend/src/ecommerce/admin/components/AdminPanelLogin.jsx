@@ -9,7 +9,7 @@ import AdminStyles from "./css-modules/admin.module.css"
 
 import { config } from "../../utils/Constants"
 
-const baseURL = config.url.API_URL
+const baseURL = config.url.API_URL + "admin/"
 
 const AdminPanelLogin = () => {
     const navigate = useNavigate()
@@ -30,7 +30,16 @@ const AdminPanelLogin = () => {
         await axios.post(baseURL + "adminLogin", data).then((response) => {
             if (response.data.otpStatus) {
                 document.getElementById("login").removeAttribute("disabled")
-                toast.success("🦄 OTP Sent Successfully. Check Email")
+                toast.success("🦄 OTP Sent Successfully. Check Email", {
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    pauseOnFocusLoss: false,
+                    limit: 1,
+                    theme: "dark",
+                })
                 setUserInfo(response.data)
                 setOtp((oldValue) => !oldValue)
             } else {
@@ -53,15 +62,39 @@ const AdminPanelLogin = () => {
             otp: parseInt(userOTP.current.value),
         }
 
-        await axios.post(baseURL + "adminOTPVerify", data).then((response) => {
+        await axios.post(baseURL + "otpVerify", data).then((response) => {
             if (response.data.otpVerify) {
-                localStorage.setItem("adminEmail", response.data.email)
-                localStorage.setItem("adminAkey", response.data.akey)
-                toast.success("🦄 OTP Verified")
+                if (!response.data.role) {
+                    toast.warn("🦄 You are not allowed", {
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: false,
+                        progress: undefined,
+                        pauseOnFocusLoss: false,
+                        limit: 1,
+                        theme: "dark",
+                    })
+                } else {
+                    localStorage.setItem("email", response.data.email)
+                    localStorage.setItem("akey", response.data.akey)
+                    toast.success("🦄 OTP Verified", {
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: false,
+                        progress: undefined,
+                        pauseOnFocusLoss: false,
+                        limit: 1,
+                        theme: "dark",
+                    })
+                }
                 setTimeout(() => {
                     document.getElementById("otp").removeAttribute("disabled")
                     navigate("/admin-panel")
                     //auth((oldValue) => !oldValue)
+                    setOtp(false)
                 }, 2000)
             }
         })
@@ -77,13 +110,8 @@ const AdminPanelLogin = () => {
                 </HelmetProvider>
                 <form className={AdminStyles.form} onSubmit={loginForm}>
                     <h3>Admin Login</h3>
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        ref={userEmail}
-                        required
-                    />
-                    <button>Log In →</button>
+                    <input type="email" placeholder="Email" ref={userEmail} required />
+                    <button id="login">Log In →</button>
                 </form>
             </>
         )
@@ -97,15 +125,11 @@ const AdminPanelLogin = () => {
                         <title>OTP Verify | Admin Panel | CartZilla</title>
                     </Helmet>
                 </HelmetProvider>
-                <form onSubmit={otpVerifyForm}>
+                <form className={AdminStyles.form} onSubmit={otpVerifyForm}>
                     <div>
-                        <input
-                            type="text"
-                            placeholder="Enter OTP"
-                            ref={userOTP}
-                            required
-                        />
+                        <input type="text" placeholder="Enter OTP" ref={userOTP} required />
                     </div>
+                    <div>OTP sent to {userEmail.current.value}</div>
                     <div>
                         <input type="submit" value="Verify" id="otp" />
                     </div>

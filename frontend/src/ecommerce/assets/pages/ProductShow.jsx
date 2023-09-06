@@ -13,52 +13,52 @@ import ProductCards from "../components/product/ProductCards"
 const baseURL = config.url.API_URL
 
 const ProductShow = ({ isAuth }) => {
-  const [products, setProducts] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+    const [products, setProducts] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
-  function addToCart(pid) {
-    let apiURL = baseURL + "addCart/" + localStorage.getItem("akey")
-    axios
-      .post(apiURL, {
-        pid: pid,
-        qty: 1,
-      })
-      .then((response) => {
-        console.log(response.data)
-        if (response.data.result) {
-          toast.info("🦄 Product added to Cart")
-        }
-      })
-  }
-
-  useEffect(() => {
-    let apiURL
-    if (isAuth) {
-      apiURL = baseURL + "products/" + localStorage.getItem("akey")
-      axios
-        .get(apiURL)
-        .then((response) => {
-          setProducts(response.data.data)
-          setIsLoading(false)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    } else {
-      apiURL = baseURL + "productList/"
-      axios
-        .get(apiURL)
-        .then((response) => {
-          setProducts(response.data)
-          setIsLoading(false)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+    function addToCart(pid) {
+        let apiURL = baseURL + "addCart/" + localStorage.getItem("akey")
+        axios
+            .post(apiURL, {
+                pid: pid,
+                qty: 1,
+            })
+            .then((response) => {
+                console.log(response.data)
+                if (response.data.result) {
+                    toast.info("🦄 Product added to Cart")
+                }
+            })
     }
-  }, [isAuth])
 
-  /* const productAdd = (data) => {
+    useEffect(() => {
+        let apiURL
+        if (isAuth) {
+            apiURL = baseURL + "products/" + localStorage.getItem("akey")
+            axios
+                .get(apiURL)
+                .then((response) => {
+                    setProducts(response.data.data)
+                    setIsLoading(false)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        } else {
+            apiURL = baseURL + "productList/"
+            axios
+                .get(apiURL)
+                .then((response) => {
+                    setProducts(response.data)
+                    setIsLoading(false)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        }
+    }, [isAuth])
+
+    /* const productAdd = (data) => {
     axios
       .post(baseURL + "addProduct", {
         img: data.img,
@@ -76,51 +76,51 @@ const ProductShow = ({ isAuth }) => {
           /* setProducts((oldValue) => {
           return [...oldValue, newData]
         }) */
-  /*setProducts((oldValue) => {
+    /*setProducts((oldValue) => {
             return [newData].concat(oldValue) //[...oldValue, data]
           })
         }
       })
   } */
 
-  return (
-    <>
-      <HelmetProvider>
-        <Helmet>
-          <title>Home Page | CartZilla</title>
-        </Helmet>
-      </HelmetProvider>
-      {/* <aside className="product-add-section">
+    return (
+        <>
+            <HelmetProvider>
+                <Helmet>
+                    <title>Home Page | CartZilla</title>
+                </Helmet>
+            </HelmetProvider>
+            {/* <aside className="product-add-section">
         <ProductCardAdd proAdd={productAdd} />
       </aside> */}
-      <div className="products">
-        {isLoading && <ProductCardSkeleton cards={4} />}
-        {products.length > 0 &&
-          products.map((product) => {
-            return (
-              <ProductCards
-                key={product.pid}
-                product={product}
-                isAuth={isAuth}
-                cartAdder={addToCart}
-              />
-            )
-          })}
-      </div>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-    </>
-  )
+            <div className="products">
+                {isLoading && <ProductCardSkeleton cards={4} />}
+                {products.length > 0 &&
+                    products.map((product) => {
+                        return (
+                            <ProductCards
+                                key={product.pid}
+                                product={product}
+                                isAuth={isAuth}
+                                cartAdder={addToCart}
+                            />
+                        )
+                    })}
+            </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+        </>
+    )
 }
 
 export default ProductShow
