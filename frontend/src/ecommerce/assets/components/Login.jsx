@@ -27,13 +27,21 @@ const Login = ({ auth }) => {
         let data = {
             email: userEmail.current.value,
         }
-
         //console.log(data)
 
         await axios.post(baseURL + "login", data).then((response) => {
             if (response.data.otpStatus) {
                 document.getElementById("login").removeAttribute("disabled")
-                toast.success("🦄 OTP Sent Successfully. Check Email")
+                toast.success("🦄 OTP Sent Successfully. Check Email", {
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    pauseOnFocusLoss: false,
+                    limit: 1,
+                    theme: "dark",
+                })
                 setUserInfo(response.data)
                 setOtp((oldValue) => !oldValue)
             } else {
@@ -59,7 +67,16 @@ const Login = ({ auth }) => {
         await axios.post(baseURL + "register", data).then((response) => {
             if (response.data.otpStatus) {
                 document.getElementById("login").removeAttribute("disabled")
-                toast.success("🦄 OTP Sent Successfully. Check Email")
+                toast.success("🦄 OTP Sent Successfully. Check Email", {
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    pauseOnFocusLoss: false,
+                    limit: 1,
+                    theme: "dark",
+                })
                 setUserInfo(response.data)
                 setOtp((oldValue) => !oldValue)
             }
@@ -79,7 +96,16 @@ const Login = ({ auth }) => {
             if (response.data.otpVerify) {
                 localStorage.setItem("email", response.data.email)
                 localStorage.setItem("akey", response.data.akey)
-                toast.success("🦄 OTP Verified")
+                toast.success("🦄 OTP Verified", {
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    pauseOnFocusLoss: false,
+                    limit: 1,
+                    theme: "dark",
+                })
                 setTimeout(() => {
                     document.getElementById("otp").removeAttribute("disabled")
                     navigate("/")
@@ -162,6 +188,9 @@ const Login = ({ auth }) => {
                             ref={userOTP}
                             required
                         />
+                    </div>
+                    <div style={{ fontSize: "0.7rem" }}>
+                        OTP sent to {userEmail.current.value}
                     </div>
                     <div>
                         <input type="submit" value="Verify" id="otp" />

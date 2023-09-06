@@ -113,6 +113,14 @@
     text-align: center;
 }
 
+.min-height-screen {
+    min-height: 100vh;
+}
+
+.container-fluid {
+    max-width: 100%;
+}
+
 .container {
     max-width: 1600px;
     margin: 0 auto;
@@ -136,7 +144,7 @@
 }
 
 #root {
-    background-color: var(--main-bg-color, #ddd);
+    background-color: var(--main-bg-color, --white-color-d);
 }
 
 #root:has(.access-denied) {
@@ -148,7 +156,7 @@
     outline: none;
     border-radius: 4px;
     cursor: pointer;
-    color: aliceblue;
+    color: #f0f8ff;
     /* padding: 0.25rem 2rem; */
     width: 70px;
     transition: 0.3s ease-in-out;
@@ -192,7 +200,7 @@
     border: 0;
     outline: none;
     background-color: var(--main-color, #151515);
-    color: #fff;
+    color: var(--white-color-f);
     border-radius: 4px;
     cursor: pointer;
     transition: 0.3s ease-in-out;
@@ -243,7 +251,7 @@
 
 header {
     background-image: linear-gradient(90deg, #000 0%, #151515 100%);
-    color: #fff;
+    color: var(--white-color-f);
     position: relative;
     z-index: 999;
 }
@@ -254,7 +262,7 @@ header .logo {
 }
 
 header .logo a {
-    color: #fff;
+    color: var(--white-color-f);
     text-decoration: none;
     transition: 0.2s ease-in-out;
     user-select: none;
@@ -304,7 +312,7 @@ header nav > ul > li {
 }
 
 nav > ul li a {
-    color: #fff;
+    color: var(--white-color-f);
     text-decoration: none;
     transition: 0.2s ease-in-out;
     user-select: none;
@@ -336,7 +344,7 @@ ul li > ul li:hover {
 }
 
 ul li > ul.dropdown-menu li a:hover {
-    color: #fff;
+    color: var(--white-color-f);
 }
 
 nav ul button {
@@ -444,7 +452,7 @@ nav ul button:hover {
 /* Footer */
 
 footer {
-    color: #fff;
+    color: var(--white-color-f);
     background-image: linear-gradient(90deg, #000 0%, #222 100%);
     border-top-left-radius: 60px;
     font-size: 0.8rem;
@@ -499,7 +507,7 @@ footer {
 
 .office a {
     text-decoration: none;
-    color: #fff;
+    color: var(--white-color-f);
     transition: 0.2s ease-in-out;
 }
 
@@ -519,7 +527,7 @@ footer {
 }
 
 .link-des a {
-    color: #fff;
+    color: var(--white-color-f);
     text-decoration: none;
     font-size: 1rem;
 }
