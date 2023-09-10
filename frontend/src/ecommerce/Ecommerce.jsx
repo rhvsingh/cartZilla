@@ -16,6 +16,7 @@ import Profile from './assets/pages/Profile' */
 /* import Address from './assets/components/profile/Address' */
 
 import LoadingScreen from "./assets/components/LoadingScreen"
+import UserState from "./contexts/userContext/UserState"
 
 const AdminPanel = React.lazy(() => import("./admin/AdminPanel"))
 const ProductShow = React.lazy(() => import("./assets/pages/ProductShow"))
@@ -40,6 +41,7 @@ const Ecommerce = () => {
                 })
                 .then((response) => {
                     let data = response.data
+                    console.log(data, response)
                     if (data.statusCode === 200) {
                         setIsAuth((oldValue) => {
                             if (oldValue === false) {
@@ -153,32 +155,34 @@ const Ecommerce = () => {
     }
 
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/admin-panel/*" element={<AdminPanelRoute />} />
-                {isAuth ? (
-                    <>
-                        <Route path="/cart" element={<CartShow />} />
-                        <Route path="/checkout" element={<CartCheckout />} />
-                        <Route path="/profile" element={<ProfileShow />}>
-                            <Route path="address" element={<Address />} />
-                        </Route>
-                        <Route path="/login" element={<LoginRedirect />} />
-                    </>
-                ) : (
-                    <Route path="/login" element={<LoginShow />} />
-                )}
-                <Route
-                    path="*"
-                    element={
-                        <Suspense fallback={<LoadingScreen />}>
-                            <NotFoundPage />
-                        </Suspense>
-                    }
-                />
-            </Routes>
-        </Router>
+        <UserState>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/admin-panel/*" element={<AdminPanelRoute />} />
+                    {isAuth ? (
+                        <>
+                            <Route path="/cart" element={<CartShow />} />
+                            <Route path="/checkout" element={<CartCheckout />} />
+                            <Route path="/profile" element={<ProfileShow />}>
+                                <Route path="address" element={<Address />} />
+                            </Route>
+                            <Route path="/login" element={<LoginRedirect />} />
+                        </>
+                    ) : (
+                        <Route path="/login" element={<LoginShow />} />
+                    )}
+                    <Route
+                        path="*"
+                        element={
+                            <Suspense fallback={<LoadingScreen />}>
+                                <NotFoundPage />
+                            </Suspense>
+                        }
+                    />
+                </Routes>
+            </Router>
+        </UserState>
     )
 }
 
