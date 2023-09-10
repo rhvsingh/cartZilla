@@ -1,10 +1,10 @@
-import React, { useState, useEffect, Suspense } from "react"
+import React, { useState, useEffect, Suspense, useContext } from "react"
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
-import axios from "axios"
-import { toast } from "react-toastify"
 
-import { config } from "./utils/Constants"
 import Layout from "./assets/layouts/Layout"
+
+import userContext from "./contexts/userContext/userContext"
+import AdminState from "./contexts/adminContext/adminState"
 
 import "react-toastify/dist/ReactToastify.css"
 
@@ -16,7 +16,6 @@ import Profile from './assets/pages/Profile' */
 /* import Address from './assets/components/profile/Address' */
 
 import LoadingScreen from "./assets/components/LoadingScreen"
-import UserState from "./contexts/userContext/UserState"
 
 const AdminPanel = React.lazy(() => import("./admin/AdminPanel"))
 const ProductShow = React.lazy(() => import("./assets/pages/ProductShow"))
@@ -28,65 +27,18 @@ const Profile = React.lazy(() => import("./assets/pages/Profile"))
 const Address = React.lazy(() => import("./assets/components/profile/Address"))
 
 const Ecommerce = () => {
-    const [isAuth, setIsAuth] = useState(false)
+    const contextData = useContext(userContext)
+
+    const [isAuth, setIsAuth] = [contextData.isAuth, contextData.setIsAuth]
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const baseURL = config.url.API_URL
-        function userLogChecker() {
-            axios
-                .post(baseURL + "userLogged", {
-                    email: localStorage.getItem("email"),
-                    akey: localStorage.getItem("akey"),
-                })
-                .then((response) => {
-                    let data = response.data
-                    console.log(data, response)
-                    if (data.statusCode === 200) {
-                        setIsAuth((oldValue) => {
-                            if (oldValue === false) {
-                                return true
-                            } else if (oldValue === true) {
-                                return oldValue
-                            }
-                        })
-                    } else {
-                        setIsAuth(false)
-                    }
-                })
-                .catch(function (error) {
-                    if (
-                        error.code === "ERR_NETWORK" ||
-                        error.response.status === 0 ||
-                        error.response.status === 500
-                    ) {
-                        toast.error("Error connecting to server", {
-                            position: "top-center",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: false,
-                            draggable: false,
-                            progress: undefined,
-                            pauseOnFocusLoss: false,
-                            limit: 1,
-                            theme: "dark",
-                        })
-                        checkConnection()
-                    }
-                })
-        }
         if (localStorage.getItem("email") && localStorage.getItem("akey")) {
-            userLogChecker()
+            contextData.userLogChecker()
         } else {
             setIsAuth(false)
         }
-
-        function checkConnection() {
-            setTimeout(function () {
-                userLogChecker()
-            }, 6000)
-        }
+        // eslint-disable-next-line
     }, [])
 
     if (loading) setLoading(false)
@@ -94,14 +46,16 @@ const Ecommerce = () => {
     function AdminPanelRoute() {
         return (
             <Suspense fallback={<LoadingScreen />}>
-                <AdminPanel />
+                <AdminState>
+                    <AdminPanel />{" "}
+                </AdminState>
             </Suspense>
         )
     }
 
     function HomePage() {
         return (
-            <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
+            <Layout>
                 <Suspense fallback={<LoadingScreen />}>
                     <ProductShow isAuth={isAuth} />
                 </Suspense>
@@ -111,7 +65,7 @@ const Ecommerce = () => {
 
     function CartShow() {
         return (
-            <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
+            <Layout>
                 <Suspense fallback={<LoadingScreen />}>
                     <Cart isAuth={isAuth} />
                 </Suspense>
@@ -126,7 +80,7 @@ const Ecommerce = () => {
 
     function LoginShow() {
         return (
-            <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
+            <Layout>
                 <Suspense fallback={<LoadingScreen />}>
                     <Login auth={setIsAuth} />
                 </Suspense>
@@ -136,7 +90,7 @@ const Ecommerce = () => {
 
     function ProfileShow() {
         return (
-            <Layout isAuth={isAuth} setIsAuth={setIsAuth}>
+            <Layout>
                 <Suspense fallback={<LoadingScreen />}>
                     <Profile auth={setIsAuth} />
                 </Suspense>
@@ -155,34 +109,32 @@ const Ecommerce = () => {
     }
 
     return (
-        <UserState>
-            <Router>
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/admin-panel/*" element={<AdminPanelRoute />} />
-                    {isAuth ? (
-                        <>
-                            <Route path="/cart" element={<CartShow />} />
-                            <Route path="/checkout" element={<CartCheckout />} />
-                            <Route path="/profile" element={<ProfileShow />}>
-                                <Route path="address" element={<Address />} />
-                            </Route>
-                            <Route path="/login" element={<LoginRedirect />} />
-                        </>
-                    ) : (
-                        <Route path="/login" element={<LoginShow />} />
-                    )}
-                    <Route
-                        path="*"
-                        element={
-                            <Suspense fallback={<LoadingScreen />}>
-                                <NotFoundPage />
-                            </Suspense>
-                        }
-                    />
-                </Routes>
-            </Router>
-        </UserState>
+        <Router>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/admin-panel/*" element={<AdminPanelRoute />} />
+                {isAuth ? (
+                    <>
+                        <Route path="/cart" element={<CartShow />} />
+                        <Route path="/checkout" element={<CartCheckout />} />
+                        <Route path="/profile" element={<ProfileShow />}>
+                            <Route path="address" element={<Address />} />
+                        </Route>
+                        <Route path="/login" element={<LoginRedirect />} />
+                    </>
+                ) : (
+                    <Route path="/login" element={<LoginShow />} />
+                )}
+                <Route
+                    path="*"
+                    element={
+                        <Suspense fallback={<LoadingScreen />}>
+                            <NotFoundPage />
+                        </Suspense>
+                    }
+                />
+            </Routes>
+        </Router>
     )
 }
 

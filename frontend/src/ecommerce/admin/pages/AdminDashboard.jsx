@@ -19,7 +19,7 @@ const styleComponent = {
     gap: "0",
 }
 
-const AdminDashboard = ({ isAuth }) => {
+const AdminDashboard = ({ setIsAuth }) => {
     function MainLayout() {
         return (
             <SplitLayout
@@ -29,12 +29,10 @@ const AdminDashboard = ({ isAuth }) => {
                 styleBorder="1px solid var(--white-color-d)"
                 adminClasses="d-flex flex-direc-col"
             >
-                <SideBar />
-                <div className="px-2 py-2">
-                    <Suspense fallback={<LoadingScreen />}>
-                        <Outlet />
-                    </Suspense>
-                </div>
+                <SideBar setIsAuth={setIsAuth} />
+                <Suspense fallback={<LoadingScreen />}>
+                    <Outlet />
+                </Suspense>
             </SplitLayout>
         )
     }

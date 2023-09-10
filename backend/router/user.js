@@ -106,7 +106,7 @@ router.post("/login", (req, res) => {
                     { $set: { otp: newOTP } },
                     function (err, object) {}
                 )
-                transporter.sendMail(mailOptions, function (error, info) {
+                /* transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
                         console.log(error)
                     } else {
@@ -119,6 +119,16 @@ router.post("/login", (req, res) => {
                             msg: "Login successful",
                         })
                     }
+                }) */
+
+                console.log(newOTP)
+
+                res.json({
+                    email: email,
+                    name: name,
+                    login: true,
+                    otpStatus: true,
+                    msg: "Login successful",
                 })
             } else {
                 res.json({
@@ -163,6 +173,13 @@ router.post("/otpVerify", (req, res) => {
                                 { $set: { akey: id } },
                                 function (err, result) {}
                             )
+                            res.json({
+                                email: email,
+                                otpVerify: true,
+                                role: result[0].role,
+                                msg: "login sucessfull",
+                                akey: id,
+                            })
                         } else {
                             let data = { email: email, name: name, akey: id, role: ["user"] }
                             userCollections.insertOne(data, function (err, result) {
@@ -171,15 +188,15 @@ router.post("/otpVerify", (req, res) => {
                                     console.warn(err.message)
                                 }
                             })
+                            res.json({
+                                email: email,
+                                otpVerify: true,
+                                role: data.role,
+                                msg: "login sucessfull",
+                                akey: id,
+                            })
                         }
                     })
-
-                res.json({
-                    email: email,
-                    otpVerify: true,
-                    msg: "login sucessfull",
-                    akey: id,
-                })
             } else {
                 res.json({
                     email: email,
@@ -206,7 +223,7 @@ router.post("/userLogged", (req, res) => {
                 console.log(err)
                 res.json({ err: err })
             } else if (result.length) {
-                res.json({ result: true, statusCode: 200 })
+                res.json({ result: true, statusCode: 200, role: result[0].role })
             } else {
                 res.json({ result: false, statusCode: 404 })
             }

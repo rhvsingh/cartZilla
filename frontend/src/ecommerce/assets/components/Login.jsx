@@ -1,6 +1,8 @@
-import { useRef, useState } from "react"
+import { useRef, useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+
+import userContext from "../../contexts/userContext/userContext"
 
 import loginClass from "./Login.module.css"
 
@@ -10,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css"
 
 const Login = ({ auth }) => {
     const navigate = useNavigate()
+    const contextData = useContext(userContext)
 
     const userName = useRef()
     const userEmail = useRef()
@@ -86,6 +89,7 @@ const Login = ({ auth }) => {
     async function otpVerifyForm(e) {
         e.preventDefault()
         document.getElementById("otp").setAttribute("disabled", "disabled")
+        document.getElementById("otp-input").setAttribute("disabled", "disabled")
 
         let data = {
             email: userInfo.email,
@@ -105,12 +109,30 @@ const Login = ({ auth }) => {
                     pauseOnFocusLoss: false,
                     limit: 1,
                     theme: "dark",
+                    autoClose: 2000,
                 })
                 setTimeout(() => {
                     document.getElementById("otp").removeAttribute("disabled")
-                    navigate("/")
+                    document.getElementById("otp-input").removeAttribute("disabled")
                     auth((oldValue) => !oldValue)
+                    contextData.setUserRole(response.data.role)
+                    navigate("/")
                 }, 2000)
+            } else {
+                toast.error("🦄 OTP Verification failed", {
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    pauseOnFocusLoss: false,
+                    limit: 1,
+                    theme: "dark",
+                    autoClose: 2000,
+                })
+
+                document.getElementById("otp").removeAttribute("disabled")
+                document.getElementById("otp-input").removeAttribute("disabled")
             }
         })
         userOTP.current.value = ""
@@ -122,20 +144,13 @@ const Login = ({ auth }) => {
                 <h2>Login</h2>
                 <form onSubmit={loginForm}>
                     <div>
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            ref={userEmail}
-                            required
-                        />
+                        <input type="email" placeholder="Email" ref={userEmail} required />
                     </div>
                     <div>
                         <input type="submit" value="Next →" id="login" />
                     </div>
                 </form>
-                <button
-                    onClick={() => setLoginToggler((oldValue) => !oldValue)}
-                >
+                <button onClick={() => setLoginToggler((oldValue) => !oldValue)}>
                     Don't have account?
                 </button>
             </>
@@ -148,28 +163,16 @@ const Login = ({ auth }) => {
                 <h2>Sign Up</h2>
                 <form onSubmit={loginSignUpForm}>
                     <div>
-                        <input
-                            type="text"
-                            placeholder="Name"
-                            ref={userName}
-                            required
-                        />
+                        <input type="text" placeholder="Name" ref={userName} required />
                     </div>
                     <div>
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            ref={userEmail}
-                            required
-                        />
+                        <input type="email" placeholder="Email" ref={userEmail} required />
                     </div>
                     <div>
                         <input type="submit" value="Next →" id="login" />
                     </div>
                 </form>
-                <button
-                    onClick={() => setLoginToggler((oldValue) => !oldValue)}
-                >
+                <button onClick={() => setLoginToggler((oldValue) => !oldValue)}>
                     Already have an account?
                 </button>
             </>
@@ -184,14 +187,13 @@ const Login = ({ auth }) => {
                     <div>
                         <input
                             type="text"
+                            id="otp-input"
                             placeholder="Enter OTP"
                             ref={userOTP}
                             required
                         />
                     </div>
-                    <div style={{ fontSize: "0.7rem" }}>
-                        OTP sent to {userEmail.current.value}
-                    </div>
+                    <div style={{ fontSize: "0.7rem" }}>OTP sent to {userEmail.current.value}</div>
                     <div>
                         <input type="submit" value="Verify" id="otp" />
                     </div>
@@ -204,13 +206,7 @@ const Login = ({ auth }) => {
         <div className="user-login-form">
             <div className={loginClass["login-form"]}>
                 <div className={loginClass["login-form-container"]}>
-                    {otp ? (
-                        <OtpVerify />
-                    ) : loginToggler ? (
-                        <LoginForm />
-                    ) : (
-                        <LoginSignUpForm />
-                    )}
+                    {otp ? <OtpVerify /> : loginToggler ? <LoginForm /> : <LoginSignUpForm />}
                 </div>
             </div>
             <ToastContainer

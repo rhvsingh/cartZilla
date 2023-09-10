@@ -4,13 +4,13 @@ import { toast } from "react-toastify"
 
 import { config } from "../../utils/Constants"
 
-import UserContext from "./userContext"
+import AdminContext from "./adminContext"
 
-const UserState = (props) => {
+const AdminState = (props) => {
     const [isAuth, setIsAuth] = useState(false)
-    const [userRole, setUserRole] = useState([])
+    const [loading, setLoading] = useState(true)
 
-    const baseURL = config.url.API_URL
+    const baseURL = config.url.API_URL + "admin/"
     function userLogChecker() {
         axios
             .post(baseURL + "userLogged", {
@@ -20,7 +20,6 @@ const UserState = (props) => {
             .then((response) => {
                 let data = response.data
                 if (data.statusCode === 200) {
-                    setUserRole(data.role)
                     setIsAuth((oldValue) => {
                         if (oldValue === false) {
                             return true
@@ -29,8 +28,26 @@ const UserState = (props) => {
                         }
                     })
                 } else {
+                    if (data.statusCode === 405) {
+                        toast.warn("🦄 You are not allowed", {
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: false,
+                            draggable: false,
+                            progress: undefined,
+                            pauseOnFocusLoss: false,
+                            limit: 1,
+                            theme: "dark",
+                        })
+                    }
                     setIsAuth(false)
                 }
+                setLoading((oldValue) => {
+                    if (oldValue === true) {
+                        return false
+                    }
+                })
             })
             .catch(function (error) {
                 if (
@@ -52,6 +69,11 @@ const UserState = (props) => {
                     })
                     checkConnection()
                 }
+                setLoading((oldValue) => {
+                    if (oldValue === true) {
+                        return false
+                    }
+                })
             })
     }
     /* if (localStorage.getItem("email") && localStorage.getItem("akey")) {
@@ -67,10 +89,10 @@ const UserState = (props) => {
     }
 
     return (
-        <UserContext.Provider value={{ isAuth, setIsAuth, userLogChecker, userRole, setUserRole }}>
+        <AdminContext.Provider value={{ isAuth, setIsAuth, userLogChecker, loading, setLoading }}>
             {props.children}
-        </UserContext.Provider>
+        </AdminContext.Provider>
     )
 }
 
-export default UserState
+export default AdminState
