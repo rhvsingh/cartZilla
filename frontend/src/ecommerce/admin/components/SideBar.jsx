@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom"
-
+import { useContext } from "react"
+import { useNavigate, NavLink, Link } from "react-router-dom"
 import {
     MdOutlineDashboard,
     MdSignalCellularAlt,
@@ -12,14 +12,19 @@ import {
     MdOutlineLogout,
 } from "react-icons/md"
 
+import userContext from "../../contexts/userContext/userContext"
 import sideBarStyles from "./css-modules/sideBar.module.css"
 
 const styleTitle = {
+    padding: "1.5rem",
+    borderBottom: "1px solid var(--white-color-d)",
+}
+
+const titleLinkStyle = {
     fontSize: "1.5rem",
     color: "var(--black-color-2)",
     fontWeight: "bold",
-    padding: "1.5rem",
-    borderBottom: "1px solid var(--white-color-d)",
+    textDecoration: "none",
 }
 
 const navInfo = [
@@ -60,10 +65,28 @@ const navInfo = [
     },
 ]
 
-const SideBar = () => {
+const SideBar = ({ setIsAuth }) => {
+    const navigate = useNavigate()
+    const contextData = useContext(userContext)
+
+    function logoutFunc() {
+        contextData.setIsAuth(false)
+
+        setIsAuth((oldValue) => {
+            if (oldValue === true) {
+                localStorage.clear()
+                navigate("/")
+            }
+            return !oldValue
+        })
+    }
     return (
         <>
-            <div style={styleTitle}>CartZilla</div>
+            <div style={styleTitle}>
+                <Link to="/" style={titleLinkStyle}>
+                    CartZilla
+                </Link>
+            </div>
             <div className="d-flex flex-direc-col justify-between" style={{ flexBasis: "100%" }}>
                 <div className={"px-2 py-2 " + sideBarStyles.nav} role="navigation">
                     {navInfo.map((navData, index) => (
@@ -83,10 +106,10 @@ const SideBar = () => {
                     <NavLink to="/admin-panel/settings">
                         <MdOutlineSettings className={sideBarStyles.icons} /> Settings
                     </NavLink>
-                    <NavLink to="/admin-panel/logout">
+                    <li onClick={logoutFunc}>
                         <MdOutlineLogout className={sideBarStyles.icons} />
                         Logout
-                    </NavLink>
+                    </li>
                 </div>
             </div>
         </>

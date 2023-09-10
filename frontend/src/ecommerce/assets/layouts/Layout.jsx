@@ -5,7 +5,7 @@ const Layout = (props) => {
     return (
         <section className="ecommerce d-flex flex-direc-col justify-between">
             <div style={{ flex: "1" }}>
-                <Navigation logged={props.isAuth} setLogged={props.setIsAuth} />
+                <Navigation />
                 <div className="container">{props.children}</div>
             </div>
             <Footer />
