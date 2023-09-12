@@ -1,11 +1,10 @@
 .nav > a,
 .nav > li {
     display: block;
-    padding: 0.75rem 1rem;
-    padding-right: 3rem;
-    margin-block: 0.25rem;
+    padding: 0.5rem 2.75rem 0.75rem 1rem;
+    margin-block: 0.5rem;
     text-decoration: none;
-    border-radius: 2px;
+    border-radius: 4px;
     color: var(--black-color-7);
     font-size: 0.82rem;
     font-weight: 500;

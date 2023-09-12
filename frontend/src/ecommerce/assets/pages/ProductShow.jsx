@@ -58,31 +58,6 @@ const ProductShow = ({ isAuth }) => {
         }
     }, [isAuth])
 
-    /* const productAdd = (data) => {
-    axios
-      .post(baseURL + "addProduct", {
-        img: data.img,
-        name: data.name,
-        desc: data.desc,
-        price: parseInt(data.price),
-        discount: parseInt(data.discount),
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          let pid = response.data.pid
-          let newData = { pid, ...data }
-          toast.success("🦄 Wow so easy! Product Added!")
-
-          /* setProducts((oldValue) => {
-          return [...oldValue, newData]
-        }) */
-    /*setProducts((oldValue) => {
-            return [newData].concat(oldValue) //[...oldValue, data]
-          })
-        }
-      })
-  } */
-
     return (
         <>
             <HelmetProvider>
@@ -90,9 +65,6 @@ const ProductShow = ({ isAuth }) => {
                     <title>Home Page | CartZilla</title>
                 </Helmet>
             </HelmetProvider>
-            {/* <aside className="product-add-section">
-        <ProductCardAdd proAdd={productAdd} />
-      </aside> */}
             <div className="products">
                 {isLoading && <ProductCardSkeleton cards={4} />}
                 {products.length > 0 &&

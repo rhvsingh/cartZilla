@@ -9,6 +9,7 @@ import SideBar from "../components/SideBar"
 import MainContentShow from "../components/MainContentShow"
 import Stats from "../components/Stats"
 import Payments from "../components/Payments"
+import Products from "../components/Products"
 
 import "./adminDashboard.css"
 
@@ -31,7 +32,9 @@ const AdminDashboard = ({ setIsAuth }) => {
             >
                 <SideBar setIsAuth={setIsAuth} />
                 <Suspense fallback={<LoadingScreen />}>
-                    <Outlet />
+                    <div style={{ paddingRight: "2rem" }}>
+                        <Outlet />
+                    </div>
                 </Suspense>
             </SplitLayout>
         )
@@ -44,6 +47,7 @@ const AdminDashboard = ({ setIsAuth }) => {
                     <Route index element={<MainContentShow />} />
                     <Route path="/stats" element={<Stats />} />
                     <Route path="/payments" element={<Payments />} />
+                    <Route path="/products" element={<Products />} />
                 </Route>
                 <Route
                     path="*"

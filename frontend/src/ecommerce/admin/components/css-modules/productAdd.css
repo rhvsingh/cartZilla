@@ -1,0 +1,43 @@
+/* Product Add Modal */
+
+.product-modal {
+    width: 100%;
+}
+
+/* .product-modal-card {
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    width: 400px;
+    background-color: rgba(51, 51, 51, 0.8);
+    transform: translate(-50%, -25%);
+    border-radius: 4px;
+    padding: 1rem 0;
+} */
+
+.product-modal-card div {
+    margin-block: 0.5rem;
+}
+
+.product-modal-card input {
+    outline: none;
+    border: 0;
+    height: 30px;
+    text-indent: 4px;
+    border-radius: 2px;
+    max-width: 300px;
+    width: 100%;
+}
+
+.product-modal-card input[type="submit"] {
+    max-width: unset;
+    width: 100px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.product-modal-card input[type="submit"]:hover {
+    background-color: var(--main-color);
+    color: #fff;
+}
