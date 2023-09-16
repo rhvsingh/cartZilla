@@ -9,7 +9,7 @@ import { config } from "../../../utils/Constants"
 import AdminStyle from "../css-modules/admin.module.css"
 import "../css-modules/productAdd.css"
 
-const AddNewProduct = ({ setNewProduct }) => {
+const AddNewProduct = ({ setNewProductComponent }) => {
     const [imgFile, setImgFile] = useState("")
     const proName = useRef()
     const proDesc = useRef()
@@ -69,7 +69,7 @@ const AddNewProduct = ({ setNewProduct }) => {
             <div
                 className={AdminStyle.backButton}
                 onClick={() => {
-                    setNewProduct((oldValue) => !oldValue)
+                    setNewProductComponent((oldValue) => !oldValue)
                 }}
                 role="button"
             >
@@ -99,7 +99,7 @@ const AddNewProduct = ({ setNewProduct }) => {
                 </div>
                 <div className="px-1 py-1">
                     <div className={AdminStyle.mainTitle}>Product Images</div>
-                    <div>
+                    <div className={AdminStyle.grid}>
                         <input
                             id="product-image-input"
                             name="product-image-input[]"
@@ -126,7 +126,17 @@ const AddNewProduct = ({ setNewProduct }) => {
                         </label>
                         <img
                             src={imgFile === "" ? "" : URL.createObjectURL(imgFile)}
-                            style={{ width: "100%", display: "block", borderRadius: "4px" }}
+                            className={AdminStyle.imagePreview}
+                            alt=""
+                        />
+                        <img
+                            src={imgFile === "" ? "" : URL.createObjectURL(imgFile)}
+                            className={AdminStyle.imagePreview}
+                            alt=""
+                        />
+                        <img
+                            src={imgFile === "" ? "" : URL.createObjectURL(imgFile)}
+                            className={AdminStyle.imagePreview}
                             alt=""
                         />
                     </div>

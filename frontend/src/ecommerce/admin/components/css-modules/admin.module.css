@@ -101,12 +101,28 @@
     color: var(--black-color-5);
 }
 
+.grid {
+    --grid-width: 200px;
+    --grid-row-height: 70px;
+    --third-column: 125px;
+    display: grid;
+    grid-template-columns: var(--grid-width) var(--grid-width) var(--third-column);
+    grid-template-rows: var(--grid-row-height) var(--grid-row-height);
+    gap: 1rem;
+}
+
+.grid > :nth-child(2),
+.grid > :nth-child(3) {
+    /* grid-row-start: 1;
+    grid-row-end: 3; 
+    grid-row: 1 / 3; */
+    grid-row: 1 / span 2;
+}
+
 #productImageInput {
     display: grid;
     align-items: center;
     justify-content: center;
-    width: 200px;
-    aspect-ratio: 1 / 1;
     font-size: 1rem;
     padding: 1rem;
     text-align: center;
@@ -117,6 +133,13 @@
 .productImageIcon {
     font-size: 2rem;
     color: var(--black-color-7);
+}
+
+.imagePreview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 /* #productImageInput::before {
