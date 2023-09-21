@@ -10,6 +10,7 @@ import MainContentShow from "../components/MainContentShow"
 import Stats from "../components/Stats"
 import Payments from "../components/Payments"
 import Products from "../components/Products"
+import AdminCat from "../../contexts/adminContext/adminCat"
 
 import "./adminDashboard.css"
 
@@ -47,7 +48,14 @@ const AdminDashboard = ({ setIsAuth }) => {
                     <Route index element={<MainContentShow />} />
                     <Route path="/stats" element={<Stats />} />
                     <Route path="/payments" element={<Payments />} />
-                    <Route path="/products" element={<Products />} />
+                    <Route
+                        path="/products"
+                        element={
+                            <AdminCat>
+                                <Products />
+                            </AdminCat>
+                        }
+                    />
                 </Route>
                 <Route
                     path="*"
