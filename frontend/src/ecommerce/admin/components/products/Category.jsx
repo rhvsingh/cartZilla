@@ -4,9 +4,9 @@ import { FaArrowLeftLong } from "react-icons/fa6"
 
 import { config } from "../../../utils/Constants"
 import AdminCatContext from "../../../contexts/adminContext/adminCatContext"
+import EachCategory from "./EachCategory"
 
 import AdminStyle from "../css-modules/admin.module.css"
-import EachCategory from "./EachCategory"
 
 const Category = ({ setCategoryComponent }) => {
     const baseURL = config.url.API_URL + "admin/"
@@ -14,16 +14,19 @@ const Category = ({ setCategoryComponent }) => {
     const { category, categoryFetcher } = useContext(AdminCatContext)
 
     const [catName, setCatName] = useState("")
-    const catKeyword = useRef("")
+    const [catKeyword, setCatKeyword] = useState("")
     const catDesc = useRef("")
 
     const nameChecker = (e) => {
         setCatName(e.target.value)
     }
 
+    const keywordChecker = (e) => {
+        setCatKeyword(e.target.value)
+    }
+
     const deleteCategory = (id) => {
         if (window.confirm("Are you sure you want to delete")) {
-            console.log(id)
             let data = {
                 email: localStorage.getItem("email"),
                 akey: localStorage.getItem("akey"),
@@ -34,7 +37,6 @@ const Category = ({ setCategoryComponent }) => {
                     params: data,
                 })
                 .then((response) => {
-                    console.log(response.data)
                     let responseData = response.data
                     if (responseData.status === 200) {
                         categoryFetcher()
@@ -54,7 +56,7 @@ const Category = ({ setCategoryComponent }) => {
             email: localStorage.getItem("email"),
             akey: localStorage.getItem("akey"),
             catName: catName,
-            catKeyword: catKeyword.current.value,
+            catKeyword: catKeyword,
             catDesc: catDesc.current.value,
         }
 
@@ -65,9 +67,9 @@ const Category = ({ setCategoryComponent }) => {
             }
         })
 
-        catKeyword.current.value = ""
         catDesc.current.value = ""
         setCatName("")
+        setCatKeyword("")
     }
 
     return (
@@ -98,12 +100,14 @@ const Category = ({ setCategoryComponent }) => {
                             value={catName}
                             onChange={nameChecker}
                             placeholder="Category Name"
+                            required
                         />
                         <input
                             type="text"
                             id="cat-keyword"
                             name="cat-keyword"
-                            ref={catKeyword}
+                            value={catKeyword}
+                            onChange={keywordChecker}
                             placeholder="Keyword"
                         />
                         <input

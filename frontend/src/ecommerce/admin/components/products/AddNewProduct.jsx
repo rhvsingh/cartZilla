@@ -1,16 +1,19 @@
-import { useRef, useState } from "react"
+import { useRef, useState, useContext } from "react"
 import { FaArrowLeftLong } from "react-icons/fa6"
 import { RiImageAddFill } from "react-icons/ri"
 import axios from "axios"
 import { toast } from "react-toastify"
 
 import { config } from "../../../utils/Constants"
+import AdminCatContext from "../../../contexts/adminContext/adminCatContext"
 
 import AdminStyle from "../css-modules/admin.module.css"
 import "../css-modules/productAdd.css"
 
 const AddNewProduct = ({ setNewProductComponent }) => {
-    const [imgFile, setImgFile] = useState("")
+    const { category } = useContext(AdminCatContext)
+
+    const [imgFile, setImgFile] = useState([])
     const proName = useRef()
     const proDesc = useRef()
     const proPrice = useRef()
@@ -19,8 +22,10 @@ const AddNewProduct = ({ setNewProductComponent }) => {
     const baseURL = config.url.API_URL
 
     const imageChanger = (e) => {
-        setImgFile(e.target.files[0])
+        if (imgFile.length < 3) setImgFile((oldValue) => [...oldValue, e.target.files[0]])
     }
+
+    console.log(imgFile)
 
     const productAdd = (data) => {
         axios
@@ -64,6 +69,22 @@ const AddNewProduct = ({ setNewProductComponent }) => {
         productAdd({ img, name, desc, price, discount })
     }
 
+    const AnotherCategory = () => {
+        const selectCategory = `<select name="category-select" defaultValue="DEFAULT" required>
+        <option value="DEFAULT" disabled selected>
+            --Select Category--
+        </option>
+        ${category.map(
+            (item) =>
+                `<option value=${item._id} key=${item._id}>
+                ${item.catName}
+            </option>`
+        )}
+    </select>`
+
+        document.getElementById("cateogory-container").innerHTML += selectCategory
+    }
+
     return (
         <>
             <div
@@ -97,6 +118,22 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                 <div>
                     <input type="text" placeholder="Enter discount" ref={proDiscount} required />
                 </div>
+                <div>
+                    <div className={AdminStyle.mainTitle}>Product Category</div>
+                    <div id="cateogory-container">
+                        <select name="category-select" defaultValue={"DEFAULT"} required>
+                            <option value="DEFAULT" disabled>
+                                --Select Category--
+                            </option>
+                            {category.map((item) => (
+                                <option value={item._id} key={item._id}>
+                                    {item.catName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <button onClick={AnotherCategory}>Add another category</button>
+                </div>
                 <div className="px-1 py-1">
                     <div className={AdminStyle.mainTitle}>Product Images</div>
                     <div className={AdminStyle.grid}>
@@ -124,21 +161,29 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                                 or drag and drop
                             </div>
                         </label>
-                        <img
-                            src={imgFile === "" ? "" : URL.createObjectURL(imgFile)}
+                        {imgFile &&
+                            imgFile.map((image, index) => {
+                                return (
+                                    <img
+                                        src={URL.createObjectURL(image)}
+                                        className={
+                                            index === 0
+                                                ? AdminStyle.imagePreview +
+                                                  " " +
+                                                  AdminStyle.coverImage
+                                                : AdminStyle.imagePreview
+                                        }
+                                        alt=""
+                                        key={index}
+                                    />
+                                )
+                            })}
+
+                        {/* <img
+                            src={imgFile[0] === "" ? "" : URL.createObjectURL(imgFile)}
                             className={AdminStyle.imagePreview}
                             alt=""
-                        />
-                        <img
-                            src={imgFile === "" ? "" : URL.createObjectURL(imgFile)}
-                            className={AdminStyle.imagePreview}
-                            alt=""
-                        />
-                        <img
-                            src={imgFile === "" ? "" : URL.createObjectURL(imgFile)}
-                            className={AdminStyle.imagePreview}
-                            alt=""
-                        />
+                        />*/}
                     </div>
                 </div>
                 <div>

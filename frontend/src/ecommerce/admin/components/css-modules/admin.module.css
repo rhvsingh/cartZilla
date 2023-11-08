@@ -128,6 +128,7 @@
     text-align: center;
     border: 1px dashed var(--white-color-a);
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .productImageIcon {
@@ -140,6 +141,21 @@
     height: 100%;
     object-fit: cover;
     border-radius: 4px;
+}
+
+.coverImage {
+    position: relative;
+}
+
+.coverImage::before {
+    position: absolute;
+    content: "Cover image";
+    width: auto;
+    height: auto;
+    bottom: 20px;
+    padding: 2rem;
+    background-color: #23a2f6;
+    z-index: 1;
 }
 
 /* #productImageInput::before {

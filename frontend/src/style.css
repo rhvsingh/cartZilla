@@ -6,6 +6,7 @@
 
 :root {
     --main-color: #7fffd4;
+    --main-color-accent-1: #4f9b81;
     --main-color-2: #2da17b;
     --main-bg-color: #f1f3f6;
 
@@ -595,4 +596,37 @@ hr {
     opacity: 0;
     transform: translateX(100%);
     transition: transform 2000ms, opacity 1000ms;
+}
+
+/* Category */
+
+.category-each {
+    border-radius: 10px;
+    border: 1px solid var(--white-color-d);
+    padding: 0.25rem 1rem;
+    margin-block: 0.5rem;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.category-keyword {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.category-keyword span {
+    padding: 0.25rem 1rem;
+    margin-inline: 2px;
+    border-radius: 2rem;
+    color: var(--white-color-e);
+    background-color: var(--main-color-accent-1);
+}
+
+.category-icons {
+    position: relative;
+    top: 2px;
+    font-size: 0.9rem;
+    margin-inline: 3px;
+    cursor: pointer;
 }
