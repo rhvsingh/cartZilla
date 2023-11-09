@@ -30,6 +30,11 @@
     --black-color-9: #999;
 }
 
+img {
+    max-width: 100%;
+    display: block;
+}
+
 .pos-relative {
     position: relative;
 }

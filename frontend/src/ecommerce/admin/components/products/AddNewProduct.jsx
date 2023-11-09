@@ -64,15 +64,38 @@ const AddNewProduct = ({ setNewProductComponent }) => {
     const proDesc = useRef()
     const proPrice = useRef()
     const proDiscount = useRef()
+    const proStock = useRef()
     const [proCategory, setProCategory] = useState([])
+
+    const inputReplacer = useRef()
 
     const baseURL = config.url.API_URL
 
+    let imageIndexSelected = null
+
     const imageChanger = (e) => {
-        if (imgFile.length < 3) setImgFile((oldValue) => [...oldValue, e.target.files[0]])
+        setImgFile((oldValue) => {
+            for (let i = 0; i < e.target.files.length; i++) {
+                oldValue = [...oldValue, e.target.files[i]]
+            }
+            return oldValue
+        })
     }
 
-    //console.log(imgFile)
+    const imageReplacer = (e) => {
+        setImgFile((oldValue) =>
+            oldValue.map((item, i) => (i === imageIndexSelected ? e.target.files[0] : item))
+        )
+    }
+
+    const imageReplacerButton = (index) => {
+        imageIndexSelected = index
+        inputReplacer.current.click()
+    }
+
+    const removeImage = (index) => {
+        setImgFile((oldValue) => oldValue.filter((item, i) => i !== index && item))
+    }
 
     const productAdd = (data) => {
         axios
@@ -82,6 +105,8 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                 desc: data.desc,
                 price: parseInt(data.price),
                 discount: parseInt(data.discount),
+                category: data.proCategory,
+                stock: data.stock,
             })
             .then((response) => {
                 if (response.status === 200) {
@@ -113,7 +138,8 @@ const AddNewProduct = ({ setNewProductComponent }) => {
         let desc = proDesc.current.value
         let price = parseInt(proPrice.current.value)
         let discount = parseInt(proDiscount.current.value)
-        productAdd({ img, name, desc, price, discount })
+        let stock = parseInt(proStock.current.value)
+        productAdd({ img, name, desc, price, discount, stock, proCategory })
     }
 
     const defaultSelect = (e) => {
@@ -165,6 +191,9 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                     <input type="text" placeholder="Enter discount" ref={proDiscount} required />
                 </div>
                 <div>
+                    <input type="text" placeholder="Enter stock" ref={proStock} required />
+                </div>
+                <div>
                     <div className={AdminStyle.mainTitle}>Product Category</div>
                     <div id="cateogory-container">
                         {proCategory &&
@@ -198,6 +227,14 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                     <div className={AdminStyle.mainTitle}>Product Images</div>
                     <div className={AdminStyle.grid}>
                         <input
+                            id="product-image-replacer"
+                            name="product-image-replacer"
+                            type="file"
+                            ref={inputReplacer}
+                            onChange={imageReplacer}
+                            hidden
+                        />
+                        <input
                             id="product-image-input"
                             name="product-image-input[]"
                             type="file"
@@ -224,18 +261,39 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                         {imgFile &&
                             imgFile.map((image, index) => {
                                 return (
-                                    <img
-                                        src={URL.createObjectURL(image)}
+                                    <div
+                                        key={index}
                                         className={
                                             index === 0
-                                                ? AdminStyle.imagePreview +
+                                                ? AdminStyle.coverImage +
                                                   " " +
-                                                  AdminStyle.coverImage
-                                                : AdminStyle.imagePreview
+                                                  AdminStyle.imageLabel
+                                                : AdminStyle.imageLabel
                                         }
-                                        alt=""
-                                        key={index}
-                                    />
+                                    >
+                                        <img
+                                            src={URL.createObjectURL(image)}
+                                            className={AdminStyle.imagePreview}
+                                            alt=""
+                                        />
+                                        <div
+                                            className={
+                                                AdminStyle.imageOptions +
+                                                " d-flex align-items-center"
+                                            }
+                                        >
+                                            <RiImageAddFill
+                                                onClick={() => imageReplacerButton(index)}
+                                                title="Replace Image"
+                                                htmlFor="product-image-replacer"
+                                            />
+
+                                            <RiFileExcelFill
+                                                title="Remove Image"
+                                                onClick={() => removeImage(index)}
+                                            />
+                                        </div>
+                                    </div>
                                 )
                             })}
 
