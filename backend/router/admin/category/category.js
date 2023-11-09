@@ -114,4 +114,43 @@ router.delete("/catDel", async (req, res, next) => {
     }
 })
 
+router.use("/catEdit", async (req, res, next) => {
+    const { email, akey } = req.body
+    const db = req.app.locals.db
+
+    const userCollection = db.collection("user")
+
+    let userData = await userCollection.findOne({ email: email, akey: akey })
+
+    if (!(userData == null)) {
+        if (userData.role.includes("admin")) {
+            next()
+        } else {
+            //User not authorized
+            res.json({ error: true, status: 401, message: "User unauthorized" })
+        }
+    } else {
+        res.json({ error: true, status: 404, message: "User not found" })
+    }
+})
+
+router.put("/catEdit", async (req, res, next) => {
+    const { catId, catName, catKeyword, catDesc } = req.body
+    const db = req.app.locals.db
+
+    const catCollection = db.collection("category")
+
+    let catData = await catCollection.updateOne(
+        { _id: ObjectId(catId) },
+        { $set: { catName: catName, catKeyword: catKeyword, catDesc: catDesc } }
+    )
+
+    console.log(catData)
+    if (catData.modifiedCount > 0) {
+        res.json({ message: "Edited Successfully", status: 200 })
+    } else {
+        res.json({ message: "Error occured", status: 403 })
+    }
+})
+
 module.exports = router

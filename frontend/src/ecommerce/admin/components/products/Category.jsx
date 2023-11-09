@@ -91,7 +91,7 @@ const Category = ({ setCategoryComponent }) => {
             </div>
             <div className="pl-1 py-1">
                 <div>
-                    Add New Category
+                    <p className="py-1">Add New Category</p>
                     <form action="" onSubmit={categoryAddForm}>
                         <input
                             type="text"
@@ -105,6 +105,7 @@ const Category = ({ setCategoryComponent }) => {
                         <input
                             type="text"
                             id="cat-keyword"
+                            className="mx-1"
                             name="cat-keyword"
                             value={catKeyword}
                             onChange={keywordChecker}

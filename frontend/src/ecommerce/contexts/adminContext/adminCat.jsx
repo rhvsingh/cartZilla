@@ -16,12 +16,29 @@ const AdminCat = (props) => {
         })
     }
 
+    function updateOneCategory(data) {
+        setCategory((oldValue) =>
+            oldValue.map((item) =>
+                item._id === data.catId
+                    ? {
+                          ...item,
+                          catName: data.catName,
+                          catKeyword: data.catKeyword,
+                          catDesc: data.catDesc,
+                      }
+                    : item
+            )
+        )
+    }
+
     useEffect(() => {
         categoryFetcher()
     }, [])
 
     return (
-        <AdminCatContext.Provider value={{ category, setCategory, categoryFetcher }}>
+        <AdminCatContext.Provider
+            value={{ category, setCategory, categoryFetcher, updateOneCategory }}
+        >
             {props.children}
         </AdminCatContext.Provider>
     )
