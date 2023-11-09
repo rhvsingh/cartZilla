@@ -12,10 +12,7 @@ const ProductAPI = require("./router/product")
 const CartAPI = require("./router/cart")
 const AdminPanel = require("./router/admin/index")
 
-const allowlist = [
-    "http://localhost:3000",
-    "https://cart-zilla-rhvsingh.vercel.app",
-]
+const allowlist = ["http://localhost:3000", "https://cart-zilla-rhvsingh.vercel.app"]
 const corsOptionsDelegate = function (req, callback) {
     let corsOptions
     if (allowlist.indexOf(req.header("Origin")) !== -1) {

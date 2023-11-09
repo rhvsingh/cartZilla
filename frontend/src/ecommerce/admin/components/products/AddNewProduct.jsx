@@ -303,6 +303,9 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                             alt=""
                         />*/}
                     </div>
+                    <div style={{ fontSize: "0.7rem" }}>
+                        Max 5 images can be uploaded at a time.
+                    </div>
                 </div>
                 <div>
                     <input type="submit" value="Add" />
