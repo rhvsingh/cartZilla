@@ -1,6 +1,6 @@
 import { useRef, useState, useContext } from "react"
 import { FaArrowLeftLong } from "react-icons/fa6"
-import { RiImageAddFill } from "react-icons/ri"
+import { RiImageAddFill, RiFileExcelFill } from "react-icons/ri"
 import axios from "axios"
 import { toast } from "react-toastify"
 
@@ -27,17 +27,32 @@ const SelectCategory = ({ category, proCategory, setProCategory, proIndex }) => 
         })
     }
 
+    const catRemove = (e) => {
+        setProCategory((oldValue) => oldValue.filter((item, index) => index !== e))
+    }
+
     return (
-        <select name="category-select" defaultValue={defaulState} onChange={selectChange} required>
-            <option value="DEFAULT" disabled>
-                --Select Category--
-            </option>
-            {category.map((item) => (
-                <option value={item._id} key={item._id}>
-                    {item.catName}
+        <span className="my-1 mx-1">
+            <select
+                name="category-select"
+                defaultValue={defaulState}
+                onChange={selectChange}
+                required
+            >
+                <option value="DEFAULT" disabled>
+                    --Select Category--
                 </option>
-            ))}
-        </select>
+                {category.map((item) => (
+                    <option value={item._id} key={item._id}>
+                        {item.catName}
+                    </option>
+                ))}
+            </select>
+            <RiFileExcelFill
+                className={AdminStyle.catIcon + " pos-relative"}
+                onClick={() => catRemove(proIndex)}
+            />
+        </span>
     )
 }
 

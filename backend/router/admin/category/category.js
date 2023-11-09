@@ -145,7 +145,6 @@ router.put("/catEdit", async (req, res, next) => {
         { $set: { catName: catName, catKeyword: catKeyword, catDesc: catDesc } }
     )
 
-    console.log(catData)
     if (catData.modifiedCount > 0) {
         res.json({ message: "Edited Successfully", status: 200 })
     } else {

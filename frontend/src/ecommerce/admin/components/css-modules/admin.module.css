@@ -166,3 +166,9 @@
     border: 1px dashed var(--white-color-a);
     border-radius: 10px;
 } */
+
+.catIcon {
+    top: 4px;
+    font-size: 1.15rem;
+    cursor: pointer;
+}
