@@ -10,6 +10,37 @@ import AdminCatContext from "../../../contexts/adminContext/adminCatContext"
 import AdminStyle from "../css-modules/admin.module.css"
 import "../css-modules/productAdd.css"
 
+const SelectCategory = ({ category, proCategory, setProCategory, proIndex }) => {
+    const defaulState = proCategory[proIndex]
+
+    const selectChange = (e) => {
+        let newCategory = e.target.value
+        setProCategory((oldValue) => {
+            let check = oldValue.filter((item) => item === newCategory)
+            if (check.length > 0) {
+                alert("Category already selected")
+                e.target.value = defaulState
+                return oldValue
+            } else {
+                return oldValue.map((item, i) => (i === proIndex ? newCategory : item))
+            }
+        })
+    }
+
+    return (
+        <select name="category-select" defaultValue={defaulState} onChange={selectChange} required>
+            <option value="DEFAULT" disabled>
+                --Select Category--
+            </option>
+            {category.map((item) => (
+                <option value={item._id} key={item._id}>
+                    {item.catName}
+                </option>
+            ))}
+        </select>
+    )
+}
+
 const AddNewProduct = ({ setNewProductComponent }) => {
     const { category } = useContext(AdminCatContext)
 
@@ -18,6 +49,7 @@ const AddNewProduct = ({ setNewProductComponent }) => {
     const proDesc = useRef()
     const proPrice = useRef()
     const proDiscount = useRef()
+    const [proCategory, setProCategory] = useState([])
 
     const baseURL = config.url.API_URL
 
@@ -25,7 +57,7 @@ const AddNewProduct = ({ setNewProductComponent }) => {
         if (imgFile.length < 3) setImgFile((oldValue) => [...oldValue, e.target.files[0]])
     }
 
-    console.log(imgFile)
+    //console.log(imgFile)
 
     const productAdd = (data) => {
         axios
@@ -69,20 +101,19 @@ const AddNewProduct = ({ setNewProductComponent }) => {
         productAdd({ img, name, desc, price, discount })
     }
 
-    const AnotherCategory = () => {
-        const selectCategory = `<select name="category-select" defaultValue="DEFAULT" required>
-        <option value="DEFAULT" disabled selected>
-            --Select Category--
-        </option>
-        ${category.map(
-            (item) =>
-                `<option value=${item._id} key=${item._id}>
-                ${item.catName}
-            </option>`
-        )}
-    </select>`
+    const defaultSelect = (e) => {
+        let newCategory = e.target.value
+        setProCategory((oldValue) => {
+            let check = oldValue.filter((item) => item === newCategory)
+            if (check.length > 0) {
+                alert("Category already selected")
+                return oldValue
+            } else {
+                return [...oldValue, newCategory]
+            }
+        })
 
-        document.getElementById("cateogory-container").innerHTML += selectCategory
+        e.target.value = "DEFAULT"
     }
 
     return (
@@ -121,7 +152,22 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                 <div>
                     <div className={AdminStyle.mainTitle}>Product Category</div>
                     <div id="cateogory-container">
-                        <select name="category-select" defaultValue={"DEFAULT"} required>
+                        {proCategory &&
+                            proCategory.map((item, index) => (
+                                <SelectCategory
+                                    category={category}
+                                    proCategory={proCategory}
+                                    setProCategory={setProCategory}
+                                    proIndex={index}
+                                    key={index}
+                                />
+                            ))}
+                        <select
+                            name="category-select"
+                            defaultValue={"DEFAULT"}
+                            onChange={defaultSelect}
+                            required
+                        >
                             <option value="DEFAULT" disabled>
                                 --Select Category--
                             </option>
@@ -132,7 +178,6 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                             ))}
                         </select>
                     </div>
-                    <button onClick={AnotherCategory}>Add another category</button>
                 </div>
                 <div className="px-1 py-1">
                     <div className={AdminStyle.mainTitle}>Product Images</div>
