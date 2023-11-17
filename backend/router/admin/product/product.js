@@ -3,6 +3,7 @@ const router = express.Router()
 const path = require("path")
 const multer = require("multer")
 const uuid = require("uuid")
+const fs = require("fs")
 
 //Product Add API
 
@@ -36,25 +37,32 @@ router.post("/addProduct", (req, res) => {
     res.json({ result: true, pid: pid, msg: "Product inserted successfully." })
 })
 
-const authorizeUser = async function (req, res, next) {
+async function authorizeUser(req, res, next) {
     const { email, akey } = req.body
     const db = req.app.locals.db
 
     const userCollection = db.collection("user")
 
-    console.log(email, akey)
-
     let userData = await userCollection.findOne({ email: email, akey: akey })
 
     if (!(userData == null)) {
         if (userData.role.includes("admin")) {
-            console.log("user authorized")
             next()
         } else {
             //User not authorized
+            req.files.map((item) =>
+                fs.unlink(item.path, (err) => {
+                    if (err) console.log(err)
+                })
+            )
             res.json({ error: true, status: 401, message: "User unauthorized" })
         }
     } else {
+        req.files.map((item) =>
+            fs.unlink(item.path, (err) => {
+                if (err) console.log(err)
+            })
+        )
         res.json({ error: true, status: 404, message: "User not found" })
     }
 }
@@ -80,7 +88,7 @@ const upload = multer({
     limits: { fileSize: maxSize },
 
     fileFilter: (req, file, cb) => {
-        console.log(file)
+        //console.log(file)
         // Set the filetypes, it is optional
         var filetypes = /jpeg|jpg|png|webp/
         var mimetype = filetypes.test(file.mimetype)
@@ -95,7 +103,7 @@ const upload = multer({
     },
 })
 
-router.post("/product/img", authorizeUser, upload.array("productImage", 5), (req, res, next) => {
+router.post("/product/img", upload.array("productImage", 5), authorizeUser, (req, res) => {
     if (!req.files) {
         res.send({ code: 500, msg: "err" })
     } else {

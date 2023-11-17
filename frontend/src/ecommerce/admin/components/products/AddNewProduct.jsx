@@ -69,7 +69,7 @@ const AddNewProduct = ({ setNewProductComponent }) => {
 
     const inputReplacer = useRef()
 
-    const baseURL = config.url.API_URL
+    const baseURL = config.url.API_URL + "admin/"
 
     let imageIndexSelected = null
 
@@ -126,11 +126,16 @@ const AddNewProduct = ({ setNewProductComponent }) => {
 
         let data = new FormData()
 
-        data.append("productImage", imgFile)
+        imgFile.forEach((eachImg) => data.append("productImage", eachImg))
+
+        data.append("email", localStorage.getItem("email"))
+        data.append("akey", localStorage.getItem("akey"))
+
+        console.log(baseURL)
 
         let img
-        await axios.post(baseURL + "product/img/test", data).then((response) => {
-            console.log(response.data.imgName)
+        await axios.post(baseURL + "product/img", data).then((response) => {
+            console.log(response.data)
             img = response.data.imgName
         })
 
@@ -139,7 +144,7 @@ const AddNewProduct = ({ setNewProductComponent }) => {
         let price = parseInt(proPrice.current.value)
         let discount = parseInt(proDiscount.current.value)
         let stock = parseInt(proStock.current.value)
-        productAdd({ img, name, desc, price, discount, stock, proCategory })
+        //productAdd({ img, name, desc, price, discount, stock, proCategory })
     }
 
     const defaultSelect = (e) => {
