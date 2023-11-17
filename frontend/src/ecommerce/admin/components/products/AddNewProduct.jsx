@@ -1,60 +1,16 @@
 import { useRef, useState, useContext } from "react"
 import { FaArrowLeftLong } from "react-icons/fa6"
-import { RiImageAddFill, RiFileExcelFill } from "react-icons/ri"
+import { RiImageAddFill } from "react-icons/ri"
 import axios from "axios"
 import { toast } from "react-toastify"
 
 import { config } from "../../../utils/Constants"
 import AdminCatContext from "../../../contexts/adminContext/adminCatContext"
+import SelectCategory from "./SelectCategory"
+import UploadImagePreview from "./UploadImagePreview"
 
 import AdminStyle from "../css-modules/admin.module.css"
 import "../css-modules/productAdd.css"
-
-const SelectCategory = ({ category, proCategory, setProCategory, proIndex }) => {
-    const defaulState = proCategory[proIndex]
-
-    const selectChange = (e) => {
-        let newCategory = e.target.value
-        setProCategory((oldValue) => {
-            let check = oldValue.filter((item) => item === newCategory)
-            if (check.length > 0) {
-                alert("Category already selected")
-                e.target.value = defaulState
-                return oldValue
-            } else {
-                return oldValue.map((item, i) => (i === proIndex ? newCategory : item))
-            }
-        })
-    }
-
-    const catRemove = (e) => {
-        setProCategory((oldValue) => oldValue.filter((item, index) => index !== e))
-    }
-
-    return (
-        <span className="my-1 mx-1">
-            <select
-                name="category-select"
-                defaultValue={defaulState}
-                onChange={selectChange}
-                required
-            >
-                <option value="DEFAULT" disabled>
-                    --Select Category--
-                </option>
-                {category.map((item) => (
-                    <option value={item._id} key={item._id}>
-                        {item.catName}
-                    </option>
-                ))}
-            </select>
-            <RiFileExcelFill
-                className={AdminStyle.catIcon + " pos-relative"}
-                onClick={() => catRemove(proIndex)}
-            />
-        </span>
-    )
-}
 
 const AddNewProduct = ({ setNewProductComponent }) => {
     const { category } = useContext(AdminCatContext)
@@ -72,6 +28,9 @@ const AddNewProduct = ({ setNewProductComponent }) => {
     const baseURL = config.url.API_URL + "admin/"
 
     let imageIndexSelected = null
+
+    /* These are iamge functions to add new images, replace single image, click on hidden input from edit icon
+     and remove image to remove from array of images */
 
     const imageChanger = (e) => {
         setImgFile((oldValue) => {
@@ -121,6 +80,8 @@ const AddNewProduct = ({ setNewProductComponent }) => {
             })
     }
 
+    /* Function that call api to add product with image(s) */
+
     async function formData(e) {
         e.preventDefault()
 
@@ -130,8 +91,6 @@ const AddNewProduct = ({ setNewProductComponent }) => {
 
         data.append("email", localStorage.getItem("email"))
         data.append("akey", localStorage.getItem("akey"))
-
-        console.log(baseURL)
 
         let img
         await axios.post(baseURL + "product/img", data).then((response) => {
@@ -146,6 +105,8 @@ const AddNewProduct = ({ setNewProductComponent }) => {
         let stock = parseInt(proStock.current.value)
         //productAdd({ img, name, desc, price, discount, stock, proCategory })
     }
+
+    /* Drop-down function to select multiple categories */
 
     const defaultSelect = (e) => {
         let newCategory = e.target.value
@@ -181,141 +142,119 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                     </div>
                 </div>
             </div>
-
-            <form onSubmit={formData} encType="multipart/form-data">
-                <div>
-                    <input type="text" placeholder="Enter name" ref={proName} required />
-                </div>
-                <div>
-                    <input type="text" placeholder="Enter description" ref={proDesc} required />
-                </div>
-                <div>
-                    <input type="text" placeholder="Enter price" ref={proPrice} required />
-                </div>
-                <div>
-                    <input type="text" placeholder="Enter discount" ref={proDiscount} required />
-                </div>
-                <div>
-                    <input type="text" placeholder="Enter stock" ref={proStock} required />
-                </div>
-                <div>
-                    <div className={AdminStyle.mainTitle}>Product Category</div>
-                    <div id="cateogory-container">
-                        {proCategory &&
-                            proCategory.map((item, index) => (
-                                <SelectCategory
-                                    category={category}
-                                    proCategory={proCategory}
-                                    setProCategory={setProCategory}
-                                    proIndex={index}
-                                    key={index}
-                                />
-                            ))}
-                        <select
-                            name="category-select"
-                            defaultValue={"DEFAULT"}
-                            onChange={defaultSelect}
-                            required
-                        >
-                            <option value="DEFAULT" disabled>
-                                --Select Category--
-                            </option>
-                            {category.map((item) => (
-                                <option value={item._id} key={item._id}>
-                                    {item.catName}
-                                </option>
-                            ))}
-                        </select>
+            <div className="pl-1 py-1">
+                <p className="py-1">Product Details</p>
+                <form onSubmit={formData} encType="multipart/form-data">
+                    <div>
+                        <input type="text" placeholder="Enter name" ref={proName} required />
                     </div>
-                </div>
-                <div className="px-1 py-1">
-                    <div className={AdminStyle.mainTitle}>Product Images</div>
-                    <div className={AdminStyle.grid}>
+                    <div>
+                        <input type="text" placeholder="Enter description" ref={proDesc} required />
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Enter price" ref={proPrice} required />
+                    </div>
+                    <div>
                         <input
-                            id="product-image-replacer"
-                            name="product-image-replacer"
-                            type="file"
-                            ref={inputReplacer}
-                            onChange={imageReplacer}
-                            hidden
-                        />
-                        <input
-                            id="product-image-input"
-                            name="product-image-input[]"
-                            type="file"
-                            onChange={imageChanger}
-                            hidden
+                            type="text"
+                            placeholder="Enter discount"
+                            ref={proDiscount}
                             required
-                            multiple
                         />
-                        <label htmlFor="product-image-input" id={AdminStyle.productImageInput}>
-                            <div>
-                                <RiImageAddFill className={AdminStyle.productImageIcon} />
-                                <br />
-                                <span
-                                    style={{
-                                        textDecoration: "underline",
-                                        color: "var(--main-color-2)",
-                                    }}
-                                >
-                                    Click to upload
-                                </span>{" "}
-                                or drag and drop
-                            </div>
-                        </label>
-                        {imgFile &&
-                            imgFile.map((image, index) => {
-                                return (
-                                    <div
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Enter stock" ref={proStock} required />
+                    </div>
+                    <div>
+                        <div className={AdminStyle.mainTitle}>Product Category</div>
+                        <div id="cateogory-container">
+                            {proCategory &&
+                                proCategory.map((item, index) => (
+                                    <SelectCategory
+                                        category={category}
+                                        proCategory={proCategory}
+                                        setProCategory={setProCategory}
+                                        proIndex={index}
                                         key={index}
-                                        className={
-                                            index === 0
-                                                ? AdminStyle.coverImage +
-                                                  " " +
-                                                  AdminStyle.imageLabel
-                                                : AdminStyle.imageLabel
-                                        }
+                                    />
+                                ))}
+                            <select
+                                name="category-select"
+                                defaultValue={"DEFAULT"}
+                                onChange={defaultSelect}
+                                required
+                            >
+                                <option value="DEFAULT" disabled>
+                                    --Select Category--
+                                </option>
+                                {category.map((item) => (
+                                    <option value={item._id} key={item._id}>
+                                        {item.catName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="px-1 py-1">
+                        <div className={AdminStyle.mainTitle}>Product Images</div>
+                        <div className={AdminStyle.grid}>
+                            <input
+                                id="product-image-replacer"
+                                name="product-image-replacer"
+                                type="file"
+                                ref={inputReplacer}
+                                onChange={imageReplacer}
+                                hidden
+                            />
+                            <input
+                                id="product-image-input"
+                                name="product-image-input[]"
+                                type="file"
+                                onChange={imageChanger}
+                                hidden
+                                required
+                                multiple
+                            />
+                            <label htmlFor="product-image-input" id={AdminStyle.productImageInput}>
+                                <div>
+                                    <RiImageAddFill className={AdminStyle.productImageIcon} />
+                                    <br />
+                                    <span
+                                        style={{
+                                            textDecoration: "underline",
+                                            color: "var(--main-color-2)",
+                                        }}
                                     >
-                                        <img
-                                            src={URL.createObjectURL(image)}
-                                            className={AdminStyle.imagePreview}
-                                            alt=""
-                                        />
-                                        <div
-                                            className={
-                                                AdminStyle.imageOptions +
-                                                " d-flex align-items-center"
-                                            }
-                                        >
-                                            <RiImageAddFill
-                                                onClick={() => imageReplacerButton(index)}
-                                                title="Replace Image"
-                                                htmlFor="product-image-replacer"
-                                            />
+                                        Click to upload
+                                    </span>{" "}
+                                    or drag and drop
+                                </div>
+                            </label>
+                            {imgFile &&
+                                imgFile.map((image, index) => (
+                                    <UploadImagePreview
+                                        image={image}
+                                        index={index}
+                                        imageReplacerButton={imageReplacerButton}
+                                        removeImage={removeImage}
+                                    />
+                                ))}
 
-                                            <RiFileExcelFill
-                                                title="Remove Image"
-                                                onClick={() => removeImage(index)}
-                                            />
-                                        </div>
-                                    </div>
-                                )
-                            })}
-
-                        {/* <img
+                            {/* <img
                             src={imgFile[0] === "" ? "" : URL.createObjectURL(imgFile)}
                             className={AdminStyle.imagePreview}
                             alt=""
                         />*/}
+                        </div>
+                        <div style={{ fontSize: "0.7rem" }}>
+                            Max 5 images can be uploaded at a time.
+                        </div>
                     </div>
-                    <div style={{ fontSize: "0.7rem" }}>
-                        Max 5 images can be uploaded at a time.
+                    <div>
+                        <input type="submit" value="Add" />
                     </div>
-                </div>
-                <div>
-                    <input type="submit" value="Add" />
-                </div>
-            </form>
+                </form>
+            </div>
         </>
     )
 }

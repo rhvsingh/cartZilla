@@ -61,7 +61,7 @@
 .form button {
     margin-top: 50px;
     width: 100%;
-    background-color: #ffffff;
+    background-color: var(--white-color-f);
     color: #080710;
     padding: 10px 0;
     font-size: 18px;
