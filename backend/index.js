@@ -25,6 +25,7 @@ const corsOptionsDelegate = function (req, callback) {
 
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 app.use(cors(corsOptionsDelegate))
 
 //Accessing Image Files

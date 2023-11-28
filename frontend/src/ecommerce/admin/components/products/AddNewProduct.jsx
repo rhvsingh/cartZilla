@@ -2,7 +2,7 @@ import { useRef, useState, useContext } from "react"
 import { FaArrowLeftLong } from "react-icons/fa6"
 import { RiImageAddFill } from "react-icons/ri"
 import axios from "axios"
-import { toast } from "react-toastify"
+import { ToastContainer, toast } from "react-toastify"
 
 import { config } from "../../../utils/Constants"
 import AdminCatContext from "../../../contexts/adminContext/adminCatContext"
@@ -59,6 +59,8 @@ const AddNewProduct = ({ setNewProductComponent }) => {
     const productAdd = (data) => {
         axios
             .post(baseURL + "addProduct", {
+                email: data.email,
+                akey: data.akey,
                 img: data.img,
                 name: data.name,
                 desc: data.desc,
@@ -68,10 +70,16 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                 stock: data.stock,
             })
             .then((response) => {
+                console.log(response)
                 if (response.status === 200) {
+                    console.log("ye wlaa")
                     //let pid = response.data.pid
                     //let newData = { pid, ...data }
                     toast.success("🦄 Wow so easy! Product Added!")
+
+                    setTimeout(() => {
+                        setNewProductComponent((oldValue) => !oldValue)
+                    }, 1500)
 
                     /* setProducts((oldValue) => {
                         return [newData].concat(oldValue) //[...oldValue, data]
@@ -85,12 +93,14 @@ const AddNewProduct = ({ setNewProductComponent }) => {
     async function formData(e) {
         e.preventDefault()
 
+        let email = localStorage.getItem("email")
+        let akey = localStorage.getItem("akey")
         let data = new FormData()
 
         imgFile.forEach((eachImg) => data.append("productImage", eachImg))
 
-        data.append("email", localStorage.getItem("email"))
-        data.append("akey", localStorage.getItem("akey"))
+        data.append("email", email)
+        data.append("akey", akey)
 
         let img
         await axios.post(baseURL + "product/img", data).then((response) => {
@@ -103,7 +113,7 @@ const AddNewProduct = ({ setNewProductComponent }) => {
         let price = parseInt(proPrice.current.value)
         let discount = parseInt(proDiscount.current.value)
         let stock = parseInt(proStock.current.value)
-        //productAdd({ img, name, desc, price, discount, stock, proCategory })
+        productAdd({ email, akey, img, name, desc, price, discount, stock, proCategory })
     }
 
     /* Drop-down function to select multiple categories */
@@ -113,7 +123,6 @@ const AddNewProduct = ({ setNewProductComponent }) => {
         setProCategory((oldValue) => {
             let check = oldValue.filter((item) => item === newCategory)
             if (check.length > 0) {
-                alert("Category already selected")
                 return oldValue
             } else {
                 return [...oldValue, newCategory]
@@ -233,6 +242,7 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                             {imgFile &&
                                 imgFile.map((image, index) => (
                                     <UploadImagePreview
+                                        key={index}
                                         image={image}
                                         index={index}
                                         imageReplacerButton={imageReplacerButton}
@@ -255,6 +265,19 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                     </div>
                 </form>
             </div>
+
+            <ToastContainer
+                position="top-center"
+                autoClose={1500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover={false}
+                theme="dark"
+            />
         </>
     )
 }

@@ -5,9 +5,29 @@ const multer = require("multer")
 const uuid = require("uuid")
 const fs = require("fs")
 
+async function authorize(req, res, next) {
+    const { email, akey } = req.body
+    const db = req.app.locals.db
+
+    const userCollection = db.collection("user")
+
+    let userData = await userCollection.findOne({ email: email, akey: akey })
+
+    if (!(userData == null)) {
+        if (userData.role.includes("admin")) {
+            next()
+        } else {
+            //User not authorized
+            res.json({ error: true, status: 401, message: "User unauthorized" })
+        }
+    } else {
+        res.json({ error: true, status: 404, message: "User not found" })
+    }
+}
+
 //Product Add API
 
-router.post("/addProduct", (req, res) => {
+router.post("/addProduct", authorize, (req, res) => {
     const db = req.app.locals.db
     let pid = uuid.v4()
     let img = req.body.img
@@ -15,6 +35,8 @@ router.post("/addProduct", (req, res) => {
     let desc = req.body.desc
     let price = req.body.price
     let discount = req.body.discount
+    let stock = req.body.stock
+    let category = req.body.category
 
     const productsCollection = db.collection("products")
 
@@ -25,6 +47,8 @@ router.post("/addProduct", (req, res) => {
         desc: desc,
         price: price,
         discount: discount,
+        stock: stock,
+        category: category,
     }
 
     productsCollection.insertOne(productData, function (err, result) {
@@ -34,7 +58,7 @@ router.post("/addProduct", (req, res) => {
         }
     })
 
-    res.json({ result: true, pid: pid, msg: "Product inserted successfully." })
+    res.json({ result: true, status: 200, pid: pid, msg: "Product inserted successfully." })
 })
 
 async function authorizeUser(req, res, next) {
