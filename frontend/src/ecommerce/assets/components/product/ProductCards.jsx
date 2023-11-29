@@ -19,6 +19,12 @@ const ProductCards = ({ product, isAuth, cartAdder }) => {
         imagePath += product.img
     }
 
+    let productPrice = product.price
+    productPrice = productPrice.toFixed(2)
+    let discountedPrice = productPrice - (productPrice / 100) * product.discount
+    discountedPrice = discountedPrice.toFixed(2)
+    let discount = product.discount
+
     return (
         <div className="product-card">
             <img src={imagePath} alt={product.name} />
@@ -26,17 +32,28 @@ const ProductCards = ({ product, isAuth, cartAdder }) => {
                 <h2 className="product-name">{product.name}</h2>
                 <p className="product-desc">{product.desc}</p>
                 <p className="product-amount">
-                    <span className="product-price">{product.price} </span>
-                    <span className="product-discount">(-{product.discount}%)</span>
-                </p>
-                <p className="product-button-cart">
-                    {isAuth ? (
-                        <button onClick={() => cartAdder(product.pid)}>Add to Cart</button>
+                    <span className="product-price">
+                        {discount > 0 ? discountedPrice : productPrice}{" "}
+                    </span>
+                    {discount > 0 ? (
+                        <>
+                            <span className="product-mrp">
+                                M.R.P.: <span className="product-price-mark">{productPrice}</span>
+                            </span>
+                            <span className="product-discount">({discount}% off)</span>
+                        </>
                     ) : (
-                        <button onClick={toLoginPage}>Login</button>
+                        ""
                     )}
                 </p>
             </div>
+            <p className="product-button-cart">
+                {isAuth ? (
+                    <button onClick={() => cartAdder(product.pid)}>Add to Cart</button>
+                ) : (
+                    <button onClick={toLoginPage}>Login</button>
+                )}
+            </p>
         </div>
     )
 }

@@ -24,7 +24,6 @@ const ProductShow = ({ isAuth }) => {
                 qty: 1,
             })
             .then((response) => {
-                console.log(response.data)
                 if (response.data.result) {
                     toast.info("🦄 Product added to Cart")
                 }
