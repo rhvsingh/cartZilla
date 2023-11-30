@@ -2,6 +2,7 @@ import React from "react"
 import { useNavigate } from "react-router-dom"
 
 import { config } from "../../../utils/Constants"
+import { commaAdder } from "../../../utils/utilityFunctions"
 
 const ProductCards = ({ product, isAuth, cartAdder }) => {
     const navigate = useNavigate()
@@ -33,12 +34,15 @@ const ProductCards = ({ product, isAuth, cartAdder }) => {
                 <p className="product-desc">{product.desc}</p>
                 <p className="product-amount">
                     <span className="product-price">
-                        {discount > 0 ? discountedPrice : productPrice}{" "}
+                        {discount > 0 ? commaAdder(discountedPrice) : commaAdder(productPrice)}{" "}
                     </span>
                     {discount > 0 ? (
                         <>
                             <span className="product-mrp">
-                                M.R.P.: <span className="product-price-mark">{productPrice}</span>
+                                M.R.P.:{" "}
+                                <span className="product-price-mark">
+                                    {commaAdder(productPrice)}
+                                </span>
                             </span>
                             <span className="product-discount">({discount}% off)</span>
                         </>

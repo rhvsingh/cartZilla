@@ -72,7 +72,6 @@ const AddNewProduct = ({ setNewProductComponent }) => {
             .then((response) => {
                 console.log(response)
                 if (response.status === 200) {
-                    console.log("ye wlaa")
                     //let pid = response.data.pid
                     //let newData = { pid, ...data }
                     toast.success("🦄 Wow so easy! Product Added!")

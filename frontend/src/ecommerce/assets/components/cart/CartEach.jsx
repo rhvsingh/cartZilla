@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 
 import { config } from "../../../utils/Constants"
+import { commaAdder } from "../../../utils/utilityFunctions"
 
 const CartEach = ({ details, deleteCart, changeQty, proFromCartDelete }) => {
     const baseURL = config.url.API_URL
@@ -49,11 +50,14 @@ const CartEach = ({ details, deleteCart, changeQty, proFromCartDelete }) => {
                             </div>
                         )}
                         <div className="cart-price">
-                            {discount > 0 ? discountedPrice : productPrice}{" "}
+                            {discount > 0 ? commaAdder(discountedPrice) : commaAdder(productPrice)}{" "}
                         </div>
                         {discount > 0 && (
                             <div className="product-mrp">
-                                M.R.P.: <span className="product-price-mark">{productPrice}</span>
+                                M.R.P.:{" "}
+                                <span className="product-price-mark">
+                                    {commaAdder(productPrice)}
+                                </span>
                             </div>
                         )}
                     </div>
@@ -81,11 +85,12 @@ const CartEach = ({ details, deleteCart, changeQty, proFromCartDelete }) => {
                         </div>
                     )}
                     <div className="cart-price">
-                        {discount > 0 ? discountedPrice : productPrice}{" "}
+                        {discount > 0 ? commaAdder(discountedPrice) : commaAdder(productPrice)}{" "}
                     </div>
                     {discount > 0 && (
                         <div className="product-mrp">
-                            M.R.P.: <span className="product-price-mark">{productPrice}</span>
+                            M.R.P.:{" "}
+                            <span className="product-price-mark">{commaAdder(productPrice)}</span>
                         </div>
                     )}
                 </div>
