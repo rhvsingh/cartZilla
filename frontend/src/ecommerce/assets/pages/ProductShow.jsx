@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import ProductCardSkeleton from "../components/product/ProductCardSkeleton"
 import { ToastContainer, toast } from "react-toastify"
 import axios from "axios"
 import { HelmetProvider, Helmet } from "react-helmet-async"
@@ -8,6 +7,7 @@ import { config } from "../../utils/Constants"
 import "./productShow.css"
 
 import ProductCards from "../components/product/ProductCards"
+import ProductCardSkeleton from "../components/product/ProductCardSkeleton"
 //import ProductCardAdd from "../components/product/ProductCardAdd"
 
 const baseURL = config.url.API_URL
@@ -85,10 +85,8 @@ const ProductShow = ({ isAuth }) => {
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}
-                pauseOnFocusLoss
                 draggable
-                pauseOnHover
-                theme="light"
+                theme="dark"
             />
         </>
     )

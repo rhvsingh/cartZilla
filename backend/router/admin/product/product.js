@@ -51,12 +51,12 @@ router.post("/addProduct", authorize, (req, res) => {
         category: category,
     }
 
-    /* productsCollection.insertOne(productData, function (err, result) {
+    productsCollection.insertOne(productData, function (err, result) {
         if (err) {
             res.end("Failed to insert product: " + err.message)
             console.warn(err.message)
         }
-    }) */
+    })
 
     res.json({ result: true, status: 200, pid: pid, msg: "Product inserted successfully." })
 })

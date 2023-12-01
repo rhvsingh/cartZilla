@@ -234,7 +234,6 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                                 type="file"
                                 onChange={imageChanger}
                                 hidden
-                                required
                                 multiple
                             />
                             <label htmlFor="product-image-input" id={AdminStyle.productImageInput}>

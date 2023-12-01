@@ -8,6 +8,7 @@ const port = process.env.PORT_NUMBER
 
 //modules
 const UserAPI = require("./router/user")
+const CategoryAPI = require("./router/category")
 const ProductAPI = require("./router/product")
 const CartAPI = require("./router/cart")
 const AdminPanel = require("./router/admin/index")
@@ -80,6 +81,10 @@ app.get("/checkVersion/:version", (req, res) => {
 //User
 
 app.use(UserAPI)
+
+//Category
+
+app.use(CategoryAPI)
 
 //Product
 

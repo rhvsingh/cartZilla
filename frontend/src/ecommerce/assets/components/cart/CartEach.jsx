@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { RiDeleteBin7Fill } from "react-icons/ri"
 
 import { config } from "../../../utils/Constants"
 import { commaAdder } from "../../../utils/utilityFunctions"
@@ -34,6 +35,12 @@ const CartEach = ({ details, deleteCart, changeQty, proFromCartDelete }) => {
     discountedPrice = discountedPrice.toFixed(2)
     let discount = proDetails.discount
 
+    let deleteButtonStyle = {
+        fontSize: "1rem",
+        position: "relative",
+        top: "-3px",
+    }
+
     return (
         <div className="cart-child d-flex align-items-center justify-between">
             <div className="d-flex align-items-center">
@@ -64,7 +71,9 @@ const CartEach = ({ details, deleteCart, changeQty, proFromCartDelete }) => {
                     <div className="cart-qty">
                         Quantity:
                         <span className="cart-qty-container">
-                            <span onClick={(e) => qtyChanger(-1, proDetails.pid)}>-</span>
+                            <span onClick={(e) => qtyChanger(-1, proDetails.pid)}>
+                                {qty === 1 ? <RiDeleteBin7Fill style={deleteButtonStyle} /> : "-"}
+                            </span>
                             {qty}
                             <span onClick={(e) => qtyChanger(1, proDetails.pid)}>+</span>
                         </span>

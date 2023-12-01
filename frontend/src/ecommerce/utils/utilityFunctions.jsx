@@ -14,7 +14,5 @@ export function commaAdder(number) {
     let decimalPart = number.split(".")[1].toString()
     let commaDigit = onlyIntCommaConverter(intPart, intPart.length)
 
-    console.log(commaDigit, commaDigit.length)
-
     return commaDigit + "." + decimalPart
 }

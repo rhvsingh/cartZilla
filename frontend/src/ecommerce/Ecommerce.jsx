@@ -16,6 +16,8 @@ import Profile from './assets/pages/Profile' */
 /* import Address from './assets/components/profile/Address' */
 
 import LoadingScreen from "./assets/components/LoadingScreen"
+import SplitLayout from "./assets/layouts/SplitLayout"
+import ListCategory from "./assets/components/ListCategory"
 
 const AdminPanel = React.lazy(() => import("./admin/AdminPanel"))
 const ProductShow = React.lazy(() => import("./assets/pages/ProductShow"))
@@ -60,7 +62,10 @@ const Ecommerce = () => {
         return (
             <Layout>
                 <Suspense fallback={<LoadingScreen />}>
-                    <ProductShow isAuth={isAuth} />
+                    <SplitLayout div1={15} div2={85} containerFluid={true}>
+                        <ListCategory />
+                        <ProductShow isAuth={isAuth} />
+                    </SplitLayout>
                 </Suspense>
             </Layout>
         )
