@@ -109,4 +109,35 @@ router.get("/catProduct/:catName", async (req, res) => {
     //res.json({ result: true, msg: "product list" })
 })
 
+router.get("/productDetails/:catName/:proId", async (req, res) => {
+    const db = req.app.locals.db
+    const { catName, proId } = req.params
+
+    const catCollection = db.collection("category")
+    const productList = db.collection("products")
+
+    let catData = await catCollection.findOne({ catName: catName })
+
+    if (!catData) {
+        res.json({ result: false, status: 404, req: 1, msg: "Category not found" })
+        return
+    }
+
+    let valve = ObjectId(catData._id).toString()
+
+    let productData = await productList.findOne({ pid: proId, category: valve })
+
+    if (productData) {
+        res.json({
+            result: productData,
+            status: 200,
+            req: 2,
+            msg: "Product exits",
+            catData: catData,
+        })
+    } else {
+        res.status(400).send("Error fetching listening!")
+    }
+})
+
 module.exports = router

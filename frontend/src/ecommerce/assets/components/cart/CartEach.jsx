@@ -36,9 +36,9 @@ const CartEach = ({ details, deleteCart, changeQty, proFromCartDelete }) => {
     let discount = proDetails.discount
 
     let deleteButtonStyle = {
-        fontSize: "1rem",
+        fontSize: "0.85rem",
         position: "relative",
-        top: "-3px",
+        top: "-4px",
     }
 
     return (

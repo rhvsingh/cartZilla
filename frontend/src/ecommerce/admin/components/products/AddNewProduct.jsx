@@ -189,6 +189,9 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                     </div>
                     <div className="form-inputs">
                         <div className={AdminStyle.mainTitle}>Product Category</div>
+                        <div style={{ fontSize: "0.7rem" }}>
+                            First dropdown is main category others sub-categories.
+                        </div>
                         <div id="category-container">
                             {proCategory &&
                                 proCategory.map((item, index) => (
