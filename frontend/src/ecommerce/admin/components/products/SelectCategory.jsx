@@ -25,7 +25,7 @@ const SelectCategory = ({ category, proCategory, setProCategory, proIndex }) => 
     }
 
     return (
-        <span className="my-1 mx-1">
+        <span className="my-1 mr-1">
             <select
                 name="category-select"
                 defaultValue={defaulState}

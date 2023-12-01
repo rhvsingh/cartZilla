@@ -151,31 +151,45 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                 </div>
             </div>
             <div className="pl-1 py-1">
-                <p className="py-1">Product Details</p>
+                <p className={AdminStyle.mainTitle}>Product Details</p>
                 <form onSubmit={formData} encType="multipart/form-data">
-                    <div>
-                        <input type="text" placeholder="Enter name" ref={proName} required />
+                    <div className="add-pro-form">
+                        <div className="form-inputs">
+                            <input type="text" placeholder="Enter name" ref={proName} required />
+                        </div>
                     </div>
-                    <div>
-                        <input type="text" placeholder="Enter description" ref={proDesc} required />
+
+                    <div className="form-inputs">
+                        {/* <input
+                                type="text"
+                                placeholder="Enter description"
+                                ref={proDesc}
+                                required
+                            /> */}
+                        <textarea placeholder="Enter description" ref={proDesc} required></textarea>
                     </div>
-                    <div>
-                        <input type="text" placeholder="Enter price" ref={proPrice} required />
+
+                    <div className="add-pro-form">
+                        <div className="form-inputs">
+                            <input type="text" placeholder="Enter price" ref={proPrice} required />
+                        </div>
+                        <div className="form-inputs">
+                            <input
+                                type="text"
+                                placeholder="Enter discount"
+                                ref={proDiscount}
+                                required
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Enter discount"
-                            ref={proDiscount}
-                            required
-                        />
+                    <div className="add-pro-form">
+                        <div className="form-inputs">
+                            <input type="text" placeholder="Enter stock" ref={proStock} required />
+                        </div>
                     </div>
-                    <div>
-                        <input type="text" placeholder="Enter stock" ref={proStock} required />
-                    </div>
-                    <div>
+                    <div className="form-inputs">
                         <div className={AdminStyle.mainTitle}>Product Category</div>
-                        <div id="cateogory-container">
+                        <div id="category-container">
                             {proCategory &&
                                 proCategory.map((item, index) => (
                                     <SelectCategory
@@ -203,7 +217,7 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                             </select>
                         </div>
                     </div>
-                    <div className="px-1 py-1">
+                    <div className="py-1">
                         <div className={AdminStyle.mainTitle}>Product Images</div>
                         <div className={AdminStyle.grid}>
                             <input
@@ -259,7 +273,7 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                             Max 5 images can be uploaded at a time.
                         </div>
                     </div>
-                    <div>
+                    <div className="form-inputs">
                         <input type="submit" value="Add" />
                     </div>
                 </form>
