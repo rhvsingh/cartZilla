@@ -67,14 +67,14 @@ router.get("/catProduct/:catName", async (req, res) => {
 
     //First check category exists or not
 
-    let result = await catCollection.findOne({ catName: catName })
+    let catData = await catCollection.findOne({ catName: catName })
 
-    if (!result) {
+    if (!catData) {
         res.json({ result: false, status: 404, req: 1, msg: "Category not found" })
         return
     }
 
-    let valve = ObjectId(result._id).toString()
+    let valve = ObjectId(catData._id).toString()
 
     //Then show products that fall under that category
 
@@ -88,13 +88,20 @@ router.get("/catProduct/:catName", async (req, res) => {
                 res.status(400).send("Error fetching listening!")
             } else {
                 if (result.length > 0) {
-                    res.json({ result: result, status: 200, req: 2, msg: "Category has products" })
+                    res.json({
+                        result: result,
+                        status: 200,
+                        req: 2,
+                        msg: "Category has products",
+                        catData: catData,
+                    })
                 } else {
                     res.json({
                         result: false,
                         status: 404,
                         req: 3,
                         msg: "Category has no products",
+                        catData: catData,
                     })
                 }
             }

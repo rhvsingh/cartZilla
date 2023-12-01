@@ -16,6 +16,7 @@ const CategoryPage = ({ isAuth }) => {
 
     const { catName } = useParams()
     const cleanCatName = DOMPurify.sanitize(catName, { USE_PROFILES: { html: false } })
+    const [catDetails, setCatDetails] = useState({})
     const [productsData, setProductsData] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
@@ -35,25 +36,33 @@ const CategoryPage = ({ isAuth }) => {
 
     useEffect(() => {
         let baseURL = config.url.API_URL
-        axios
-            .get(baseURL + "catProduct/" + cleanCatName, { catName: cleanCatName })
-            .then((response) => {
-                if (response.data.req === 2 && response.data.status === 200) {
-                    setProductsData(response.data.result)
-                } else if (response.data.req === 1) {
-                    console.log("Category not exits with this name")
-                } else if (response.data.req === 3) {
-                    console.log("Category has no products")
-                }
-                setIsLoading(false)
-            })
+        axios.get(baseURL + "catProduct/" + cleanCatName).then((response) => {
+            if (response.data.req === 2 && response.data.status === 200) {
+                setCatDetails(response.data.catData)
+                setProductsData(response.data.result)
+            } else if (response.data.req === 1) {
+                console.log("Category not exits with this name")
+            } else if (response.data.req === 3) {
+                setCatDetails(response.data.catData)
+                console.log("Category has no products")
+            }
+            setIsLoading(false)
+        })
     }, [cleanCatName, isAuth])
+
+    console.log(catDetails)
 
     return (
         <>
             <HelmetProvider>
                 <Helmet>
                     <title>{cleanCatName} | CartZilla</title>
+                    {catDetails && (
+                        <>
+                            <meta name="keywords" content={catDetails.catKeyword} />
+                            <meta name="description" content={catDetails.catDesc} />
+                        </>
+                    )}
                 </Helmet>
             </HelmetProvider>
             {isLoading === false && productsData.length === 0 ? (
