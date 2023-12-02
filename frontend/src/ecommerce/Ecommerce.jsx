@@ -113,14 +113,16 @@ const Ecommerce = () => {
 
     function LoginRedirect() {
         const navigate = useNavigate()
-        return navigate("/")
+        useEffect(() => {
+            return navigate("/")
+        }, [navigate])
     }
 
     function LoginShow() {
         return (
             <Layout>
                 <Suspense fallback={<LoadingScreen />}>
-                    <Login auth={setIsAuth} />
+                    <Login />
                 </Suspense>
             </Layout>
         )

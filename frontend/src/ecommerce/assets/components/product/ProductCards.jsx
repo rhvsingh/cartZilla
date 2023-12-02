@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom"
 import { config } from "../../../utils/Constants"
 import { commaAdder } from "../../../utils/utilityFunctions"
 
-const ProductCards = ({ product, isAuth, cartAdder, pageLink }) => {
+const ProductCards = ({ product, isAuth, cartAdder, pageLink, proURL, path }) => {
     const navigate = useNavigate()
 
     function toLoginPage() {
@@ -28,7 +28,7 @@ const ProductCards = ({ product, isAuth, cartAdder, pageLink }) => {
 
     return (
         <div className="product-card">
-            <Link to={pageLink ? product.pid : ""}>
+            <Link to={pageLink ? proURL : ""} relative={path ? "route" : "path"}>
                 <img src={imagePath} alt={product.name} />
                 <div className="product-details">
                     <h2 className="product-name">{product.name}</h2>

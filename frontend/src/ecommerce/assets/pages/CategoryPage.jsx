@@ -35,8 +35,6 @@ const CategoryPage = ({ isAuth }) => {
         })
     }, [cleanCatName, isAuth])
 
-    console.log(catDetails)
-
     return (
         <>
             <HelmetProvider>
@@ -84,6 +82,8 @@ const CategoryPage = ({ isAuth }) => {
                         return (
                             <ProductCards
                                 pageLink={true}
+                                proURL={"../" + cleanCatName + "/" + product.pid}
+                                path={true}
                                 key={product.pid}
                                 product={product}
                                 isAuth={isAuth}

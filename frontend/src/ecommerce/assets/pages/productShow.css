@@ -90,3 +90,27 @@
     border-color: #aaa;
     background-color: #fff;
 }
+
+.grid-auto-row {
+    grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
+}
+
+.product-preview-small-image {
+    height: 100%;
+    border-radius: 3px;
+    cursor: pointer;
+    object-fit: cover;
+}
+
+.product-focus-image-preview {
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.product-preview-active {
+    border: 3px solid var(--main-color-2);
+}
+
+.product-preview-small-image:hover {
+    border: 3px solid var(--main-color-2);
+}

@@ -43,6 +43,10 @@ img {
     display: flex;
 }
 
+.d-grid {
+    display: grid;
+}
+
 .justify-between {
     justify-content: space-between;
 }
