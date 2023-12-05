@@ -19,11 +19,27 @@ const ProductImagePreview = ({ images }) => {
     }
 
     return (
-        <div className="d-flex gap-1">
+        <div className="d-flex gap-1 align-items-start image-responsive-view">
             <div
                 style={{ flex: "20%" }}
-                className="d-grid justify-center grid-auto-row gap-1 small-image-container"
+                className="d-grid justify-center grid-auto-row grid-auto-column gap-1 small-image-container"
             >
+                {images.map((item, index) => {
+                    return (
+                        <img
+                            key={index}
+                            onMouseEnter={(e) => imageActivator(e, imagePath + item)}
+                            className={
+                                index === 0
+                                    ? "product-preview-small-image product-preview-active"
+                                    : "product-preview-small-image"
+                            }
+                            src={imagePath + item}
+                            alt=""
+                            onClick={(e) => imageActivator(e, imagePath + item)}
+                        />
+                    )
+                })}
                 {images.map((item, index) => {
                     return (
                         <img

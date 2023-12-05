@@ -100,19 +100,15 @@ const ProductPage = ({ isAuth }) => {
                         All Details of Product Here
                         <SplitLayout containerFluid={true} div1={40} div2={60}>
                             <div>
-                                <div>
-                                    <ProductImagePreview images={productData.img} />
-                                </div>
-                                <div>
-                                    <p className="product-button-cart">
-                                        {isAuth ? (
-                                            <button onClick={() => addToCart(productData.pid)}>
-                                                Add to Cart
-                                            </button>
-                                        ) : (
-                                            <button onClick={toLoginPage}>Login</button>
-                                        )}
-                                    </p>
+                                <ProductImagePreview images={productData.img} />
+                                <div className="product-button-cart">
+                                    {isAuth ? (
+                                        <button onClick={() => addToCart(productData.pid)}>
+                                            Add to Cart
+                                        </button>
+                                    ) : (
+                                        <button onClick={toLoginPage}>Login</button>
+                                    )}
                                 </div>
                             </div>
                             <div>Here we will show product details</div>
