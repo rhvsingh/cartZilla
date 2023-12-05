@@ -8,11 +8,12 @@ import axios from "axios"
 import { config } from "../../utils/Constants"
 import { addToCart } from "../../utils/productAddFunction"
 import SplitLayout from "../layouts/SplitLayout"
-import ProductCardSkeleton from "../components/product/ProductCardSkeleton"
-import ProductCards from "../components/product/ProductCards"
+
 import ProductImagePreview from "../components/product/ProductImagePreview"
+import ProductSimilarCat from "../components/product/ProductSimilarCat"
 
 import "./productShow.css"
+import ProductDetailsShow from "../components/product/ProductDetailsShow"
 
 const ProductPage = ({ isAuth }) => {
     const { catName, proName } = useParams()
@@ -111,33 +112,18 @@ const ProductPage = ({ isAuth }) => {
                                     )}
                                 </div>
                             </div>
-                            <div>Here we will show product details</div>
+                            <div>
+                                <ProductDetailsShow productData={productData} />
+                            </div>
                         </SplitLayout>
-                        <div></div>
                     </div>
                     <div>
-                        <div className="num">Products with same Category</div>
-                        <div className="products">
-                            {similarShow.current && <ProductCardSkeleton cards={4} />}
-                            {productsData.length > 1
-                                ? productsData.map((product) => {
-                                      if (product.pid === productData.pid) {
-                                          return ""
-                                      }
-                                      return (
-                                          <ProductCards
-                                              pageLink={true}
-                                              proURL={"../" + cleanCatName + "/" + product.pid}
-                                              path={true}
-                                              key={product.pid}
-                                              product={product}
-                                              isAuth={isAuth}
-                                              cartAdder={addToCart}
-                                          />
-                                      )
-                                  })
-                                : "No more products in this category to show"}
-                        </div>
+                        <ProductSimilarCat
+                            similarShow={similarShow}
+                            productsData={productsData}
+                            productData={productData}
+                            cleanCatName={cleanCatName}
+                        />
                     </div>
                 </div>
                 <ToastContainer

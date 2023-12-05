@@ -6,7 +6,6 @@ import * as DOMPurify from "dompurify"
 import axios from "axios"
 
 import { config } from "../../utils/Constants"
-import { addToCart } from "../../utils/productAddFunction"
 import ProductCardSkeleton from "../components/product/ProductCardSkeleton"
 import ProductCards from "../components/product/ProductCards"
 
@@ -86,8 +85,6 @@ const CategoryPage = ({ isAuth }) => {
                                 path={true}
                                 key={product.pid}
                                 product={product}
-                                isAuth={isAuth}
-                                cartAdder={addToCart}
                             />
                         )
                     })}

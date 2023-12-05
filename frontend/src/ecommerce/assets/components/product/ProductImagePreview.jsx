@@ -40,22 +40,6 @@ const ProductImagePreview = ({ images }) => {
                         />
                     )
                 })}
-                {images.map((item, index) => {
-                    return (
-                        <img
-                            key={index}
-                            onMouseEnter={(e) => imageActivator(e, imagePath + item)}
-                            className={
-                                index === 0
-                                    ? "product-preview-small-image product-preview-active"
-                                    : "product-preview-small-image"
-                            }
-                            src={imagePath + item}
-                            alt=""
-                            onClick={(e) => imageActivator(e, imagePath + item)}
-                        />
-                    )
-                })}
             </div>
             <div style={{ flex: "80%" }}>
                 <img

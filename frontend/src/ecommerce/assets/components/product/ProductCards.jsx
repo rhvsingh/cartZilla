@@ -1,10 +1,14 @@
-import React from "react"
+import React, { useContext } from "react"
 import { useNavigate, Link } from "react-router-dom"
 
 import { config } from "../../../utils/Constants"
 import { commaAdder } from "../../../utils/utilityFunctions"
+import { addToCart } from "../../../utils/productAddFunction"
 
-const ProductCards = ({ product, isAuth, cartAdder, pageLink, proURL, path }) => {
+import userContext from "../../../contexts/userContext/userContext"
+
+const ProductCards = ({ product, pageLink, proURL, path }) => {
+    const contextData = useContext(userContext)
     const navigate = useNavigate()
 
     function toLoginPage() {
@@ -54,8 +58,8 @@ const ProductCards = ({ product, isAuth, cartAdder, pageLink, proURL, path }) =>
                 </div>
             </Link>
             <p className="product-button-cart">
-                {isAuth ? (
-                    <button onClick={() => cartAdder(product.pid)}>Add to Cart</button>
+                {contextData.isAuth ? (
+                    <button onClick={() => addToCart(product.pid)}>Add to Cart</button>
                 ) : (
                     <button onClick={toLoginPage}>Login</button>
                 )}
