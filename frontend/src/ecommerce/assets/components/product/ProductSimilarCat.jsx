@@ -8,7 +8,9 @@ const ProductSimilarCat = ({ similarShow, productsData, productData, cleanCatNam
         <>
             <div className="num">Products with same Category</div>
             <div className="products">
-                {similarShow.current && <ProductCardSkeleton cards={4} />}
+                {similarShow.current && (
+                    <ProductCardSkeleton cards={productsData ? productsData.length : 4} />
+                )}
                 {productsData.length > 1
                     ? productsData.map((product) => {
                           if (product.pid === productData.pid) {

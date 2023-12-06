@@ -109,6 +109,57 @@ router.get("/catProduct/:catName", async (req, res) => {
     //res.json({ result: true, msg: "product list" })
 })
 
+router.get("/catProductSimilar/:catName", async (req, res) => {
+    const db = req.app.locals.db
+    const { catName } = req.params
+
+    const catCollection = db.collection("category")
+    const productList = db.collection("products")
+
+    //First check category exists or not
+
+    let catData = await catCollection.findOne({ catName: catName })
+
+    if (!catData) {
+        res.json({ result: false, status: 404, req: 1, msg: "Category not found" })
+        return
+    }
+
+    let valve = ObjectId(catData._id).toString()
+
+    //Then show products that fall under that category
+
+    productList
+        .find({ category: valve })
+        .limit(50)
+        .sort({ _id: -1 })
+        .toArray(function (err, result) {
+            if (err) {
+                console.log("error occured")
+                res.status(400).send("Error fetching listening!")
+            } else {
+                if (result.length > 0) {
+                    res.json({
+                        result: result,
+                        status: 200,
+                        req: 2,
+                        msg: "Category has products",
+                        catData: catData,
+                    })
+                } else {
+                    res.json({
+                        result: false,
+                        status: 404,
+                        req: 3,
+                        msg: "Category has no products",
+                        catData: catData,
+                    })
+                }
+            }
+        })
+    //res.json({ result: true, msg: "product list" })
+})
+
 router.get("/productDetails/:catName/:proId", async (req, res) => {
     const db = req.app.locals.db
     const { catName, proId } = req.params

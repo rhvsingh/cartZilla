@@ -52,7 +52,7 @@ const ProductPage = ({ isAuth }) => {
                 }
             })
 
-        axios.get(baseURL + "catProduct/" + cleanCatName).then((response) => {
+        axios.get(baseURL + "catProductSimilar/" + cleanCatName).then((response) => {
             if (response.data.req === 2 && response.data.status === 200) {
                 setProductsData(response.data.result)
             } else if (response.data.req === 1) {
@@ -99,10 +99,15 @@ const ProductPage = ({ isAuth }) => {
                 <div>
                     <div className="px-1 py-1">
                         All Details of Product Here
-                        <SplitLayout containerFluid={true} div1={40} div2={60}>
+                        <SplitLayout
+                            containerFluid={true}
+                            div1={40}
+                            div2={60}
+                            styleComponent={{ minHeight: "unset" }}
+                        >
                             <div>
                                 <ProductImagePreview images={productData.img} />
-                                <div className="product-button-cart">
+                                <div className="product-button-cart" style={{ marginTop: "1rem" }}>
                                     {isAuth ? (
                                         <button onClick={() => addToCart(productData.pid)}>
                                             Add to Cart
