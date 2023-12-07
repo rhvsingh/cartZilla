@@ -29,10 +29,8 @@ const CartEach = ({ details, deleteCart, changeQty, proFromCartDelete }) => {
         imagePath += proDetails.img
     }
 
-    let productPrice = proDetails.price
-    productPrice = productPrice.toFixed(2)
-    let discountedPrice = productPrice - (productPrice / 100) * proDetails.discount
-    discountedPrice = discountedPrice.toFixed(2)
+    let productPrice = proDetails.price.toFixed(2)
+    let discountedPrice = (productPrice - (productPrice / 100) * proDetails.discount).toFixed(2)
     let discount = proDetails.discount
 
     let deleteButtonStyle = {

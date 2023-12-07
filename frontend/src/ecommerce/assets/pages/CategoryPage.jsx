@@ -48,7 +48,7 @@ const CategoryPage = ({ isAuth }) => {
                 </Helmet>
             </HelmetProvider>
             {isLoading === false && productsData.length === 0 ? (
-                <div className="mx-2 mt-1">
+                <div className="mx-1 mt-1" style={{ fontSize: "0.75rem" }}>
                     <Link
                         to={".."}
                         relative="route"
@@ -56,12 +56,11 @@ const CategoryPage = ({ isAuth }) => {
                     >
                         Home
                     </Link>
-                    <span className="num">&gt;</span>
-                    <span className="num">{cleanCatName}</span>
+                    <span className="fw-5">&gt;{cleanCatName}</span>
                     <div className="mx-2 my-2">No Products found in this category</div>
                 </div>
             ) : (
-                <div className="mx-2 mt-1">
+                <div className="mx-1 mt-1" style={{ fontSize: "0.75rem" }}>
                     <Link
                         to={".."}
                         relative="route"
@@ -69,8 +68,7 @@ const CategoryPage = ({ isAuth }) => {
                     >
                         Home
                     </Link>
-                    <span className="num">&gt;</span>
-                    <span className="num">{cleanCatName}</span>
+                    <span className="fw-5">&gt;{cleanCatName}</span>
                 </div>
             )}
             <div className="products">

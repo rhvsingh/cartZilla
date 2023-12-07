@@ -24,10 +24,8 @@ const ProductCards = ({ product, pageLink, proURL, path }) => {
         imagePath += product.img
     }
 
-    let productPrice = product.price
-    productPrice = productPrice.toFixed(2)
-    let discountedPrice = productPrice - (productPrice / 100) * product.discount
-    discountedPrice = discountedPrice.toFixed(2)
+    let productPrice = product.price.toFixed(2)
+    let discountedPrice = (productPrice - (productPrice / 100) * product.discount).toFixed(2)
     let discount = product.discount
 
     return (

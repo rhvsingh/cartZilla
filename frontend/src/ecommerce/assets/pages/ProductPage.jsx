@@ -52,7 +52,7 @@ const ProductPage = ({ isAuth }) => {
                 }
             })
 
-        axios.get(baseURL + "catProductSimilar/" + cleanCatName).then((response) => {
+        axios.get(baseURL + "catProduct/" + cleanCatName).then((response) => {
             if (response.data.req === 2 && response.data.status === 200) {
                 setProductsData(response.data.result)
             } else if (response.data.req === 1) {
@@ -76,7 +76,8 @@ const ProductPage = ({ isAuth }) => {
                         <title>{productData.name} | CartZilla</title>
                     </Helmet>
                 </HelmetProvider>
-                <div>
+                {/* Breadcrum */}
+                <div className="mx-1 mt-1" style={{ fontSize: "0.75rem" }}>
                     <Link
                         to={".."}
                         relative="route"
@@ -84,7 +85,7 @@ const ProductPage = ({ isAuth }) => {
                     >
                         Home
                     </Link>
-                    <span className="num">
+                    <span className="fw-5">
                         &gt;
                         <Link
                             to={"../" + cleanCatName}
@@ -97,7 +98,7 @@ const ProductPage = ({ isAuth }) => {
                     </span>
                 </div>
                 <div>
-                    <div className="px-1 py-1">
+                    <div className="px-1 py-1 mb-1">
                         All Details of Product Here
                         <SplitLayout
                             containerFluid={true}
@@ -105,9 +106,9 @@ const ProductPage = ({ isAuth }) => {
                             div2={60}
                             styleComponent={{ minHeight: "unset" }}
                         >
-                            <div>
+                            <div className="product-page">
                                 <ProductImagePreview images={productData.img} />
-                                <div className="product-button-cart" style={{ marginTop: "1rem" }}>
+                                <div className="add-to-cart-button mt-1">
                                     {isAuth ? (
                                         <button onClick={() => addToCart(productData.pid)}>
                                             Add to Cart

@@ -6,7 +6,7 @@ import ProductCards from "./ProductCards"
 const ProductSimilarCat = ({ similarShow, productsData, productData, cleanCatName }) => {
     return (
         <>
-            <div className="num">Products with same Category</div>
+            <div className="num mx-1">Products with same Category</div>
             <div className="products">
                 {similarShow.current && (
                     <ProductCardSkeleton cards={productsData ? productsData.length : 4} />

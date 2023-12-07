@@ -13,6 +13,10 @@
         padding: 1rem;
     }
 
+    .split-layout:has(.product-page) {
+        flex-direction: column;
+    }
+
     .split-layout:has(.order-summary) > div {
         width: 100%;
     }

@@ -3,33 +3,35 @@ import React from "react"
 import { commaAdder } from "../../../utils/utilityFunctions"
 
 const ProductDetailsShow = ({ productData }) => {
-    let productPrice = productData.price
-    productPrice = productPrice.toFixed(2)
-    let discountedPrice = productPrice - (productPrice / 100) * productData.discount
-    discountedPrice = discountedPrice.toFixed(2)
+    let productPrice = productData.price.toFixed(2)
+    let discountedPrice = (productPrice - (productPrice / 100) * productData.discount).toFixed(2)
     let discount = productData.discount
 
-    console.log(productData)
     return (
         <>
-            <div className="" style={{ fontWeight: "600", fontSize: "1.5rem" }}>
+            <div
+                className="product-line-separator mb-75 pb-50"
+                style={{ fontWeight: "500", fontSize: "1.5rem" }}
+            >
                 {productData.name}
             </div>
-            <div>
-                {discount > 0 && <div>Deal</div>}
-                <div className="cart-price">
-                    {discount > 0 && <span className="cart-discount-box">-{discount}%</span>}
-                    {discount > 0 ? commaAdder(discountedPrice) : commaAdder(productPrice)}{" "}
+            <div className="product-price-show mb-50">
+                {discount > 0 && <div className="product-deal">Deal</div>}
+                <div className="mt-25 mb-25">
+                    {discount > 0 && <span className="product-deal-discount">-{discount}%</span>}
+                    <span className="product-deal-price">
+                        {discount > 0 ? commaAdder(discountedPrice) : commaAdder(productPrice)}{" "}
+                    </span>
                 </div>
 
                 {discount > 0 && (
-                    <span className="product-mrp">
+                    <span className="product-mrp-price">
                         M.R.P.:{" "}
-                        <span className="product-price-mark">{commaAdder(productPrice)}</span>
+                        <span className="product-deal-price">{commaAdder(productPrice)}</span>
                     </span>
                 )}
             </div>
-            <div>{productData.desc}</div>
+            <div className="product-desc fw-5">{productData.desc}</div>
         </>
     )
 }
