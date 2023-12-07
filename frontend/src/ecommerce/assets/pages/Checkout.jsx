@@ -27,8 +27,6 @@ const Checkout = (props) => {
         discountPrice: 0,
     })
 
-    const baseURL = config.url.API_URL
-
     function LocationRedirect() {
         const navigate = useNavigate()
         navigate("/login")
@@ -40,6 +38,7 @@ const Checkout = (props) => {
     }
 
     useEffect(() => {
+        const baseURL = config.url.API_URL
         let apiURL = baseURL + "showCart/" + localStorage.getItem("akey")
         axios.get(apiURL).then((response) => {
             //setOrderDetailsShow(response.data.result)
@@ -62,7 +61,7 @@ const Checkout = (props) => {
             }))
             setIsLoading(false)
         })
-    }, [baseURL])
+    }, [])
 
     if (!props.isAuth) {
         return <LocationRedirect />
@@ -73,8 +72,6 @@ const Checkout = (props) => {
     } else if (!loc.state.prevPath === "/cart") {
         return <LocationRedirectToHome />
     }
-
-    /* Just adding comment to check gpg is working or not. signed commits working or not */
 
     const stepButtonShow = [
         "Select Delivery Address",

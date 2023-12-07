@@ -1,10 +1,10 @@
-const SelectAddress = () => {
+const SelectPayment = () => {
     return (
         <div>
-            SelectAddress
+            SelectPayment
             <div className="mx-2 my-2"></div>
         </div>
     )
 }
 
-export default SelectAddress
+export default SelectPayment

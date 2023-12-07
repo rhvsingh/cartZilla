@@ -1,10 +1,10 @@
-const SelectAddress = () => {
+const SelectItemShow = () => {
     return (
         <div>
-            SelectAddress
+            Select
             <div className="mx-2 my-2"></div>
         </div>
     )
 }
 
-export default SelectAddress
+export default SelectItemShow
