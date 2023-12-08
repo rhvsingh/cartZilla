@@ -1,7 +1,7 @@
 const prod = {
     url: {
-        API_URL: "https://kind-red-moth-fez.cyclic.app/",
-        API_URL_USERS: "https://kind-red-moth-fez.cyclic.app/",
+        API_URL: "https://giddy-visor-pig.cyclic.app/",
+        API_URL_USERS: "https://giddy-visor-pig.cyclic.app/",
     },
 }
 const dev = {
