@@ -26,7 +26,7 @@ const CheckoutSteps = (props) => {
                     className={CheckoutStyles.divTitle + " d-flex justify-between my-25"}
                     onClick={() => sectionSwitcher(0)}
                 >
-                    <div>Select Delivery Address</div>
+                    <div>Delivery Address</div>
                     <div>{props.step === 0 ? "-" : "+"}</div>
                 </div>
                 <SelectAddress setOrderDetails={props.setOrderDetails} />
@@ -44,7 +44,7 @@ const CheckoutSteps = (props) => {
                     className={CheckoutStyles.divTitle + " d-flex justify-between my-25"}
                     onClick={() => sectionSwitcher(1)}
                 >
-                    <div>Select Payment Method</div>
+                    <div>Payment Method</div>
                     <div>{props.step === 1 ? "-" : "+"}</div>
                 </div>
                 <SelectPayment setOrderDetails={props.setOrderDetails} />
@@ -81,7 +81,7 @@ const CheckoutSteps = (props) => {
                     className={CheckoutStyles.divTitle + " d-flex justify-between my-25"}
                     onClick={() => sectionSwitcher(3)}
                 >
-                    <div>Place Order Button and Total Price</div>
+                    <div>Summary</div>
                     <div>{props.step === 3 ? "-" : "+"}</div>
                 </div>
 

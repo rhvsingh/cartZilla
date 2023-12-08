@@ -84,7 +84,7 @@
 }
 
 .activeComponent {
-    height: 200px;
+    height: max-content;
 }
 
 .notActiveComponent {
@@ -93,9 +93,11 @@
 
 .divTitle {
     /* height: 40px; */
-    background-color: var(--main-color-2);
     padding: 0.5rem 1rem;
+    background-color: var(--main-color-2);
     color: var(--white-color-f);
-    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
     border-radius: 4px;
+    cursor: pointer;
 }
