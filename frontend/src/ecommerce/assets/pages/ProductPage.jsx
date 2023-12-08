@@ -23,7 +23,7 @@ const ProductPage = ({ isAuth }) => {
     const cleanProName = DOMPurify.sanitize(proName, { USE_PROFILES: { html: false } })
 
     const [productsData, setProductsData] = useState([])
-    const [productData, setProductData] = useState([])
+    const [productData, setProductData] = useState({})
     const [isLoading, setIsLoading] = useState(true)
 
     let similarShow = useRef(true)
