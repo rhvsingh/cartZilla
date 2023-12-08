@@ -102,7 +102,6 @@ app.use(CartAPI)
 app.use("/admin", AdminPanel)
 
 connectDB().then(() => {
-    console.log("DB Connected")
     app.listen(port, () => {
         console.log(`Ecommerce app listening at http://localhost:${port}`)
     })
