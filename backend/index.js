@@ -8,14 +8,12 @@ const port = process.env.PORT_NUMBER
 
 //modules
 const UserAPI = require("./router/user")
+const CategoryAPI = require("./router/category")
 const ProductAPI = require("./router/product")
 const CartAPI = require("./router/cart")
 const AdminPanel = require("./router/admin/index")
 
-const allowlist = [
-    "http://localhost:3000",
-    "https://cart-zilla-rhvsingh.vercel.app",
-]
+const allowlist = ["http://localhost:3000", "https://cart-zilla-rhvsingh.vercel.app"]
 const corsOptionsDelegate = function (req, callback) {
     let corsOptions
     if (allowlist.indexOf(req.header("Origin")) !== -1) {
@@ -27,6 +25,8 @@ const corsOptionsDelegate = function (req, callback) {
 }
 
 app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 app.use(cors(corsOptionsDelegate))
 
 //Accessing Image Files
@@ -81,6 +81,10 @@ app.get("/checkVersion/:version", (req, res) => {
 //User
 
 app.use(UserAPI)
+
+//Category
+
+app.use(CategoryAPI)
 
 //Product
 

@@ -1,0 +1,99 @@
+/* Product Add Modal */
+
+.product-modal {
+    width: 100%;
+}
+
+/* .product-modal-card {
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    width: 400px;
+    background-color: rgba(51, 51, 51, 0.8);
+    transform: translate(-50%, -25%);
+    border-radius: 4px;
+    padding: 1rem 0;
+} */
+
+.product-modal-card div {
+    margin-block: 0.5rem;
+}
+
+.product-modal-card input {
+    outline: none;
+    border: 0;
+    height: 30px;
+    text-indent: 4px;
+    border-radius: 2px;
+    max-width: 300px;
+    width: 100%;
+}
+
+.product-modal-card input[type="submit"] {
+    max-width: unset;
+    width: 100px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.product-modal-card input[type="submit"]:hover {
+    background-color: var(--main-color);
+    color: var(--white-color-f);
+}
+
+/* New Product Add Form */
+
+.add-pro-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.add-pro-form > div:last-child {
+    margin-top: auto;
+}
+
+.form-inputs {
+    flex: 200px;
+}
+
+.form-inputs input[type="submit"] {
+    cursor: pointer;
+    text-transform: uppercase;
+    height: 40px;
+    border: 2px solid var(--white-color-c);
+    transition: 0.2s ease-in-out;
+}
+
+.form-inputs input[type="submit"]:hover {
+    border-color: var(--white-color-a);
+    background-color: var(--white-color-d);
+}
+
+.form-inputs input,
+.form-inputs textarea,
+.form-inputs select {
+    width: 100%;
+    height: 30px;
+    font-size: 1rem;
+    text-indent: 0.25rem;
+    border: 1px solid var(--white-color-a);
+    border-radius: 5px;
+}
+
+.form-inputs textarea {
+    height: unset;
+    min-height: 200px;
+    resize: vertical;
+}
+
+.form-inputs:has(textarea) {
+    margin-bottom: 1rem;
+}
+
+.form-inputs select {
+    width: auto;
+    margin-bottom: 1rem;
+}

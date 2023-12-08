@@ -1,17 +1,18 @@
-import { Outlet, Routes, Route } from "react-router-dom"
 import React, { Suspense } from "react"
+import { Outlet, Routes, Route } from "react-router-dom"
 
 import LoadingScreen from "../../assets/components/LoadingScreen"
 
 import SplitLayout from "../../assets/layouts/SplitLayout"
 
-import SideBar from "../components/SideBar"
-import MainContentShow from "../components/MainContentShow"
-import Stats from "../components/Stats"
-import Payments from "../components/Payments"
-
 import "./adminDashboard.css"
 
+const SideBar = React.lazy(() => import("../components/SideBar"))
+const MainContentShow = React.lazy(() => import("../components/MainContentShow"))
+const Stats = React.lazy(() => import("../components/Stats"))
+const Payments = React.lazy(() => import("../components/Payments"))
+const Products = React.lazy(() => import("../components/Products"))
+const AdminCat = React.lazy(() => import("../../contexts/adminContext/adminCat"))
 const NotFoundPage = React.lazy(() => import("../../assets/components/NotFoundPage"))
 
 const styleComponent = {
@@ -31,7 +32,9 @@ const AdminDashboard = ({ setIsAuth }) => {
             >
                 <SideBar setIsAuth={setIsAuth} />
                 <Suspense fallback={<LoadingScreen />}>
-                    <Outlet />
+                    <div style={{ paddingRight: "2rem" }}>
+                        <Outlet />
+                    </div>
                 </Suspense>
             </SplitLayout>
         )
@@ -44,6 +47,14 @@ const AdminDashboard = ({ setIsAuth }) => {
                     <Route index element={<MainContentShow />} />
                     <Route path="/stats" element={<Stats />} />
                     <Route path="/payments" element={<Payments />} />
+                    <Route
+                        path="/products"
+                        element={
+                            <AdminCat>
+                                <Products />
+                            </AdminCat>
+                        }
+                    />
                 </Route>
                 <Route
                     path="*"

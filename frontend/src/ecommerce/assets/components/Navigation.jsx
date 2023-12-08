@@ -66,7 +66,7 @@ const Navigation = () => {
             <header>
                 <div className="container d-flex gap-75 justify-between align-items-center">
                     <div className="logo">
-                        <Link to=".." relative="path">
+                        <Link to=".." relative="route">
                             CartZilla
                         </Link>
                     </div>

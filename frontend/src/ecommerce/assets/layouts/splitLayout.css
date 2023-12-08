@@ -1,15 +1,23 @@
 .split-layout {
-  gap: 1rem;
+    gap: 1rem;
+}
+
+.split-layout:has(.product-button-cart) {
+    gap: 2rem;
 }
 
 @media screen and (max-width: 600px) {
-  .split-layout {
-    flex-direction: column-reverse;
-    align-items: center;
-    padding: 1rem;
-  }
+    .split-layout {
+        flex-direction: column-reverse;
+        align-items: center;
+        padding: 1rem;
+    }
 
-  .split-layout:has(.order-summary) > div {
-    width: 100%;
-  }
+    .split-layout:has(.product-page) {
+        flex-direction: column;
+    }
+
+    .split-layout:has(.order-summary) > div {
+        width: 100%;
+    }
 }

@@ -16,9 +16,14 @@ import Profile from './assets/pages/Profile' */
 /* import Address from './assets/components/profile/Address' */
 
 import LoadingScreen from "./assets/components/LoadingScreen"
+import SplitLayout from "./assets/layouts/SplitLayout"
+import ListCategory from "./assets/components/ListCategory"
 
 const AdminPanel = React.lazy(() => import("./admin/AdminPanel"))
 const ProductShow = React.lazy(() => import("./assets/pages/ProductShow"))
+const NewHome = React.lazy(() => import("./assets/pages/NewHome"))
+const CategoryPage = React.lazy(() => import("./assets/pages/CategoryPage"))
+const ProductPage = React.lazy(() => import("./assets/pages/ProductPage"))
 const Cart = React.lazy(() => import("./assets/pages/Cart"))
 const Checkout = React.lazy(() => import("./assets/pages/Checkout"))
 const NotFoundPage = React.lazy(() => import("./assets/components/NotFoundPage"))
@@ -57,7 +62,40 @@ const Ecommerce = () => {
         return (
             <Layout>
                 <Suspense fallback={<LoadingScreen />}>
-                    <ProductShow isAuth={isAuth} />
+                    <SplitLayout div1={15} div2={85} containerFluid={true}>
+                        <ListCategory />
+                        <ProductShow isAuth={isAuth} />
+                    </SplitLayout>
+                </Suspense>
+            </Layout>
+        )
+    }
+
+    function LandingPage() {
+        return (
+            <Layout>
+                <Suspense fallback={<LoadingScreen />}>
+                    <NewHome isAuth={isAuth} />
+                </Suspense>
+            </Layout>
+        )
+    }
+
+    function CategoryShowPage() {
+        return (
+            <Layout>
+                <Suspense fallback={<LoadingScreen />}>
+                    <CategoryPage isAuth={isAuth} />
+                </Suspense>
+            </Layout>
+        )
+    }
+
+    function ProductShowPage() {
+        return (
+            <Layout>
+                <Suspense fallback={<LoadingScreen />}>
+                    <ProductPage isAuth={isAuth} />
                 </Suspense>
             </Layout>
         )
@@ -75,14 +113,16 @@ const Ecommerce = () => {
 
     function LoginRedirect() {
         const navigate = useNavigate()
-        return navigate("/")
+        useEffect(() => {
+            return navigate("/")
+        }, [navigate])
     }
 
     function LoginShow() {
         return (
             <Layout>
                 <Suspense fallback={<LoadingScreen />}>
-                    <Login auth={setIsAuth} />
+                    <Login />
                 </Suspense>
             </Layout>
         )
@@ -112,6 +152,9 @@ const Ecommerce = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/home" element={<LandingPage />} />
+                <Route path="/:catName" element={<CategoryShowPage />} />
+                <Route path="/:catName/:proName" element={<ProductShowPage />} />
                 <Route path="/admin-panel/*" element={<AdminPanelRoute />} />
                 {isAuth ? (
                     <>
