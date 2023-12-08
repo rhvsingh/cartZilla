@@ -1,149 +1,143 @@
 const express = require("express")
 const router = express.Router()
-const path = require("path")
-const multer = require("multer")
-const uuid = require("uuid")
+const ObjectId = require("mongodb").ObjectId
 
 //Product Listing API
 
 router.get("/productList", (req, res) => {
-  const db = req.app.locals.db
-  const productList = db.collection("products")
-  productList
-    .find({})
-    .limit(50)
-    .sort({ _id: -1 })
-    .toArray(function (err, result) {
-      if (err) {
-        res.status(400).send("Error fetching listening!")
-      } else {
-        res.json(result)
-      }
-    })
-  //res.json({ "result": true, "msg": "product list" })
+    const db = req.app.locals.db
+    const productList = db.collection("products")
+    productList
+        .find({})
+        .limit(50)
+        .sort({ _id: -1 })
+        .toArray(function (err, result) {
+            if (err) {
+                res.status(400).send("Error fetching listening!")
+            } else {
+                res.json(result)
+            }
+        })
+    //res.json({ "result": true, "msg": "product list" })
 })
 
 //Get product list only for registered user
 
 router.get("/products/:key", (req, res) => {
-  const db = req.app.locals.db
-  let key = req.params.key
-  let userCollections = db.collection("user")
-  let productsCollections = db.collection("products")
+    const db = req.app.locals.db
+    let key = req.params.key
+    let userCollections = db.collection("user")
+    let productsCollections = db.collection("products")
 
-  userCollections
-    .find({ akey: key })
-    .limit(1)
-    .sort({ _id: -1 })
-    .toArray(function (err, result) {
-      if (err) {
-        console.log("Error occured " + err.message)
-      } else if (result.length) {
-        productsCollections
-          .find({})
-          .limit(50)
-          .sort({ _id: -1 })
-          .toArray(function (err2, result2) {
-            if (err2) {
-              console.log(err2)
-            } else if (result2.length) {
-              res.json({ result: true, found: result2.length, data: result2 })
+    userCollections
+        .find({ akey: key })
+        .limit(1)
+        .sort({ _id: -1 })
+        .toArray(function (err, result) {
+            if (err) {
+                console.log("Error occured " + err.message)
+            } else if (result.length) {
+                productsCollections
+                    .find({})
+                    .limit(50)
+                    .sort({ _id: -1 })
+                    .toArray(function (err2, result2) {
+                        if (err2) {
+                            console.log(err2)
+                        } else if (result2.length) {
+                            res.json({ result: true, found: result2.length, data: result2 })
+                        } else {
+                            res.json({ result: false, data: [] })
+                        }
+                    })
             } else {
-              res.json({ result: false, data: [] })
+                res.json({ result: false, msg: "you are not authorized", data: [] })
             }
-          })
-      } else {
-        res.json({ result: false, msg: "you are not authorized", data: [] })
-      }
-    })
+        })
 })
 
-//Product Add API
+//Product listing for category API
 
-router.post("/addProduct", (req, res) => {
-  const db = req.app.locals.db
-  let pid = uuid.v4()
-  let img = req.body.img
-  let name = req.body.name
-  let desc = req.body.desc
-  let price = req.body.price
-  let discount = req.body.discount
+router.get("/catProduct/:catName", async (req, res) => {
+    const db = req.app.locals.db
+    const { catName } = req.params
 
-  const productsCollection = db.collection("products")
+    const catCollection = db.collection("category")
+    const productList = db.collection("products")
 
-  let productData = {
-    pid: pid,
-    img: img,
-    name: name,
-    desc: desc,
-    price: price,
-    discount: discount,
-  }
+    //First check category exists or not
 
-  productsCollection.insertOne(productData, function (err, result) {
-    if (err) {
-      res.end("Failed to insert product: " + err.message)
-      console.warn(err.message)
-    }
-  })
+    let catData = await catCollection.findOne({ catName: catName })
 
-  res.json({ result: true, pid: pid, msg: "Product inserted successfully." })
-})
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads")
-  },
-  filename: (req, file, cb) => {
-    console.log(file)
-    let imgId = Math.floor(Math.random() * 90000) + 10000
-    let fileName = file.originalname.toLowerCase().split(" ").join("-")
-    fileName = imgId + "-" + fileName
-    cb(null, fileName)
-  },
-})
-
-// Define the maximum size for uploading
-// picture i.e. 1 MB. it is optional
-const maxSize = 1 * 1000 * 1000
-
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: maxSize },
-  fileFilter: (req, file, cb) => {
-    // Set the filetypes, it is optional
-    var filetypes = /jpeg|jpg|png/
-    var mimetype = filetypes.test(file.mimetype)
-
-    var extname = filetypes.test(path.extname(file.originalname).toLowerCase())
-
-    if (mimetype && extname) {
-      return cb(null, true)
+    if (!catData) {
+        res.json({ result: false, status: 404, req: 1, msg: "Category not found" })
+        return
     }
 
-    cb(
-      "Error: File upload only supports the " +
-        "following filetypes - " +
-        filetypes
-    )
-  },
+    let valve = ObjectId(catData._id).toString()
+
+    //Then show products that fall under that category
+
+    productList
+        .find({ category: valve })
+        .limit(50)
+        .sort({ _id: -1 })
+        .toArray(function (err, result) {
+            if (err) {
+                console.log("error occured")
+                res.status(400).send("Error fetching listening!")
+            } else {
+                if (result.length > 0) {
+                    res.json({
+                        result: result,
+                        status: 200,
+                        req: 2,
+                        msg: "Category has products",
+                        catData: catData,
+                    })
+                } else {
+                    res.json({
+                        result: false,
+                        status: 404,
+                        req: 3,
+                        msg: "Category has no products",
+                        catData: catData,
+                    })
+                }
+            }
+        })
+    //res.json({ result: true, msg: "product list" })
 })
 
-router.post(
-  "/product/img/test",
-  upload.single("productImage"),
-  (req, res, next) => {
-    if (!req.file) {
-      res.send({ code: 500, msg: "err" })
+router.get("/productDetails/:catName/:proId", async (req, res) => {
+    const db = req.app.locals.db
+    const { catName, proId } = req.params
+
+    const catCollection = db.collection("category")
+    const productList = db.collection("products")
+
+    let catData = await catCollection.findOne({ catName: catName })
+
+    if (!catData) {
+        res.json({ result: false, status: 404, req: 1, msg: "Category not found" })
+        return
+    }
+
+    let valve = ObjectId(catData._id).toString()
+
+    let productData = await productList.findOne({ pid: proId, category: valve })
+
+    if (productData) {
+        res.json({
+            result: productData,
+            status: 200,
+            req: 2,
+            msg: "Product exits",
+            catData: catData,
+        })
     } else {
-      //console.log(req.file)
-      res.send({
-        code: 200,
-        imgName: req.file.filename,
-        msg: "Upload successful",
-      })
+        res.status(400).send("Error fetching listening!")
     }
-  }
-)
+})
 
 module.exports = router

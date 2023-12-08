@@ -4,6 +4,7 @@ import axios from "axios"
 import { HelmetProvider, Helmet } from "react-helmet-async"
 
 import { config } from "../../utils/Constants"
+import { commaAdder } from "../../utils/utilityFunctions"
 import CartSkeleton from "../components/cart/CartSkeleton"
 import CartEach from "../components/cart/CartEach"
 
@@ -134,7 +135,9 @@ const Cart = ({ isAuth }) => {
                                 : `${totalCartCount} item`}
                             ):
                         </span>
-                        <span style={{ fontWeight: "600" }}>&nbsp;&#8377;{tPriceShow}</span>
+                        <span style={{ fontWeight: "600", letterSpacing: "0.5px" }}>
+                            &nbsp;&#8377;{commaAdder(tPriceShow.toFixed(2))}
+                        </span>
                         <div className="cart-submit-container">
                             <button className="cart-submit-button" onClick={checkoutCart}>
                                 Proceed to Buy

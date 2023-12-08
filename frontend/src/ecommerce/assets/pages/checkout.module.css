@@ -1,79 +1,103 @@
 .checkoutSteps,
 .orderSummary {
-  background-color: var(--white-color-f);
-  box-shadow: 0 0 10px -4px var(--white-color-d);
-  border-radius: 6px;
+    background-color: var(--white-color-f);
+    box-shadow: 0 0 10px -4px var(--white-color-d);
+    border-radius: 6px;
 }
 
 .checkoutSteps {
-  padding: 1rem;
+    padding: 1rem;
 }
 
 .orderSummary {
-  position: sticky;
-  top: 1rem;
-  border: 1px solid var(--white-color-e);
-  padding: 0.45rem 0.75rem;
+    position: sticky;
+    top: 1rem;
+    border: 1px solid var(--white-color-e);
+    padding: 0.45rem 0.75rem;
 }
 
 .orderSummary > div:not(:last-child) {
-  border-bottom: 2px solid var(--white-color-d);
-  padding-block: 0.25rem;
+    border-bottom: 2px solid var(--white-color-d);
+    padding-block: 0.25rem;
 }
 
 .orderSummary h2 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-block: 0.25rem 0.75rem;
-  color: var(--main-color-2);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-block: 0.25rem 0.75rem;
+    color: var(--main-color-2);
 }
 
 .eventButtons {
-  padding-bottom: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
 }
 
 .stepButton {
-  width: 100%;
-  outline: none;
-  border: 0;
-  border-radius: 8px;
-  background-color: var(--main-color-2);
-  padding-block: 0.5rem;
-  color: aliceblue;
-  font-weight: bold;
-  font-size: 0.75rem;
-  cursor: pointer;
+    width: 100%;
+    outline: none;
+    border: 0;
+    border-radius: 8px;
+    background-color: var(--main-color-2);
+    padding-block: 0.5rem;
+    color: aliceblue;
+    font-weight: bold;
+    font-size: 0.75rem;
+    cursor: pointer;
 }
 
 .disclaimer {
-  font-size: 0.55rem;
-  font-weight: 600;
-  color: var(--black-color-7);
-  text-align: center;
-  line-height: 1.25;
-  margin-top: 0.25rem;
+    font-size: 0.55rem;
+    font-weight: 600;
+    color: var(--black-color-7);
+    text-align: center;
+    line-height: 1.25;
+    margin-top: 0.25rem;
 }
 
 .summary {
-  font-size: 0.75rem;
+    font-size: 0.75rem;
 }
 
 .totalAmount {
-  margin-top: 0.35rem;
-  padding-block: 0.25rem;
-  font-weight: 700;
-  font-size: 0.9rem;
+    margin-top: 0.35rem;
+    padding-block: 0.25rem;
+    font-weight: 700;
+    font-size: 0.9rem;
 }
 
 @media screen and (max-width: 600px) {
-  .main {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
+    .main {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
 
-  .main > div:nth-child(1) {
-    text-align: center;
-    flex-basis: 100%;
-  }
+    .main > div:nth-child(1) {
+        text-align: center;
+        flex-basis: 100%;
+    }
+}
+
+.stepComponent {
+    overflow: hidden;
+    transition: 0.3s ease-in-out;
+}
+
+.activeComponent {
+    height: max-content;
+}
+
+.notActiveComponent {
+    height: 40px;
+}
+
+.divTitle {
+    /* height: 40px; */
+    padding: 0.5rem 1rem;
+    background-color: var(--main-color-2);
+    color: var(--white-color-f);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
 }
