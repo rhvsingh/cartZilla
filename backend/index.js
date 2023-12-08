@@ -52,7 +52,7 @@ const dbName = "ecommerce"
 
 const client = new MongoClient(dbUrl)
 
-async function run() {
+const connectDB = async () => {
     try {
         await client.connect()
         console.log("MongoDB Connected successfully to server")
@@ -64,8 +64,6 @@ async function run() {
         //await client.close();
     }
 }
-
-run()
 
 app.get("/", (req, res) => {
     res.json({ msg: "Hello World!" })
@@ -103,6 +101,9 @@ app.use(CartAPI)
 
 app.use("/admin", AdminPanel)
 
-app.listen(port, () => {
-    console.log(`Ecommerce app listening at http://localhost:${port}`)
+connectDB().then(() => {
+    console.log("DB Connected")
+    app.listen(port, () => {
+        console.log(`Ecommerce app listening at http://localhost:${port}`)
+    })
 })
