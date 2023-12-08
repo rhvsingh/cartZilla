@@ -8,9 +8,12 @@ const ListCategory = () => {
     const [catList, setCatList] = useState([])
     useEffect(() => {
         let baseURL = config.url.API_URL
-        axios.get(baseURL + "categoryList").then((response) => {
-            setCatList(response.data)
-        })
+        axios
+            .get(baseURL + "categoryList")
+            .then((response) => {
+                setCatList(response.data)
+            })
+            .catch((error) => console.error(error))
     }, [])
 
     return (

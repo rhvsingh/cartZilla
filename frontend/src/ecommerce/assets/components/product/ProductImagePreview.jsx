@@ -1,21 +1,29 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { FaTimes } from "react-icons/fa"
 
 import { config } from "../../../utils/Constants"
 
 const ProductImagePreview = ({ images }) => {
     const baseURL = config.url.API_URL
+    let imagePath = baseURL + "uploads/"
+
     const [activeImage, setActiveImage] = useState("")
     const [bigImagePreview, setBigImagePreview] = useState(false)
     const [bigActiveImage, setBigActiveImage] = useState("")
 
-    let imagePath = baseURL + "uploads/"
+    useEffect(() => {
+        let imagePath = config.url.API_URL + "uploads/"
+        setActiveImage(imagePath + images[0])
+    }, [images])
 
     function imageActivator(e, imagePath) {
         let smallImage = document.querySelector(".small-image-container")
-        smallImage
-            .querySelector(".product-preview-active")
-            .classList.remove("product-preview-active")
+        if (smallImage.querySelector(".product-preview-active") !== null) {
+            smallImage
+                .querySelector(".product-preview-active")
+                .classList.remove("product-preview-active")
+        }
+
         e.target.classList.add("product-preview-active")
 
         setActiveImage(imagePath)
@@ -31,11 +39,9 @@ const ProductImagePreview = ({ images }) => {
     }
 
     function bigImagePreviewActivator() {
-        setBigActiveImage(srcOfImage)
+        setBigActiveImage(activeImage === "" ? imagePath + images[0] : activeImage)
         setBigImagePreview((oldValue) => !oldValue)
     }
-
-    let srcOfImage = activeImage === "" ? imagePath + images[0] : activeImage
 
     return (
         <div className="d-flex gap-1 align-items-start image-responsive-view">
@@ -43,27 +49,25 @@ const ProductImagePreview = ({ images }) => {
                 style={{ flex: "20%" }}
                 className="d-grid justify-center grid-auto-row grid-auto-column gap-1 small-image-container"
             >
-                {images.map((item, index) => {
-                    return (
-                        <img
-                            key={index}
-                            onMouseEnter={(e) => imageActivator(e, imagePath + item)}
-                            className={
-                                index === 0
-                                    ? "product-preview-small-image product-preview-active"
-                                    : "product-preview-small-image"
-                            }
-                            src={imagePath + item}
-                            alt=""
-                            onClick={(e) => imageActivator(e, imagePath + item)}
-                        />
-                    )
-                })}
+                {images.map((item, index) => (
+                    <img
+                        key={item}
+                        onMouseEnter={(e) => imageActivator(e, imagePath + item)}
+                        className={
+                            index === 0
+                                ? "product-preview-small-image product-preview-active"
+                                : "product-preview-small-image"
+                        }
+                        src={imagePath + item}
+                        alt=""
+                        onClick={(e) => imageActivator(e, imagePath + item)}
+                    />
+                ))}
             </div>
             <div style={{ flex: "80%" }}>
                 <img
                     className="product-focus-image-preview"
-                    src={srcOfImage}
+                    src={activeImage === "" ? imagePath + images[0] : activeImage}
                     alt=""
                     onClick={bigImagePreviewActivator}
                 />
