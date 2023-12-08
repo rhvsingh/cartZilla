@@ -108,6 +108,7 @@
 .product-focus-image-preview {
     object-fit: cover;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .product-preview-active {

@@ -112,6 +112,18 @@ img {
     margin-block: auto;
 }
 
+.my-25 {
+    margin-block: 0.25rem;
+}
+
+.my-50 {
+    margin-block: 0.5rem;
+}
+
+.my-75 {
+    margin-block: 0.75rem;
+}
+
 .my-1 {
     margin-block: 1rem;
 }
@@ -176,12 +188,36 @@ img {
     margin-bottom: 2rem;
 }
 
+.px-25 {
+    padding-inline: 0.25rem;
+}
+
+.px-50 {
+    padding-inline: 0.5rem;
+}
+
+.px-75 {
+    padding-inline: 0.75rem;
+}
+
 .px-1 {
     padding-inline: 1rem;
 }
 
 .px-2 {
     padding-inline: 2rem;
+}
+
+.py-25 {
+    padding-block: 0.25rem;
+}
+
+.py-50 {
+    padding-block: 0.5rem;
+}
+
+.py-75 {
+    padding-block: 0.75rem;
 }
 
 .py-1 {
