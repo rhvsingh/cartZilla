@@ -72,7 +72,9 @@ const CategoryPage = ({ isAuth }) => {
                 </div>
             )}
             <div className="products">
-                {isLoading && <ProductCardSkeleton cards={4} />}
+                {isLoading && (
+                    <ProductCardSkeleton cards={productsData.length ? productsData.length : 4} />
+                )}
                 {productsData &&
                     productsData.length > 0 &&
                     productsData.map((product) => {
@@ -97,7 +99,7 @@ const CategoryPage = ({ isAuth }) => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme="dark"
             />
         </>
     )
