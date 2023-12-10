@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 
 import { config } from "../../../utils/Constants"
@@ -6,10 +6,12 @@ import { commaAdder } from "../../../utils/utilityFunctions"
 import { addToCart } from "../../../utils/productAddFunction"
 
 import userContext from "../../../contexts/userContext/userContext"
+import ProductImageSkeleton from "./ProductImageSkeleton"
 
 const ProductCards = ({ product, pageLink, proURL, path }) => {
     const contextData = useContext(userContext)
     const navigate = useNavigate()
+    const [isLoaded, setIsLoaded] = useState(false)
 
     function toLoginPage() {
         navigate("/login")
@@ -31,10 +33,15 @@ const ProductCards = ({ product, pageLink, proURL, path }) => {
     return (
         <div className="product-card">
             <Link to={pageLink ? proURL : ""} relative={path ? "route" : "path"}>
-                <img src={imagePath} alt={product.name} />
+                {!isLoaded && <ProductImageSkeleton />}
+                <img
+                    src={imagePath}
+                    alt={product.name}
+                    style={isLoaded ? {} : { display: "none" }}
+                    onLoad={() => setIsLoaded((oldValue) => !oldValue)}
+                />
                 <div className="product-details">
                     <h2 className="product-name">{product.name}</h2>
-                    <p className="product-desc">{product.desc}</p>
                     <p className="product-amount">
                         <span className="product-price">
                             {discount > 0 ? commaAdder(discountedPrice) : commaAdder(productPrice)}{" "}
