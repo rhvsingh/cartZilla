@@ -1,25 +1,16 @@
 import React, { useState, useEffect, Suspense, useContext } from "react"
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
 
-import Layout from "./assets/layouts/Layout"
-
-import userContext from "./contexts/userContext/userContext"
-import AdminState from "./contexts/adminContext/adminState"
-
 import "react-toastify/dist/ReactToastify.css"
 
-/* import ProductShow from './assets/pages/ProductShow'
-import Cart from './assets/pages/Cart'
-import Login from './assets/components/Login'
-import NotFoundPage from "./assets/components/NotFoundPage"
-import Profile from './assets/pages/Profile' */
-/* import Address from './assets/components/profile/Address' */
+import userContext from "./contexts/userContext/userContext"
 
-import LoadingScreen from "./assets/components/LoadingScreen"
-import SplitLayout from "./assets/layouts/SplitLayout"
-import ListCategory from "./assets/components/ListCategory"
-
+const AdminState = React.lazy(() => import("./contexts/adminContext/adminState"))
 const AdminPanel = React.lazy(() => import("./admin/AdminPanel"))
+const Layout = React.lazy(() => import("./assets/layouts/Layout"))
+const LoadingScreen = React.lazy(() => import("./assets/components/LoadingScreen"))
+const SplitLayout = React.lazy(() => import("./assets/layouts/SplitLayout"))
+const ListCategory = React.lazy(() => import("./assets/components/ListCategory"))
 const ProductShow = React.lazy(() => import("./assets/pages/ProductShow"))
 const NewHome = React.lazy(() => import("./assets/pages/NewHome"))
 const CategoryPage = React.lazy(() => import("./assets/pages/CategoryPage"))
@@ -32,17 +23,12 @@ const Profile = React.lazy(() => import("./assets/pages/Profile"))
 const Address = React.lazy(() => import("./assets/components/profile/Address"))
 
 const Ecommerce = () => {
-    const contextData = useContext(userContext)
+    const { isAuth, setIsAuth, userLogChecker } = useContext(userContext)
 
-    const [isAuth, setIsAuth] = [contextData.isAuth, contextData.setIsAuth]
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        if (localStorage.getItem("email") && localStorage.getItem("akey")) {
-            contextData.userLogChecker()
-        } else {
-            setIsAuth(false)
-        }
+        userLogChecker()
         // eslint-disable-next-line
     }, [])
 
