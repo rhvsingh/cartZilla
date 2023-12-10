@@ -10,8 +10,8 @@ const UserState = (props) => {
     const [isAuth, setIsAuth] = useState(false)
     const [userRole, setUserRole] = useState([])
 
-    const baseURL = config.url.API_URL
     function userLogChecker() {
+        const baseURL = config.url.API_URL
         axios
             .post(baseURL + "userLogged", {
                 email: localStorage.getItem("email"),
@@ -20,11 +20,13 @@ const UserState = (props) => {
             .then((response) => {
                 let data = response.data
                 if (data.statusCode === 200) {
-                    setUserRole(data.role)
+                    setUserRole((oldValue) => {
+                        if (oldValue !== data.role) return data.role
+                    })
                     setIsAuth((oldValue) => {
                         if (oldValue === false) {
                             return true
-                        } else if (oldValue === true) {
+                        } else {
                             return oldValue
                         }
                     })
@@ -54,11 +56,6 @@ const UserState = (props) => {
                 }
             })
     }
-    /* if (localStorage.getItem("email") && localStorage.getItem("akey")) {
-        userLogChecker()
-    } else {
-        setIsAuth(false)
-    } */
 
     function checkConnection() {
         setTimeout(function () {
