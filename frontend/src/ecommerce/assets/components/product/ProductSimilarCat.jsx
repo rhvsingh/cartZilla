@@ -1,7 +1,7 @@
 import React from "react"
 
-import ProductCardSkeleton from "./ProductCardSkeleton"
-import ProductCards from "./ProductCards"
+const ProductCardSkeleton = React.lazy(() => import("./ProductCardSkeleton"))
+const ProductCards = React.lazy(() => import("./ProductCards"))
 
 const ProductSimilarCat = ({ similarShow, productsData, productData, cleanCatName }) => {
     return (

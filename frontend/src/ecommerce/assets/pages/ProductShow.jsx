@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, lazy } from "react"
 import { ToastContainer } from "react-toastify"
 import axios from "axios"
 import { HelmetProvider, Helmet } from "react-helmet-async"
@@ -6,9 +6,8 @@ import { HelmetProvider, Helmet } from "react-helmet-async"
 import { config } from "../../utils/Constants"
 import "./productShow.css"
 
-import ProductCards from "../components/product/ProductCards"
-import ProductCardSkeleton from "../components/product/ProductCardSkeleton"
-//import ProductCardAdd from "../components/product/ProductCardAdd"
+const ProductCards = lazy(() => import("../components/product/ProductCards"))
+const ProductCardSkeleton = lazy(() => import("../components/product/ProductCardSkeleton"))
 
 const baseURL = config.url.API_URL
 

@@ -6,10 +6,11 @@ import * as DOMPurify from "dompurify"
 import axios from "axios"
 
 import { config } from "../../utils/Constants"
-import ProductCardSkeleton from "../components/product/ProductCardSkeleton"
-import ProductCards from "../components/product/ProductCards"
 
 import "./productShow.css"
+
+const ProductCardSkeleton = React.lazy(() => import("../components/product/ProductCardSkeleton"))
+const ProductCards = React.lazy(() => import("../components/product/ProductCards"))
 
 const CategoryPage = ({ isAuth }) => {
     const { catName } = useParams()
