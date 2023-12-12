@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, lazy } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import axios from "axios"
 import { HelmetProvider, Helmet } from "react-helmet-async"
 
 import { config } from "../../utils/Constants"
 import { commaAdder } from "../../utils/utilityFunctions"
-import CartSkeleton from "../components/cart/CartSkeleton"
-import CartEach from "../components/cart/CartEach"
 
 import "./cart.css"
+
+const CartSkeleton = lazy(() => import("../components/cart/CartSkeleton"))
+const CartEach = lazy(() => import("../components/cart/CartEach"))
 
 const baseURL = config.url.API_URL
 

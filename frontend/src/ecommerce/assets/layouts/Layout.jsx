@@ -1,5 +1,7 @@
-import Navigation from "../components/Navigation"
-import Footer from "../components/Footer"
+import { lazy } from "react"
+
+const Navigation = lazy(() => import("../components/Navigation"))
+const Footer = lazy(() => import("../components/Footer"))
 
 const Layout = (props) => {
     return (

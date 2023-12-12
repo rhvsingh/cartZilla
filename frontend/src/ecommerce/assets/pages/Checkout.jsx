@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, lazy } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { FaLock } from "react-icons/fa"
 import { HelmetProvider, Helmet } from "react-helmet-async"
 import axios from "axios"
 
 import { config } from "../../utils/Constants"
-import SplitLayout from "../layouts/SplitLayout"
-import CheckoutSteps from "../components/checkout/CheckoutSteps"
-import OrderSummary from "../components/checkout/OrderSummary"
 
 import CheckoutStyles from "./checkout.module.css"
+
+const SplitLayout = lazy(() => import("../layouts/SplitLayout"))
+const CheckoutSteps = lazy(() => import("../components/checkout/CheckoutSteps"))
+const OrderSummary = lazy(() => import("../components/checkout/OrderSummary"))
 
 const Checkout = (props) => {
     const loc = useLocation()

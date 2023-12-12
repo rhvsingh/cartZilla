@@ -2,9 +2,8 @@ import { useState, useContext } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { FaTimes, FaBars, FaUserCircle, FaAngleDown, FaSearch } from "react-icons/fa"
 
-import ScrollIndicator from "./ScrollIndicator"
-
 import userContext from "../../contexts/userContext/userContext"
+import ScrollIndicator from "./ScrollIndicator"
 
 const Navigation = () => {
     const contextData = useContext(userContext)

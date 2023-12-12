@@ -7,13 +7,13 @@ import axios from "axios"
 
 import { config } from "../../utils/Constants"
 import { addToCart } from "../../utils/productAddFunction"
-import SplitLayout from "../layouts/SplitLayout"
-
-import ProductImagePreview from "../components/product/ProductImagePreview"
-import ProductSimilarCat from "../components/product/ProductSimilarCat"
 
 import "./productShow.css"
-import ProductDetailsShow from "../components/product/ProductDetailsShow"
+
+const SplitLayout = React.lazy(() => import("../layouts/SplitLayout"))
+const ProductImagePreview = React.lazy(() => import("../components/product/ProductImagePreview"))
+const ProductSimilarCat = React.lazy(() => import("../components/product/ProductSimilarCat"))
+const ProductDetailsShow = React.lazy(() => import("../components/product/ProductDetailsShow"))
 
 const ProductPage = ({ isAuth }) => {
     const { catName, proName } = useParams()

@@ -1,17 +1,21 @@
 import React, { useContext, useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 
+import userContext from "../../../contexts/userContext/userContext"
+
 import { config } from "../../../utils/Constants"
 import { commaAdder } from "../../../utils/utilityFunctions"
 import { addToCart } from "../../../utils/productAddFunction"
 
-import userContext from "../../../contexts/userContext/userContext"
-import ProductImageSkeleton from "./ProductImageSkeleton"
+import fallBackImage from "../../image/Image_not_available.png"
+
+const ProductImageSkeleton = React.lazy(() => import("./ProductImageSkeleton"))
 
 const ProductCards = ({ product, pageLink, proURL, path }) => {
-    const contextData = useContext(userContext)
     const navigate = useNavigate()
+    const contextData = useContext(userContext)
     const [isLoaded, setIsLoaded] = useState(false)
+    const [hasError, setHasError] = useState(false)
 
     function toLoginPage() {
         navigate("/login")
@@ -35,10 +39,11 @@ const ProductCards = ({ product, pageLink, proURL, path }) => {
             <Link to={pageLink ? proURL : ""} relative={path ? "route" : "path"}>
                 {!isLoaded && <ProductImageSkeleton />}
                 <img
-                    src={imagePath}
+                    src={hasError ? fallBackImage : imagePath}
                     alt={product.name}
                     style={isLoaded ? {} : { display: "none" }}
                     onLoad={() => setIsLoaded((oldValue) => !oldValue)}
+                    onError={() => setHasError((oldValue) => !oldValue)}
                 />
                 <div className="product-details">
                     <h2 className="product-name">{product.name}</h2>
