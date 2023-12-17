@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState, useRef, useContext } from "react"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { HelmetProvider, Helmet } from "react-helmet-async"
 import { ToastContainer } from "react-toastify"
@@ -6,6 +6,7 @@ import * as DOMPurify from "dompurify"
 import axios from "axios"
 
 import { config } from "../../utils/Constants"
+import CartContext from "../../contexts/cartContext/CartContext"
 import { addToCart } from "../../utils/productAddFunction"
 
 import "./productShow.css"
@@ -17,6 +18,7 @@ const ProductDetailsShow = React.lazy(() => import("../components/product/Produc
 
 const ProductPage = ({ isAuth }) => {
     const { catName, proName } = useParams()
+    const { setTotalCartCount } = useContext(CartContext)
     const navigate = useNavigate()
 
     const cleanCatName = DOMPurify.sanitize(catName, { USE_PROFILES: { html: false } })
@@ -110,7 +112,11 @@ const ProductPage = ({ isAuth }) => {
                                 <ProductImagePreview images={productData.img} />
                                 <div className="add-to-cart-button mt-1">
                                     {isAuth ? (
-                                        <button onClick={() => addToCart(productData.pid)}>
+                                        <button
+                                            onClick={() =>
+                                                addToCart(productData.pid, setTotalCartCount)
+                                            }
+                                        >
                                             Add to Cart
                                         </button>
                                     ) : (

@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom"
 import userContext from "../../../contexts/userContext/userContext"
 
 import { config } from "../../../utils/Constants"
+import CartContext from "../../../contexts/cartContext/CartContext"
 import { commaAdder } from "../../../utils/utilityFunctions"
 import { addToCart } from "../../../utils/productAddFunction"
 
@@ -12,6 +13,7 @@ import fallBackImage from "../../image/Image_not_available.png"
 const ProductImageSkeleton = React.lazy(() => import("./ProductImageSkeleton"))
 
 const ProductCards = ({ product, pageLink, proURL, path }) => {
+    const { setTotalCartCount } = useContext(CartContext)
     const navigate = useNavigate()
     const contextData = useContext(userContext)
     const [isLoaded, setIsLoaded] = useState(false)
@@ -69,7 +71,9 @@ const ProductCards = ({ product, pageLink, proURL, path }) => {
             </Link>
             <p className="product-button-cart">
                 {contextData.isAuth ? (
-                    <button onClick={() => addToCart(product.pid)}>Add to Cart</button>
+                    <button onClick={() => addToCart(product.pid, setTotalCartCount)}>
+                        Add to Cart
+                    </button>
                 ) : (
                     <button onClick={toLoginPage}>Login</button>
                 )}

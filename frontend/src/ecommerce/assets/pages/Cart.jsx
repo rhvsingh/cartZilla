@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy } from "react"
+import { lazy, useContext } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import axios from "axios"
 import { HelmetProvider, Helmet } from "react-helmet-async"
@@ -8,12 +8,24 @@ import { commaAdder } from "../../utils/utilityFunctions"
 
 import "./cart.css"
 
+import CartContext from "../../contexts/cartContext/CartContext"
+
 const CartSkeleton = lazy(() => import("../components/cart/CartSkeleton"))
 const CartEach = lazy(() => import("../components/cart/CartEach"))
 
 const baseURL = config.url.API_URL
 
 const Cart = ({ isAuth }) => {
+    const {
+        cartCount,
+        totalCartCount,
+        setTotalCartCount,
+        tPriceShow,
+        cartDetails,
+        setCartDetails,
+        isLoading,
+    } = useContext(CartContext)
+
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -21,29 +33,6 @@ const Cart = ({ isAuth }) => {
     } else {
         navigate("/login")
     }
-
-    const [cartCount, setCartCount] = useState(-1)
-    const [totalCartCount, setTotalCartCount] = useState(0)
-    const [tPriceShow, setTPriceShow] = useState(0)
-    const [cartDetails, setCartDetails] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
-
-    useEffect(() => {
-        let apiURL = baseURL + "cartCount/" + localStorage.getItem("akey")
-        axios.get(apiURL).then((response) => {
-            setCartCount(response.data.count)
-            setTotalCartCount(response.data.totalQty)
-            setTPriceShow(response.data.tCalcPrice)
-        })
-    }, [totalCartCount, cartDetails])
-
-    useEffect(() => {
-        let apiURL = baseURL + "showCart/" + localStorage.getItem("akey")
-        axios.get(apiURL).then((response) => {
-            setCartDetails(response.data.result)
-            setIsLoading(false)
-        })
-    }, [])
 
     const changeQty = (qty, pid) => {
         let apiURL = baseURL + "addCart/" + localStorage.getItem("akey")

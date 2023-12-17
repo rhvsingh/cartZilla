@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, useContext } from "react"
+import React, { useEffect, Suspense, useContext } from "react"
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
 
 import "react-toastify/dist/ReactToastify.css"
@@ -23,16 +23,7 @@ const Profile = React.lazy(() => import("./assets/pages/Profile"))
 const Address = React.lazy(() => import("./assets/components/profile/Address"))
 
 const Ecommerce = () => {
-    const { isAuth, setIsAuth, userLogChecker } = useContext(userContext)
-
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        userLogChecker()
-        // eslint-disable-next-line
-    }, [])
-
-    if (loading) setLoading(false)
+    const { isAuth, setIsAuth } = useContext(userContext)
 
     function AdminPanelRoute() {
         return (
@@ -126,11 +117,9 @@ const Ecommerce = () => {
 
     function CartCheckout() {
         return (
-            !loading && (
-                <Suspense fallback={<LoadingScreen />}>
-                    <Checkout isAuth={isAuth} />
-                </Suspense>
-            )
+            <Suspense fallback={<LoadingScreen />}>
+                <Checkout isAuth={isAuth} />
+            </Suspense>
         )
     }
 
