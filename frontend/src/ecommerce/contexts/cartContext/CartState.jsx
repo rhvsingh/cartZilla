@@ -25,9 +25,18 @@ const CartState = (props) => {
         const baseURL = config.url.API_URL
         let apiURL = baseURL + "cartCount/" + localStorage.getItem("akey")
         axios.get(apiURL).then((response) => {
-            setCartCount(response.data.count)
-            setTotalCartCount(response.data.totalQty)
-            setTPriceShow(response.data.tCalcPrice)
+            setCartCount((old) => {
+                if (old === response.data.count) return old
+                else return response.data.count
+            })
+            setTotalCartCount((old) => {
+                if (old === response.data.totalQty) return old
+                else return response.data.totalQty
+            })
+            setTPriceShow((old) => {
+                if (old === response.data.tCalcPrice) return old
+                else return response.data.tCalcPrice
+            })
         })
     }, [totalCartCount, cartDetails])
 

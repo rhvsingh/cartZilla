@@ -19,7 +19,7 @@ const Checkout = (props) => {
     const [isLoading, setIsLoading] = useState(true)
     const [step, setStep] = useState(0)
     const [orderDetails, setOrderDetails] = useState({
-        shippingAddressSelected: "",
+        shippingAddressID: "",
         paymentMethodSelected: "",
         codCollectibleAmount: 0,
         itemsOrdered: [],
@@ -52,7 +52,6 @@ const Checkout = (props) => {
                 qty += item.qty
             })
 
-            console.log(tprice)
             setOrderDetails((oldValue) => ({
                 ...oldValue,
                 itemsCount: qty,
@@ -63,6 +62,8 @@ const Checkout = (props) => {
             setIsLoading(false)
         })
     }, [])
+
+    console.log(orderDetails)
 
     if (!props.isAuth) {
         return <LocationRedirect />

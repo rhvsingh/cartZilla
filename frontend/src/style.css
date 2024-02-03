@@ -10,6 +10,7 @@
     --main-color-2: #2da17b;
     --main-color-dark-1: #2e886a;
     --main-bg-color: #f1f3f6;
+    --main-bg-light: #e5fff6;
 
     --bg-trans-1: rgba(113, 199, 167, 0.094);
 
@@ -789,4 +790,15 @@ hr {
     font-size: 0.9rem;
     margin-inline: 3px;
     cursor: pointer;
+}
+
+/* Checkout CSS */
+
+.address-radio:has(input:checked) {
+    border: 1px solid var(--main-color-2);
+    background-color: var(--main-bg-light);
+}
+
+.address-radio:not(:has(input:checked)) {
+    border: 1px solid transparent;
 }
