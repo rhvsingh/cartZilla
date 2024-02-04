@@ -3,7 +3,7 @@ import axios from "axios"
 
 import { config } from "../../../utils/Constants"
 
-const SelectAddress = ({ setOrderDetails }) => {
+const SelectAddress = ({ orderDetails, setOrderDetails, setAddress }) => {
     const [userDetails, setUserDetails] = useState({})
     const [selectedAddress, setSelectedAddress] = useState(0)
     useEffect(() => {
@@ -11,25 +11,39 @@ const SelectAddress = ({ setOrderDetails }) => {
             const baseURL = config.url.API_URL
             axios.get(baseURL + "user/" + localStorage.getItem("akey")).then((response) => {
                 if (response.data.statusCode === 200) {
+                    if (orderDetails.shippingAddressID === "") {
+                        setOrderDetails((oldValues) => ({
+                            ...oldValues,
+                            shippingAddressID: response.data.data.addresses[0].address_id,
+                        }))
+                        setAddress(response.data.data.addresses[0])
+                    } else {
+                        response.data.data.addresses.map(
+                            (detail, index) =>
+                                detail.address_id === orderDetails.shippingAddressID &&
+                                setSelectedAddress(index)
+                        )
+                    }
+
                     setUserDetails(response.data.data)
-                    setOrderDetails((oldValues) => ({
-                        ...oldValues,
-                        shippingAddressID: response.data.data.addresses[0].address_id,
-                    }))
                 }
             })
         }
         userDetailsFetcher()
 
         return userDetailsFetcher()
-    }, [setOrderDetails])
+    }, [setOrderDetails, setAddress, orderDetails])
 
     const changeRadio = (e) => {
         setSelectedAddress(parseInt(e.target.attributes["data-index"].value))
         setOrderDetails((oldValues) => ({
             ...oldValues,
             shippingAddressID: e.target.value,
+            paymentMethodSelected: "",
         }))
+        userDetails.addresses.map(
+            (detail) => detail.address_id === e.target.value && setAddress(detail)
+        )
     }
 
     return (
@@ -55,7 +69,7 @@ const SelectAddress = ({ setOrderDetails }) => {
                     userDetails.addresses.map((address, index) => {
                         return (
                             <label
-                                className=" my-1 px-1 py-50 d-flex gap-50 address-radio"
+                                className=" mt-50 px-1 py-50 d-flex gap-50 address-radio"
                                 style={{
                                     fontSize: "0.85rem",
                                     fontWeight: "500",

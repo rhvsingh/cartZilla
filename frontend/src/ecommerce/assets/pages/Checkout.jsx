@@ -63,8 +63,6 @@ const Checkout = (props) => {
         })
     }, [])
 
-    console.log(orderDetails)
-
     if (!props.isAuth) {
         return <LocationRedirect />
     }
@@ -75,12 +73,7 @@ const Checkout = (props) => {
         return <LocationRedirectToHome />
     }
 
-    const stepButtonShow = [
-        "Select Delivery Address",
-        "Select Payment Method",
-        "Check Items",
-        "Place your order",
-    ]
+    const stepButtonShow = ["Select Delivery Address", "Select Payment Method", "Check Items"]
 
     const handleEvent = () => {
         switch (step) {
@@ -93,9 +86,6 @@ const Checkout = (props) => {
             case 2:
                 setStep(3)
                 break
-            case 3:
-                console.log("Order Placed")
-                break
             default:
                 break
         }
@@ -105,7 +95,7 @@ const Checkout = (props) => {
         <>
             <HelmetProvider>
                 <Helmet>
-                    <title>Checkout | CartZilla</title>
+                    <title>{step === 0 ? stepButtonShow[step] : "Checkout"} | CartZilla</title>
                 </Helmet>
             </HelmetProvider>
             <main className="d-flex flex-direc-col justify-between" style={{ minHeight: "100vh" }}>
@@ -127,6 +117,7 @@ const Checkout = (props) => {
                     {!isLoading && (
                         <SplitLayout div1={75} div2={25}>
                             <CheckoutSteps
+                                orderDetails={orderDetails}
                                 setOrderDetails={setOrderDetails}
                                 step={step}
                                 setStep={setStep}
