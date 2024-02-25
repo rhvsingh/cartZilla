@@ -6,6 +6,13 @@ const SelectAddress = React.lazy(() => import("./SelectAddress"))
 const SelectPayment = React.lazy(() => import("./SelectPayment"))
 const SelectItemShow = React.lazy(() => import("./SelectItemShow"))
 
+const selectedRadioStyle = {
+    color: "var(--black-color-5)",
+    fontWeight: "500",
+    fontSize: "0.8rem",
+    maxWidth: "400px",
+}
+
 const CheckoutSteps = (props) => {
     const [sectionChecked, setSectionChecked] = useState([1, 0, 0])
     const [address, setAddress] = useState({})
@@ -40,13 +47,7 @@ const CheckoutSteps = (props) => {
                     {props.step !== 0 &&
                         sectionChecked[0] === 1 &&
                         props.orderDetails.shippingAddressID !== "" && (
-                            <div
-                                style={{
-                                    color: "var(--black-color-0)",
-                                    fontWeight: "400",
-                                    maxWidth: "400px",
-                                }}
-                            >
+                            <div style={selectedRadioStyle}>
                                 {address.name} {address.address}, {address.city}, {address.state},{" "}
                                 {address.pinCode}
                             </div>
@@ -67,13 +68,22 @@ const CheckoutSteps = (props) => {
                     onClick={() => sectionSwitcher(1)}
                 >
                     <div>2. {props.step === 1 ? "Select a payment method" : "Payment method"}</div>
+                    {props.step !== 1 &&
+                        sectionChecked[1] === 1 &&
+                        props.orderDetails.paymentMethodSelected !== "" && (
+                            <div style={selectedRadioStyle}>
+                                {props.orderDetails.paymentMethodSelected === "cod" &&
+                                    "Cash on delivery"}
+                            </div>
+                        )}
                     <div>{props.step === 1 ? "-" : "+"}</div>
                 </div>
-                {props.step !== 1 &&
-                    sectionChecked[1] === 1 &&
-                    props.orderDetails.shippingAddressID !== "" &&
-                    "Show this brother"}
-                {props.step === 1 && <SelectPayment setOrderDetails={props.setOrderDetails} />}
+                {props.step === 1 && (
+                    <SelectPayment
+                        orderDetails={props.orderDetails}
+                        setOrderDetails={props.setOrderDetails}
+                    />
+                )}
             </div>
             <div className={"my-25 mb-50 " + CheckoutStyles.stepComponent}>
                 <div

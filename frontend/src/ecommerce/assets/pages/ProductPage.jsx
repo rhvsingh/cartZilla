@@ -100,7 +100,10 @@ const ProductPage = ({ isAuth }) => {
                     </span>
                 </div>
                 <div>
-                    <div className="px-1 py-1 mb-1">
+                    <div
+                        className="px-1 py-1 mb-1 mt-50"
+                        style={{ backgroundColor: "var(--white-color-f)", borderRadius: "8px" }}
+                    >
                         All Details of Product Here
                         <SplitLayout
                             containerFluid={true}
