@@ -1,10 +1,10 @@
 import { useEffect, useState, Suspense, lazy } from "react"
 import { Link, Outlet, useOutlet, useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
-import { HelmetProvider, Helmet } from "react-helmet-async"
 import { FaUserAlt, FaPowerOff, FaBars, FaTimes } from "react-icons/fa"
 
 import { config } from "../../utils/Constants"
+import SEO from "../components/SEO"
 
 import ProfileStyles from "./profile.module.css"
 import "./profile.css"
@@ -49,11 +49,7 @@ const Profile = ({ auth }) => {
 
     return (
         <>
-            <HelmetProvider>
-                <Helmet>
-                    <title>Profile</title>
-                </Helmet>
-            </HelmetProvider>
+            <SEO title={"Profile"} />
             {userDetails && userDetails.name ? (
                 <div className="container-2">
                     <div className={"d-flex gap-1 " + ProfileStyles.profileContainer}>

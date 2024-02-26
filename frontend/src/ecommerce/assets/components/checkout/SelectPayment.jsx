@@ -15,7 +15,6 @@ const SelectPayment = ({ orderDetails, setOrderDetails }) => {
         return userDetailsFetcher()
     }, [setOrderDetails, orderDetails])
 
-    console.log(orderDetails)
     const changeRadio = (e) => {
         //setSelectedAddress(parseInt(e.target.attributes["data-index"].value))
         /* setOrderDetails((oldValues) => ({

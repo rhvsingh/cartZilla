@@ -94,7 +94,12 @@ const CheckoutSteps = (props) => {
                     <div>{props.step === 2 ? "-" : "+"}</div>
                 </div>
 
-                {props.step === 2 && <SelectItemShow setOrderDetails={props.setOrderDetails} />}
+                {props.step === 2 && (
+                    <SelectItemShow
+                        orderDetails={props.orderDetails}
+                        setOrderDetails={props.setOrderDetails}
+                    />
+                )}
             </div>
             <div className={CheckoutStyles.eventButtons + " mt-1"}>
                 <button className={CheckoutStyles.stepButton} onClick={props.handleEvent}>

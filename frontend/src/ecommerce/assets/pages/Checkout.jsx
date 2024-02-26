@@ -1,10 +1,10 @@
 import { useEffect, useState, lazy } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { FaLock } from "react-icons/fa"
-import { HelmetProvider, Helmet } from "react-helmet-async"
 import axios from "axios"
 
 import { config } from "../../utils/Constants"
+import SEO from "../components/SEO"
 
 import CheckoutStyles from "./checkout.module.css"
 
@@ -47,17 +47,30 @@ const Checkout = (props) => {
             let tprice = 0
             let qty = 0
             let discountPrice = 0
+            let itemArray = []
+
             result.forEach((item) => {
                 tprice += item.tprice
                 qty += item.qty
+                let itemShow = {
+                    productId: item.pid,
+                    productQty: item.qty,
+                    productName: item.productDetails.name,
+                    productPrice: item.productDetails.price,
+                    productDesc: item.productDetails.desc,
+                    productImg: Array.isArray(item.productDetails.img)
+                        ? item.productDetails.img[0]
+                        : item.productDetails.img,
+                }
+                itemArray.push(itemShow)
             })
-
             setOrderDetails((oldValue) => ({
                 ...oldValue,
                 itemsCount: qty,
                 itemsPrice: Math.round(tprice).toFixed(2),
                 totalPrice: Math.round(tprice + discountPrice).toFixed(2),
                 discountPrice: Math.round(discountPrice).toFixed(2),
+                itemsOrdered: itemArray,
             }))
             setIsLoading(false)
         })
@@ -84,20 +97,18 @@ const Checkout = (props) => {
                 setStep(2)
                 break
             case 2:
-                setStep(3)
+                setStep(-1)
                 break
             default:
                 break
         }
     }
 
+    let titleShow = step !== -1 ? stepButtonShow[step] + " | CartZilla" : "Checkout | CartZilla"
+
     return (
         <>
-            <HelmetProvider>
-                <Helmet>
-                    <title>{step === 0 ? stepButtonShow[step] : "Checkout"} | CartZilla</title>
-                </Helmet>
-            </HelmetProvider>
+            <SEO title={titleShow} />
             <main className="d-flex flex-direc-col justify-between" style={{ minHeight: "100vh" }}>
                 <header className="px-1">
                     <div
