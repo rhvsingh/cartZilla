@@ -1,4 +1,5 @@
 import CheckoutStyles from "../../pages/checkout.module.css"
+import { commaAdder } from "../../../utils/utilityFunctions"
 
 const OrderSummary = (props) => {
     const styles = {
@@ -23,18 +24,18 @@ const OrderSummary = (props) => {
                     <div className="d-flex justify-between">
                         <div className={CheckoutStyles.items}>Items:</div>
                         <div className={CheckoutStyles.itemsPrice}>
-                            &#8377;{props.orderDetails.itemsPrice}
+                            &#8377;{commaAdder(props.orderDetails.itemsPrice)}
                         </div>
                     </div>
                     <div className="d-flex justify-between">
                         <div>Delivery:</div>
-                        <div>&#8377;{props.orderDetails.discountPrice}</div>
+                        <div>&#8377;{commaAdder(props.orderDetails.discountPrice)}</div>
                     </div>
                 </div>
             </div>
             <div className={"d-flex justify-between " + CheckoutStyles.totalAmount}>
                 <div>Order Total:</div>
-                <div>&#8377;{props.orderDetails.totalPrice}</div>
+                <div>&#8377;{commaAdder(props.orderDetails.totalPrice)}</div>
             </div>
         </div>
     )

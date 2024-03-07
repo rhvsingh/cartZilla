@@ -50,14 +50,23 @@ const Checkout = (props) => {
             let itemArray = []
 
             result.forEach((item) => {
+                console.log(item)
                 tprice += item.tprice
                 qty += item.qty
+
+                let productPrice = item.productDetails.price.toFixed(2)
+                let discountedPrice = (
+                    productPrice -
+                    (productPrice / 100) * item.productDetails.discount
+                ).toFixed(2)
                 let itemShow = {
                     productId: item.pid,
                     productQty: item.qty,
                     productName: item.productDetails.name,
-                    productPrice: item.productDetails.price,
+                    productPrice: productPrice,
                     productDesc: item.productDetails.desc,
+                    productDiscount: item.productDetails.discount,
+                    productDiscountedPrice: discountedPrice,
                     productImg: Array.isArray(item.productDetails.img)
                         ? item.productDetails.img[0]
                         : item.productDetails.img,
@@ -86,7 +95,7 @@ const Checkout = (props) => {
         return <LocationRedirectToHome />
     }
 
-    const stepButtonShow = ["Select Delivery Address", "Select Payment Method", "Check Items"]
+    const stepButtonShow = ["Select Delivery Address", "Select Payment Method", "Place Order"]
 
     const handleEvent = () => {
         switch (step) {
@@ -95,9 +104,6 @@ const Checkout = (props) => {
                 break
             case 1:
                 setStep(2)
-                break
-            case 2:
-                setStep(-1)
                 break
             default:
                 break
@@ -124,7 +130,7 @@ const Checkout = (props) => {
                         </div>
                     </div>
                 </header>
-                <div style={{ flex: "100%" }}>
+                <div style={{ flex: "100%", padding: "0 4px" }}>
                     {!isLoading && (
                         <SplitLayout div1={75} div2={25}>
                             <CheckoutSteps
