@@ -1,27 +1,15 @@
-import React, { useContext, useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
-
-import userContext from "../../../contexts/userContext/userContext"
-
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
 import { config } from "../../../utils/Constants"
-import CartContext from "../../../contexts/cartContext/CartContext"
 import { commaAdder } from "../../../utils/utilityFunctions"
-import { addToCart } from "../../../utils/productAddFunction"
 
 import fallBackImage from "../../image/Image_not_available.png"
 
 const ProductImageSkeleton = React.lazy(() => import("./ProductImageSkeleton"))
 
 const ProductCards = ({ product, pageLink, proURL, path }) => {
-    const { setTotalCartCount } = useContext(CartContext)
-    const navigate = useNavigate()
-    const contextData = useContext(userContext)
     const [isLoaded, setIsLoaded] = useState(false)
     const [hasError, setHasError] = useState(false)
-
-    function toLoginPage() {
-        navigate("/login")
-    }
 
     const baseURL = config.url.API_URL
 
@@ -38,7 +26,7 @@ const ProductCards = ({ product, pageLink, proURL, path }) => {
 
     return (
         <div className="product-card">
-            <Link to={pageLink ? proURL : ""} relative={path ? "route" : "path"}>
+            <Link to={pageLink ? proURL : ""} relative={path ? "route" : "path"} state={product}>
                 {!isLoaded && <ProductImageSkeleton />}
                 <img
                     src={hasError ? fallBackImage : imagePath}
@@ -68,16 +56,10 @@ const ProductCards = ({ product, pageLink, proURL, path }) => {
                         )}
                     </p>
                 </div>
+                <p className="product-availability">
+                    {product.stock > 0 ? "Product in stock" : "Out of stock"}
+                </p>
             </Link>
-            <p className="product-button-cart">
-                {contextData.isAuth ? (
-                    <button onClick={() => addToCart(product.pid, setTotalCartCount)}>
-                        Add to Cart
-                    </button>
-                ) : (
-                    <button onClick={toLoginPage}>Login</button>
-                )}
-            </p>
         </div>
     )
 }
