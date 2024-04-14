@@ -20,6 +20,7 @@ const Checkout = React.lazy(() => import("./assets/pages/Checkout"))
 const NotFoundPage = React.lazy(() => import("./assets/components/NotFoundPage"))
 const Login = React.lazy(() => import("./assets/components/Login"))
 const Profile = React.lazy(() => import("./assets/pages/Profile"))
+const Order = React.lazy(() => import("./assets/components/profile/Order"))
 const Address = React.lazy(() => import("./assets/components/profile/Address"))
 
 const Ecommerce = () => {
@@ -136,7 +137,16 @@ const Ecommerce = () => {
                         <Route path="/cart" element={<CartShow />} />
                         <Route path="/checkout" element={<CartCheckout />} />
                         <Route path="/profile" element={<ProfileShow />}>
+                            <Route path="orders" element={<Order />} />
                             <Route path="address" element={<Address />} />
+                            <Route
+                                path="*"
+                                element={
+                                    <Suspense fallback={<LoadingScreen />}>
+                                        <NotFoundPage />
+                                    </Suspense>
+                                }
+                            />
                         </Route>
                         <Route path="/login" element={<LoginRedirect />} />
                     </>

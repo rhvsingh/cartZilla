@@ -91,6 +91,7 @@ const SideBar = ({ setIsAuth }) => {
                 <div className={"px-2 py-2 " + sideBarStyles.nav} role="navigation">
                     {navInfo.map((navData, index) => (
                         <NavLink
+                            end
                             to={navData.path}
                             className={({ isActive, isPending }) =>
                                 isPending ? "pending" : isActive ? "active-admin-sidebar" : ""

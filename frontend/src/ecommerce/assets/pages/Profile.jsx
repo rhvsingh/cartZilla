@@ -115,6 +115,16 @@ const Profile = ({ auth }) => {
                                         >
                                             <li>Manage Addresses</li>
                                         </Link>
+                                        <Link
+                                            to="orders"
+                                            className={
+                                                endPoint === "orders"
+                                                    ? "child-selector active-child"
+                                                    : "child-selector"
+                                            }
+                                        >
+                                            <li>Your Orders</li>
+                                        </Link>
                                     </ul>
                                 </div>
                                 {/* <div className='border-bottom'></div>
@@ -144,7 +154,7 @@ const Profile = ({ auth }) => {
                                         "d-flex flex-wrap-wrap " + ProfileStyles.smallFontList
                                     }
                                 >
-                                    <li>Change Password</li>
+                                    {/* <li>Change Password</li> */}
                                     <li>Track Order</li>
                                     <li>Help Center</li>
                                 </ul>
