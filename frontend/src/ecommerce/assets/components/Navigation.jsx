@@ -7,6 +7,8 @@ import userContext from "../../contexts/userContext/userContext"
 import CartContext from "../../contexts/cartContext/CartContext"
 import ScrollIndicator from "./ScrollIndicator"
 
+import Logo from "../image/logo-dark.png"
+
 const Navigation = () => {
     const { totalCartCount } = useContext(CartContext)
     const contextData = useContext(userContext)
@@ -18,6 +20,7 @@ const Navigation = () => {
     const baseURL = ""
     //console.log(baseURL, window.location.hostname)
 
+    const [logoLoaded, setLogoLoaded] = useState(false)
     const [clickCheck, setClickCheck] = useState(1)
     const [search, setSearch] = useState("")
 
@@ -70,7 +73,14 @@ const Navigation = () => {
                 <div className="container d-flex gap-75 justify-between align-items-center">
                     <div className="logo">
                         <Link to=".." relative="route">
-                            CartZilla
+                            <img
+                                src={Logo}
+                                alt="CartZilla"
+                                title="CartZilla"
+                                style={logoLoaded ? {} : { display: "none" }}
+                                onLoad={() => setLogoLoaded(true)}
+                            />
+                            {!logoLoaded && <span>CartZilla</span>}
                         </Link>
                     </div>
 

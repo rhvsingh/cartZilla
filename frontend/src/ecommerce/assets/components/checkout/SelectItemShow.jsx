@@ -16,26 +16,26 @@ const SelectItemShow = ({ orderDetails }) => {
                     </div>
                     <div>
                         <h5>{item.productName}</h5>
-                        <div>
-                            {item.productDiscount > 0 ? (
-                                <div style={{ fontSize: "0.9rem", fontWeight: "500" }}>
-                                    <span className="product-price-mark">
-                                        {commaAdder(item.productPrice)}
-                                    </span>
-                                    <span
-                                        className="product-price pl-25"
-                                        style={{ fontSize: "0.9rem" }}
-                                    >
-                                        {commaAdder(item.productDiscountedPrice)}
-                                    </span>
-                                </div>
-                            ) : (
-                                <div className="product-price" style={{ fontSize: "0.9rem" }}>
-                                    {commaAdder(item.productPrice)}
-                                </div>
-                            )}
-                        </div>
                         <div>Qty: {item.productQty}</div>
+                    </div>
+                    <div style={{ marginLeft: "auto" }}>
+                        {item.productDiscount > 0 ? (
+                            <div style={{ fontSize: "0.9rem", fontWeight: "500" }}>
+                                <span className="product-price-mark">
+                                    {commaAdder(item.productPrice)}
+                                </span>
+                                <span
+                                    className="product-price pl-25"
+                                    style={{ fontSize: "0.9rem" }}
+                                >
+                                    {commaAdder(item.productDiscountedPrice)}
+                                </span>
+                            </div>
+                        ) : (
+                            <div className="product-price" style={{ fontSize: "0.9rem" }}>
+                                {commaAdder(item.productPrice)}
+                            </div>
+                        )}
                     </div>
                 </div>
             ))}
