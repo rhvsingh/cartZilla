@@ -9,7 +9,11 @@ const OrderSummary = (props) => {
     return (
         <div className={"order-summary " + CheckoutStyles.orderSummary}>
             <div className={CheckoutStyles.eventButtons}>
-                <button className={CheckoutStyles.stepButton} onClick={props.handleEvent}>
+                <button
+                    className={CheckoutStyles.stepButton}
+                    onClick={props.handleEvent}
+                    disabled={props.loading}
+                >
                     {props.loading ? (
                         <span className={CheckoutStyles.loading}></span>
                     ) : (

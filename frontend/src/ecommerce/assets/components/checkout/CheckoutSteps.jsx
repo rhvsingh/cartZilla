@@ -102,7 +102,11 @@ const CheckoutSteps = (props) => {
                 )}
             </div>
             <div className={CheckoutStyles.eventButtons + " mt-1"}>
-                <button className={CheckoutStyles.stepButton} onClick={props.handleEvent}>
+                <button
+                    className={CheckoutStyles.stepButton}
+                    onClick={props.handleEvent}
+                    disabled={props.loading}
+                >
                     {props.loading ? (
                         <span className={CheckoutStyles.loading}></span>
                     ) : (
