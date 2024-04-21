@@ -37,6 +37,8 @@ const UserState = (props) => {
                     }
                 })
                 .catch(function (error) {
+                    //console.log(error)
+                    //console.error(error)
                     if (
                         error.code === "ERR_NETWORK" ||
                         error.response.status === 0 ||

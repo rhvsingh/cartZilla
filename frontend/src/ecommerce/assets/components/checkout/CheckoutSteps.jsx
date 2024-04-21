@@ -103,7 +103,11 @@ const CheckoutSteps = (props) => {
             </div>
             <div className={CheckoutStyles.eventButtons + " mt-1"}>
                 <button className={CheckoutStyles.stepButton} onClick={props.handleEvent}>
-                    {props.stepButtonShow[props.step]}
+                    {props.loading ? (
+                        <span className={CheckoutStyles.loading}></span>
+                    ) : (
+                        props.stepButtonShow[props.step]
+                    )}
                 </button>
             </div>
         </div>

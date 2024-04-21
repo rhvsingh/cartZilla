@@ -10,7 +10,11 @@ const OrderSummary = (props) => {
         <div className={"order-summary " + CheckoutStyles.orderSummary}>
             <div className={CheckoutStyles.eventButtons}>
                 <button className={CheckoutStyles.stepButton} onClick={props.handleEvent}>
-                    {props.stepButtonShow[props.step]}
+                    {props.loading ? (
+                        <span className={CheckoutStyles.loading}></span>
+                    ) : (
+                        props.stepButtonShow[props.step]
+                    )}
                 </button>
                 <div className={CheckoutStyles.disclaimer}>
                     By placing your order, you agree to CartZilla's{" "}

@@ -14,9 +14,12 @@ const OrderSummary = lazy(() => import("../components/checkout/OrderSummary"))
 
 const Checkout = (props) => {
     const loc = useLocation()
+    const navigate = useNavigate()
 
     //const [orderDetailsShow, setOrderDetailsShow] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [orderLoading, setOrderLoading] = useState(false)
+
     const [step, setStep] = useState(0)
     const [orderDetails, setOrderDetails] = useState({
         shippingAddressID: "",
@@ -50,7 +53,7 @@ const Checkout = (props) => {
             let itemArray = []
 
             result.forEach((item) => {
-                console.log(item)
+                //console.log(item)
                 tprice += item.tprice
                 qty += item.qty
 
@@ -95,6 +98,15 @@ const Checkout = (props) => {
         return <LocationRedirectToHome />
     }
 
+    function placeOrder() {
+        console.log("order place")
+        setOrderLoading((oldValue) => !oldValue)
+        setTimeout(() => {
+            setOrderLoading((oldValue) => !oldValue)
+            navigate("/profile/orders")
+        }, 3000)
+    }
+
     const stepButtonShow = ["Select Delivery Address", "Select Payment Method", "Place Order"]
 
     const handleEvent = () => {
@@ -104,6 +116,9 @@ const Checkout = (props) => {
                 break
             case 1:
                 setStep(2)
+                break
+            case 2:
+                placeOrder()
                 break
             default:
                 break
@@ -140,6 +155,7 @@ const Checkout = (props) => {
                                 setStep={setStep}
                                 handleEvent={handleEvent}
                                 stepButtonShow={stepButtonShow}
+                                loading={orderLoading}
                             />
                             <OrderSummary
                                 orderDetails={orderDetails}
@@ -147,6 +163,7 @@ const Checkout = (props) => {
                                 setStep={setStep}
                                 handleEvent={handleEvent}
                                 stepButtonShow={stepButtonShow}
+                                loading={orderLoading}
                             />
                         </SplitLayout>
                     )}

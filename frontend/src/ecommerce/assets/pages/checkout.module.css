@@ -91,3 +91,23 @@
     border-radius: 4px;
     cursor: pointer;
 }
+
+.loading {
+    display: block;
+    margin: auto;
+    width: 15px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 2px solid var(--white-color-f);
+    border-right-color: transparent;
+    animation: loading 1s ease-in-out infinite;
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

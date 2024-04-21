@@ -15,29 +15,40 @@ const CartState = (props) => {
     useEffect(() => {
         const baseURL = config.url.API_URL
         let apiURL = baseURL + "showCart/" + localStorage.getItem("akey")
-        axios.get(apiURL).then((response) => {
-            setCartDetails(response.data.result)
-            setIsLoading(false)
-        })
+        axios
+            .get(apiURL)
+            .then((response) => {
+                setCartDetails(response.data.result)
+                setIsLoading(false)
+            })
+            .catch((error) => {
+                //console.log(error)
+            })
     }, [])
 
     useEffect(() => {
         const baseURL = config.url.API_URL
         let apiURL = baseURL + "cartCount/" + localStorage.getItem("akey")
-        axios.get(apiURL).then((response) => {
-            setCartCount((old) => {
-                if (old === response.data.count) return old
-                else return response.data.count
+        axios
+            .get(apiURL)
+            .then((response) => {
+                setCartCount((old) => {
+                    if (old === response.data.count) return old
+                    else return response.data.count
+                })
+                setTotalCartCount((old) => {
+                    if (old === response.data.totalQty) return old
+                    else return response.data.totalQty
+                })
+                setTPriceShow((old) => {
+                    if (old === response.data.tCalcPrice) return old
+                    else return response.data.tCalcPrice
+                })
             })
-            setTotalCartCount((old) => {
-                if (old === response.data.totalQty) return old
-                else return response.data.totalQty
+            .catch((error) => {
+                //console.log(error)
+                //console.error(error)
             })
-            setTPriceShow((old) => {
-                if (old === response.data.tCalcPrice) return old
-                else return response.data.tCalcPrice
-            })
-        })
     }, [totalCartCount, cartDetails])
 
     return (

@@ -5,7 +5,6 @@ import "../../pages/cart.css"
 
 const SelectItemShow = ({ orderDetails }) => {
     const baseURL = config.url.API_URL
-    console.log(orderDetails.itemsOrdered)
     let imagePath = baseURL + "uploads/"
     return (
         <div className="px-50">
