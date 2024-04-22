@@ -125,7 +125,12 @@ const Cart = ({ isAuth }) => {
                                 : `${totalCartCount} item`}
                             ):
                         </span>
-                        <span style={{ fontWeight: "600", letterSpacing: "0.5px" }}>
+                        <span
+                            style={{
+                                fontWeight: "600",
+                                letterSpacing: "0.5px",
+                            }}
+                        >
                             &nbsp;&#8377;{commaAdder(tPriceShow.toFixed(2))}
                         </span>
                         <div className="cart-submit-container">
@@ -149,7 +154,6 @@ const Cart = ({ isAuth }) => {
                     <span style={{ fontSize: "2rem", fontWeight: "500" }}>
                         Your CartZilla cart is empty.
                     </span>
-
                     <br />
                     <Link to=".." relative="path">
                         Continue shopping

@@ -1,10 +1,16 @@
 const express = require("express")
 const router = express.Router()
-const uuid = require("uuid")
+const crypto = require("crypto")
+const ObjectId = require("mongodb").ObjectId
+
+function generateLimitedUniqueCharacter(length) {
+    let randomBytes = crypto.randomBytes(length)
+    let uniqueCharacter = randomBytes.toString("hex").substring(0, length)
+    return uniqueCharacter
+}
 
 const { transporter, htmlContext } = require("../lib/emailTemp")
 
-function bindOrderID() {}
 function addToUserOrders() {}
 function orderMail() {}
 
@@ -14,20 +20,35 @@ function fetchUserDetails(db, akey, email) {
     return userData
 }
 
-async function changeStockofProduct(db, orderDetails) {
-    const proCollection = db.collection("products")
+function bindOrderID(userDetails, orderDetails) {
+    let uniqueCharacter = `order_${generateLimitedUniqueCharacter(
+        5
+    )}-${generateLimitedUniqueCharacter(10)}`
 
-    //First check product is in stock or not
-    //Then if product is in stock then update product stock
-    //else return back instantly without updating any products
-    //console.log(orderDetails)
+    let customer_id = ObjectId(userDetails._id).toString()
+
+    const d = new Date()
+
+    let orderedDetails = {
+        order_id: uniqueCharacter,
+        customer_id: customer_id,
+        order_date: d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate(),
+        order_time: d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds(),
+        total_amount: parseFloat(orderDetails.totalPrice).toFixed(2),
+    }
+
+    return uniqueCharacter
+}
+
+async function stockCheck(db, orderDetails) {
+    const proCollection = db.collection("products")
 
     let productCheck = await Promise.all(
         orderDetails.itemsOrdered.map(async (item) => {
             let product = await proCollection.findOne(
                 {
                     pid: item.productId,
-                    stock: { $lt: item.productQty },
+                    stock: { $lt: parseInt(item.productQty) },
                 },
                 { projection: { pid: 1, name: 1, stock: 1, _id: 0 } }
             )
@@ -45,18 +66,36 @@ async function changeStockofProduct(db, orderDetails) {
         return againCheck
     }
 
-    //console.log(save)
+    return 0
+}
 
-    // const operations = orderDetails.itemsOrdered.map((product) => ({
-    //     updateOne: {
-    //         filter: {pdi: productID, stock: {$lt: product.productQty} },
-    //         update: { $set: { stock:  } },
-    //     },
-    // }))
+async function stockChange(db, orderDetails) {
+    const proCollection = db.collection("products")
 
-    // let stockData = proCollection.bulkWrite(operations)
-    //let stockData = proCollection.updateMany()
-    //return stockData
+    //First check product is in stock or not
+    //Then if product is in stock then update product stock
+    //else return back instantly without updating any products
+
+    let productUpdate = await Promise.all(
+        orderDetails.itemsOrdered.map(async (item) => {
+            let productUpdate = await proCollection.updateOne(
+                { pid: item.productId },
+                { $inc: { stock: -parseInt(item.productQty) } }
+            )
+
+            return productUpdate
+        })
+    )
+
+    let updateCheck = productUpdate.filter((el) => {
+        if (el !== null) {
+            return el
+        }
+    })
+
+    if (updateCheck.length > 0) {
+        return 1
+    }
 
     return 0
 }
@@ -75,25 +114,39 @@ router.post("/checkoutProcess", async (req, res) => {
     const db = req.app.locals.db
     const data = req.body
 
+    //Checking user details
     let userData = await fetchUserDetails(db, data.akey, data.email)
     if (!userData) {
         res.json({ result: false, status: 400, error: 1, msg: "User Not Autherized" })
+        return 0
     }
 
-    let stockData = await changeStockofProduct(db, data.orderDetails)
-    if (Array.isArray(stockData)) {
-        res.json({ status: 400, result: stockData, msg: "Stock exceeded", error: 2 })
-        stockData = 1
+    //Checking product stock
+    let stockCheckData = await stockCheck(db, data.orderDetails)
+    if (Array.isArray(stockCheckData)) {
+        res.json({ status: 400, result: stockCheckData, msg: "Stock exceeded", error: 2 })
+        stockCheckData = 1
+        return 0
         //have pid, now match pid with the orderedProducts productId and then send back data showing product qunatity exceeds stock quantity
     }
 
+    let orderedDetails = await bindOrderID(userData, data.orderDetails)
+
+    //Updating stock here
+    // let stockChangeData
+    // if (stockCheckData == 0) {
+    //     stockChangeData = await stockChange(db, data.orderDetails)
+    // }
+
+    //Clearing cart here
     // let cartData = await cartClear(db, data.email)
     // if (!cartData.deletedCount > 0) {
     //     res.json({ status: 400, msg: "Error in clearing cart" })
     //     return
     // }
 
-    if (userData && stockData != 1) {
+    if (userData && stockCheckData != 1) {
+        //&& stockChangeData
         setTimeout(() => {
             res.json({ status: 200, userData: userData, message: "Order placed successfully" })
         }, 5000)
