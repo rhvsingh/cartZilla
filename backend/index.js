@@ -11,6 +11,7 @@ const UserAPI = require("./router/user")
 const CategoryAPI = require("./router/category")
 const ProductAPI = require("./router/product")
 const CartAPI = require("./router/cart")
+const CheckoutAPI = require("./router/checkout")
 const AdminPanel = require("./router/admin/index")
 
 const allowlist = [
@@ -96,6 +97,10 @@ app.use(ProductAPI)
 //Cart
 
 app.use(CartAPI)
+
+//Checkout
+
+app.use(CheckoutAPI)
 
 //Admin Panel
 

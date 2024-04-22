@@ -66,6 +66,20 @@ const CartEach = ({ details, deleteCart, changeQty, proFromCartDelete }) => {
                             </div>
                         )}
                     </div>
+                    <div
+                        className="mt-1"
+                        style={{
+                            fontSize: "0.8rem",
+                            fontWeight: "600",
+                            color: "var(--black-color-5)",
+                        }}
+                    >
+                        {proDetails.stock > 0
+                            ? proDetails.stock > 50
+                                ? "Product in stock"
+                                : `Only ${proDetails.stock} left in stock`
+                            : "Out of stock"}
+                    </div>
                     <div className="cart-qty">
                         Quantity:
                         <span className="cart-qty-container">

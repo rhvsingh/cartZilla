@@ -111,3 +111,13 @@
         transform: rotate(360deg);
     }
 }
+
+.error {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--black-color-5);
+}
+
+.error span {
+    font-weight: 600;
+}

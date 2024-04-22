@@ -31,6 +31,8 @@ const Checkout = (props) => {
         discountPrice: 0,
     })
 
+    const [error, setError] = useState(null)
+
     function LocationRedirect() {
         const navigate = useNavigate()
         navigate("/login")
@@ -40,6 +42,7 @@ const Checkout = (props) => {
         const navigate = useNavigate()
         navigate("/")
     }
+    const baseURL = config.url.API_URL
 
     useEffect(() => {
         const baseURL = config.url.API_URL
@@ -99,12 +102,38 @@ const Checkout = (props) => {
     }
 
     function placeOrder() {
-        console.log("order place")
         setOrderLoading((oldValue) => !oldValue)
-        setTimeout(() => {
-            setOrderLoading((oldValue) => !oldValue)
-            navigate("/profile/orders")
-        }, 3000)
+        console.clear()
+        //console.log(orderDetails)
+        console.log("order place")
+        let akey = localStorage.getItem("akey")
+        let email = localStorage.getItem("email")
+
+        let orderData = { orderDetails, akey, email }
+
+        axios
+            .post(baseURL + "checkoutProcess", orderData)
+            .then((response) => {
+                if (response.status === 200) {
+                    if (response.data.status === 200) {
+                        setOrderLoading((oldValue) => !oldValue)
+                        navigate("/profile/orders")
+                    } else if (response.data.status === 400 && response.data.error === 2) {
+                        let resData = response.data.result
+                        setError(resData)
+                        setOrderLoading((oldValue) => !oldValue)
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+                console.error(error)
+            })
+
+        // setTimeout(() => {
+        //     setOrderLoading((oldValue) => !oldValue)
+        //     navigate("/profile/orders")
+        // }, 3000)
     }
 
     const stepButtonShow = ["Select Delivery Address", "Select Payment Method", "Place Order"]
@@ -145,6 +174,21 @@ const Checkout = (props) => {
                         </div>
                     </div>
                 </header>
+
+                {error && (
+                    <div className="container-2" style={{ width: "100%" }}>
+                        <div className="px-2 py-1">
+                            <ul className={CheckoutStyles.error}>
+                                {error.map((el) => (
+                                    <li key={el.pid}>
+                                        <span>{el.name}</span> exceeds stock. Only left{" "}
+                                        <span>{el.stock}</span> in stock.
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                )}
                 <div style={{ flex: "100%", padding: "0 4px" }}>
                     {!isLoading && (
                         <SplitLayout div1={75} div2={25}>

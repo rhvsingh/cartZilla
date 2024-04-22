@@ -57,7 +57,11 @@ const ProductCards = ({ product, pageLink, proURL, path }) => {
                     </p>
                 </div>
                 <p className="product-availability">
-                    {product.stock > 0 ? "Product in stock" : "Out of stock"}
+                    {product.stock > 0
+                        ? product.stock > 50
+                            ? "Product in stock"
+                            : `Only ${product.stock} left in stock`
+                        : "Out of stock"}
                 </p>
             </Link>
         </div>

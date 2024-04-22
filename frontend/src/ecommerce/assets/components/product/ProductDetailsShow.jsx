@@ -31,6 +31,16 @@ const ProductDetailsShow = ({ productData }) => {
                     </span>
                 )}
             </div>
+            <div
+                className="mb-1"
+                style={{ fontSize: "0.8rem", fontWeight: "600", color: "var(--black-color-5)" }}
+            >
+                {productData.stock > 0
+                    ? productData.stock > 50
+                        ? "Product in stock"
+                        : `Only ${productData.stock} left in stock`
+                    : "Out of stock"}
+            </div>
             <div className="product-desc fw-5">{productData.desc}</div>
         </>
     )
