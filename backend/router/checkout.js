@@ -29,13 +29,15 @@ function bindOrderID(userDetails, orderDetails) {
 
     const d = new Date()
 
-    let orderedDetails = {
+    let orders = {
         order_id: uniqueCharacter,
         customer_id: customer_id,
         order_date: d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate(),
         order_time: d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds(),
         total_amount: parseFloat(orderDetails.totalPrice).toFixed(2),
     }
+
+    let orderedDetails = { ...orders, order_detail_id: "" }
 
     return uniqueCharacter
 }
