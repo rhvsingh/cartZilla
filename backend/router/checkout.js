@@ -25,7 +25,7 @@ function fetchAddress(userDetails, addressID) {
     return address[0]
 }
 
-async function sliceProductDetails(db, products, productDetails) {
+async function sliceProductDetails(products, productDetails) {
     // let result = response.data.result
     let tprice = 0
     let qty = 0
@@ -59,7 +59,7 @@ async function sliceProductDetails(db, products, productDetails) {
     return products
 }
 
-function bindOrderID(db, userDetails, orderDetails, productDetails) {
+function bindOrderID(userDetails, orderDetails, productDetails) {
     let uniqueCharacter = `order_${generateLimitedUniqueCharacter(
         5
     )}-${generateLimitedUniqueCharacter(10)}`
@@ -69,7 +69,7 @@ function bindOrderID(db, userDetails, orderDetails, productDetails) {
     )}-${generateLimitedUniqueCharacter(10)}`
 
     let customer_id = ObjectId(userDetails._id).toString()
-    let products = sliceProductDetails(db, orderDetails.itemsOrdered, productDetails)
+    let products = sliceProductDetails(orderDetails.itemsOrdered, productDetails)
 
     const d = new Date()
 
@@ -215,12 +215,7 @@ router.post("/checkoutProcess", async (req, res) => {
         //have pid, now match pid with the orderedProducts productId and then send back data showing product qunatity exceeds stock quantity
     }
 
-    let [orders, orderedDetails] = await bindOrderID(
-        db,
-        userData,
-        data.orderDetails,
-        productDetails
-    )
+    let [orders, orderedDetails] = await bindOrderID(userData, data.orderDetails, productDetails)
 
     //Updating stock here
     // let stockChangeData

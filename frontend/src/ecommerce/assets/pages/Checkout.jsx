@@ -56,14 +56,11 @@ const Checkout = (props) => {
             let itemArray = []
 
             result.forEach((item) => {
-                tprice += item.tprice
-                qty += item.qty
-
+                console.log(item)
                 let productPrice = item.productDetails.price.toFixed(2)
-                let discountedPrice = (
-                    productPrice -
-                    (productPrice / 100) * item.productDetails.discount
-                ).toFixed(2)
+                let discountedPrice = item.discountedPrice
+                qty += item.qty
+                tprice += parseFloat(discountedPrice)
                 let itemShow = {
                     productId: item.pid,
                     productQty: item.qty,
