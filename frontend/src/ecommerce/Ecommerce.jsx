@@ -30,7 +30,7 @@ const Ecommerce = () => {
         return (
             <Suspense fallback={<LoadingScreen />}>
                 <AdminState>
-                    <AdminPanel />{" "}
+                    <AdminPanel />
                 </AdminState>
             </Suspense>
         )

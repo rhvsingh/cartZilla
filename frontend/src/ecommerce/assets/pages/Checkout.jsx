@@ -56,7 +56,6 @@ const Checkout = (props) => {
             let itemArray = []
 
             result.forEach((item) => {
-                //console.log(item)
                 tprice += item.tprice
                 qty += item.qty
 
@@ -110,6 +109,8 @@ const Checkout = (props) => {
         let email = localStorage.getItem("email")
 
         let orderData = { orderDetails, akey, email }
+
+        console.log(orderDetails)
 
         axios
             .post(baseURL + "checkoutProcess", orderData)
