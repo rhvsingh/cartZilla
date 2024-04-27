@@ -1,5 +1,6 @@
 import { config } from "../../../utils/Constants"
 import { commaAdder } from "../../../utils/utilityFunctions"
+import SEO from "../SEO"
 
 import "../../pages/cart.css"
 
@@ -8,6 +9,7 @@ const SelectItemShow = ({ orderDetails }) => {
     let imagePath = baseURL + "uploads/"
     return (
         <div className="px-50">
+            <SEO title={"Place Order | CartZilla"} />
             {orderDetails.itemsOrdered.map((item) => (
                 <div key={item.productId} className="mx-2 my-1 d-flex gap-50">
                     <div style={{ maxWidth: "200px", borderRadius: "4px", overflow: "hidden" }}>

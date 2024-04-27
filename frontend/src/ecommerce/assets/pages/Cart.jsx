@@ -1,10 +1,10 @@
 import { lazy, useContext } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import axios from "axios"
-import { HelmetProvider, Helmet } from "react-helmet-async"
 
 import { config } from "../../utils/Constants"
 import { commaAdder } from "../../utils/utilityFunctions"
+import SEO from "../components/SEO"
 
 import "./cart.css"
 
@@ -77,11 +77,7 @@ const Cart = ({ isAuth }) => {
         <></>
     ) : cartCount ? (
         <>
-            <HelmetProvider>
-                <Helmet>
-                    <title>Cart | CartZilla</title>
-                </Helmet>
-            </HelmetProvider>
+            <SEO title={"Cart | CartZilla"} />
             <div className="container d-flex justify-between py-2 px-2 gap-2">
                 <div className="cart-details px-2 py-2">
                     <div className="d-flex justify-between">
@@ -144,11 +140,7 @@ const Cart = ({ isAuth }) => {
         </>
     ) : (
         <>
-            <HelmetProvider>
-                <Helmet>
-                    <title>Cart | CartZilla</title>
-                </Helmet>
-            </HelmetProvider>
+            <SEO title={"Cart | CartZilla"} />
             <div className="container d-flex justify-between py-2 px-2 gap-2">
                 <div className="px-2 py-2">
                     <span style={{ fontSize: "2rem", fontWeight: "500" }}>

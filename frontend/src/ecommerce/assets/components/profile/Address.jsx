@@ -15,7 +15,7 @@ const Address = () => {
 
     return (
         <>
-            <SEO title={"Address | Profile"} />
+            <SEO title={"Address | Profile | CartZilla"} />
             <div className={ProfileStyle.containerHeading}>Manage Addresses</div>
             <div>
                 <div>

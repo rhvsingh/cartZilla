@@ -1,9 +1,9 @@
 import { useEffect, useState, lazy } from "react"
 import { ToastContainer } from "react-toastify"
 import axios from "axios"
-import { HelmetProvider, Helmet } from "react-helmet-async"
 
 import { config } from "../../utils/Constants"
+import SEO from "../components/SEO"
 import "./productShow.css"
 
 const ProductCards = lazy(() => import("../components/product/ProductCards"))
@@ -44,11 +44,7 @@ const ProductShow = ({ isAuth }) => {
 
     return (
         <>
-            <HelmetProvider>
-                <Helmet>
-                    <title>Home Page | CartZilla</title>
-                </Helmet>
-            </HelmetProvider>
+            <SEO title={"Home Page | CartZilla"} />
             <div className="products">
                 {isLoading && <ProductCardSkeleton cards={4} />}
                 {products.length > 0 &&

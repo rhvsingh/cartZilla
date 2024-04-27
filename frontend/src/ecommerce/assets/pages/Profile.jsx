@@ -4,7 +4,6 @@ import axios from "axios"
 import { FaUserAlt, FaPowerOff, FaBars, FaTimes } from "react-icons/fa"
 
 import { config } from "../../utils/Constants"
-import SEO from "../components/SEO"
 
 import ProfileStyles from "./profile.module.css"
 import "./profile.css"
@@ -15,7 +14,7 @@ import FemaleProfilePic from "../components/profile/profile-pic-female.svg"
 const ProfileInfo = lazy(() => import("../components/profile/ProfileInfo"))
 const LoadingScreen = lazy(() => import("../components/LoadingScreen"))
 
-const Profile = ({ auth }) => {
+const Profile = ({ isAuth, auth }) => {
     const outlet = useOutlet()
     const navigate = useNavigate()
     const endPoint = useLocation().pathname.split("/").at(-1)
@@ -24,6 +23,10 @@ const Profile = ({ auth }) => {
     const [clickCheck, setClickCheck] = useState(1)
 
     useEffect(() => {
+        if (!isAuth) {
+            console.log("hello")
+            navigate("/")
+        }
         const baseURL = config.url.API_URL
         async function getUserDetails() {
             await axios.get(`${baseURL}user/${localStorage.getItem("akey")}`).then((response) => {
@@ -36,7 +39,7 @@ const Profile = ({ auth }) => {
             })
         }
         getUserDetails()
-    }, [])
+    }, [isAuth, navigate])
 
     function profileMenuBarClick() {
         document.getElementById("mobileMenuButton").classList.toggle("profile-menu")
@@ -49,7 +52,6 @@ const Profile = ({ auth }) => {
 
     return (
         <>
-            <SEO title={"Profile"} />
             {userDetails && userDetails.name ? (
                 <div className="container-2">
                     <div className={"d-flex gap-1 " + ProfileStyles.profileContainer}>

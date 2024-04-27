@@ -4,9 +4,9 @@ import { FaLock } from "react-icons/fa"
 import axios from "axios"
 
 import { config } from "../../utils/Constants"
-import SEO from "../components/SEO"
 
 import CheckoutStyles from "./checkout.module.css"
+import SEO from "../components/SEO"
 
 const SplitLayout = lazy(() => import("../layouts/SplitLayout"))
 const CheckoutSteps = lazy(() => import("../components/checkout/CheckoutSteps"))
@@ -56,7 +56,6 @@ const Checkout = (props) => {
             let itemArray = []
 
             result.forEach((item) => {
-                console.log(item)
                 let productPrice = item.productDetails.price.toFixed(2)
                 let discountedPrice = item.discountedPrice
                 qty += item.qty
@@ -152,11 +151,9 @@ const Checkout = (props) => {
         }
     }
 
-    let titleShow = step !== -1 ? stepButtonShow[step] + " | CartZilla" : "Checkout | CartZilla"
-
     return (
         <>
-            <SEO title={titleShow} />
+            <SEO title={"Checkout | CartZilla"} />
             <main className="d-flex flex-direc-col justify-between" style={{ minHeight: "100vh" }}>
                 <header className="px-1">
                     <div

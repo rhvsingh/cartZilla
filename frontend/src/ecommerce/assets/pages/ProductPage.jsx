@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from "react"
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom"
-import { HelmetProvider, Helmet } from "react-helmet-async"
 import { ToastContainer } from "react-toastify"
 import * as DOMPurify from "dompurify"
 import axios from "axios"
@@ -8,6 +7,7 @@ import axios from "axios"
 import { config } from "../../utils/Constants"
 import CartContext from "../../contexts/cartContext/CartContext"
 import { addToCart } from "../../utils/productAddFunction"
+import SEO from "../components/SEO"
 
 import "./productShow.css"
 
@@ -80,11 +80,7 @@ const ProductPage = ({ isAuth }) => {
     return (
         !isLoading && (
             <>
-                <HelmetProvider>
-                    <Helmet>
-                        <title>{productData.name} | CartZilla</title>
-                    </Helmet>
-                </HelmetProvider>
+                <SEO title={`${productData.name} | CartZilla`} />
                 {/* Breadcrum */}
                 <div className="mx-1 mt-1" style={{ fontSize: "0.75rem" }}>
                     <Link

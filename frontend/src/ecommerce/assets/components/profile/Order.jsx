@@ -1,7 +1,12 @@
-import React from "react"
+import SEO from "../SEO"
 
 const Order = () => {
-    return <div>Order</div>
+    return (
+        <>
+            <SEO title={"Orders | Profile | CartZilla"} />
+            <div>Order</div>
+        </>
+    )
 }
 
 export default Order

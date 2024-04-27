@@ -33,7 +33,6 @@ const CheckoutSteps = (props) => {
             props.setStep(num)
         }
     }
-
     return (
         <div className={CheckoutStyles.checkoutSteps}>
             <div className={"my-25 mb-50 " + CheckoutStyles.stepComponent}>

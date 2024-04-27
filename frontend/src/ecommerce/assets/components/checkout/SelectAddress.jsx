@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 
 import { config } from "../../../utils/Constants"
+import SEO from "../SEO"
 
 const SelectAddress = ({ orderDetails, setOrderDetails, setAddress }) => {
     const [userDetails, setUserDetails] = useState({})
@@ -51,6 +52,7 @@ const SelectAddress = ({ orderDetails, setOrderDetails, setAddress }) => {
             className="mx-1 px-1 py-50"
             style={{ border: "1px solid var(--white-color-c)", borderRadius: "8px" }}
         >
+            <SEO title={"Select Delivery Address | CartZilla"} />
             <div
                 className="mt-25"
                 style={{

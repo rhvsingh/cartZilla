@@ -1,5 +1,7 @@
 import { useEffect } from "react"
 
+import SEO from "../SEO"
+
 const SelectPayment = ({ orderDetails, setOrderDetails }) => {
     useEffect(() => {
         function userDetailsFetcher() {
@@ -31,6 +33,7 @@ const SelectPayment = ({ orderDetails, setOrderDetails }) => {
             className="mx-1 px-1 py-50"
             style={{ border: "1px solid var(--white-color-c)", borderRadius: "8px" }}
         >
+            <SEO title={"Select Payment Method | CartZilla"} />
             <div
                 className="mt-25"
                 style={{
