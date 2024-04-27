@@ -1,8 +1,23 @@
 const express = require("express")
 const router = express.Router()
 const uuid = require("uuid")
+const ObjectId = require("mongodb").ObjectId
 
 const { transporter, htmlContext } = require("../lib/emailTemp")
+
+async function authorize(req, res, next) {
+    const { email, akey } = req.query
+    const db = req.app.locals.db
+    const userCollection = db.collection("user")
+
+    let userData = await userCollection.findOne({ email: email, akey: akey })
+    if (!(userData == null)) {
+        req.userID = userData._id
+        next()
+    } else {
+        res.json({ error: true, status: 401, message: "User unauthorized" })
+    }
+}
 
 //User Register API
 
@@ -458,6 +473,28 @@ router.post("/user/address/delete", (req, res) => {
                 )
             } else {
                 res.json({ result: false, msg: "You are not authorized" })
+            }
+        })
+})
+
+// User Order Details Show
+
+router.get("/user/orders/show", authorize, (req, res) => {
+    const db = req.app.locals.db
+    const ordersCollection = db.collection("orders")
+
+    let customer_id = ObjectId(req.userID).toString()
+
+    ordersCollection
+        .find({ customer_id: customer_id })
+        .sort({ _id: -1 })
+        .toArray((err, result) => {
+            if (err) {
+                console.log(err)
+            } else if (result.length) {
+                res.json({ result: true, status: 200, data: result, msg: "Orders" })
+            } else {
+                res.json({ result: false, msg: "No orders", data: [], error: 0 })
             }
         })
 })

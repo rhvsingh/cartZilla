@@ -261,7 +261,7 @@ router.post("/checkoutProcess", async (req, res) => {
         //&& stockChangeData
         setTimeout(() => {
             res.json({ status: 200, userData: userData, message: "Order placed successfully" })
-        }, 5000)
+        }, 2000)
     }
 })
 
