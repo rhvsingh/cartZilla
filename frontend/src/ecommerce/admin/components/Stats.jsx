@@ -1,7 +1,12 @@
-import React from "react"
+import SEO from "../../assets/components/SEO"
 
 const Stats = () => {
-    return <div>Stats</div>
+    return (
+        <>
+            <SEO title="Statistics | CartZilla" />
+            <div>Stats</div>
+        </>
+    )
 }
 
 export default Stats

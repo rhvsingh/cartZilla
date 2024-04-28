@@ -98,15 +98,10 @@ const Checkout = (props) => {
 
     function placeOrder() {
         setOrderLoading((oldValue) => !oldValue)
-        console.clear()
-        //console.log(orderDetails)
-        console.log("order place")
         let akey = localStorage.getItem("akey")
         let email = localStorage.getItem("email")
 
         let orderData = { orderDetails, akey, email }
-
-        console.log(orderDetails)
 
         axios
             .post(baseURL + "checkoutProcess", orderData)

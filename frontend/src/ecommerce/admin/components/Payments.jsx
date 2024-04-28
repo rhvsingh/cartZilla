@@ -1,7 +1,13 @@
 import React from "react"
+import SEO from "../../assets/components/SEO"
 
 const Payments = () => {
-    return <div>Payments</div>
+    return (
+        <>
+            <SEO title="Payments | CartZilla" />
+            <div>Payments</div>
+        </>
+    )
 }
 
 export default Payments

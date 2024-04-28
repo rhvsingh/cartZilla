@@ -29,7 +29,7 @@ const titleLinkStyle = {
 
 const navInfo = [
     {
-        path: "./",
+        path: "",
         title: "Dashboard",
         icon: <MdOutlineDashboard className={sideBarStyles.icons} />,
     },
@@ -44,7 +44,7 @@ const navInfo = [
         icon: <MdCurrencyRupee className={sideBarStyles.icons} />,
     },
     {
-        path: "trans",
+        path: "transactions",
         title: "Transactions",
         icon: <MdRepeat className={sideBarStyles.icons} />,
     },
@@ -54,8 +54,8 @@ const navInfo = [
         icon: <MdOutlineShoppingBag className={sideBarStyles.icons} />,
     },
     {
-        path: "customer",
-        title: "Customer",
+        path: "customers",
+        title: "Customers",
         icon: <MdOutlinePeopleAlt className={sideBarStyles.icons} />,
     },
     {

@@ -3,6 +3,7 @@ import { CSSTransition } from "react-transition-group"
 
 import AddNewProduct from "./products/AddNewProduct"
 import Category from "./products/Category"
+import SEO from "../../assets/components/SEO"
 
 import AdminStyle from "./css-modules/admin.module.css"
 
@@ -14,6 +15,7 @@ const Products = () => {
 
     return (
         <>
+            <SEO title="Products | CartZilla" />
             <div
                 className="d-flex px-1 py-1"
                 style={{
