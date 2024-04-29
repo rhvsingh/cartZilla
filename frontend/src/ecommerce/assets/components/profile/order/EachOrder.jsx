@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 const months = [
     "January",
     "February",
@@ -23,7 +25,9 @@ const EachOrder = ({ order }) => {
 
     return (
         <tr>
-            <td data-alias="order-id">{order.order_id}</td>
+            <td data-alias="order-id">
+                <Link to={order.order_id}>{order.order_id}</Link>
+            </td>
             <td>
                 {months[date.getMonth()]} {date.getDate()}, {date.getFullYear()}
             </td>

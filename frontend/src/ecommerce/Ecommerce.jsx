@@ -4,11 +4,12 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-route
 import "react-toastify/dist/ReactToastify.css"
 
 import userContext from "./contexts/userContext/userContext"
+import OrderDetailPage from "./assets/pages/OrderDetailPage"
 
 const AdminState = React.lazy(() => import("./contexts/adminContext/adminState"))
 const AdminPanel = React.lazy(() => import("./admin/AdminPanel"))
 
-const Layout = React.lazy(() => import("./assets/layouts/Layout"))
+const LayoutSuspense = React.lazy(() => import("./utils/LayoutSuspense"))
 const SplitLayout = React.lazy(() => import("./assets/layouts/SplitLayout"))
 
 const LoadingScreen = React.lazy(() => import("./assets/components/LoadingScreen"))
@@ -45,54 +46,44 @@ const Ecommerce = () => {
 
     function HomePage() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <SplitLayout div1={15} div2={85} containerFluid={true}>
-                        <ListCategory />
-                        <ProductShow isAuth={isAuth} />
-                    </SplitLayout>
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <SplitLayout div1={15} div2={85} containerFluid={true}>
+                    <ListCategory />
+                    <ProductShow isAuth={isAuth} />
+                </SplitLayout>
+            </LayoutSuspense>
         )
     }
 
     function LandingPage() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <NewHome isAuth={isAuth} />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <NewHome isAuth={isAuth} />
+            </LayoutSuspense>
         )
     }
 
     function CategoryShowPage() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <CategoryPage isAuth={isAuth} />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <CategoryPage isAuth={isAuth} />
+            </LayoutSuspense>
         )
     }
 
     function ProductShowPage() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <ProductPage isAuth={isAuth} />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <ProductPage isAuth={isAuth} />
+            </LayoutSuspense>
         )
     }
 
     function CartShow() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <Cart isAuth={isAuth} />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <Cart isAuth={isAuth} />
+            </LayoutSuspense>
         )
     }
 
@@ -102,7 +93,6 @@ const Ecommerce = () => {
         } else {
             return <LoginRedirect />
         }
-        //<Route path="/login" element={} />
     }
 
     function LoginRedirect() {
@@ -114,21 +104,17 @@ const Ecommerce = () => {
 
     function LoginShow() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <Login />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <Login />
+            </LayoutSuspense>
         )
     }
 
     function ProfileShow({ isAuth }) {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <Profile isAuth={isAuth} auth={setIsAuth} />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <Profile isAuth={isAuth} auth={setIsAuth} />
+            </LayoutSuspense>
         )
     }
 
@@ -165,6 +151,14 @@ const Ecommerce = () => {
                     <>
                         <Route path="/cart" element={<CartShow />} />
                         <Route path="/checkout" element={<CartCheckout isAuth={isAuth} />} />
+                        <Route
+                            path="/profile/orders/:orderId"
+                            element={
+                                <Suspense fallback={<LoadingScreen />}>
+                                    <OrderDetailPage isAuth={isAuth} />
+                                </Suspense>
+                            }
+                        />
                     </>
                 )}
                 <Route
