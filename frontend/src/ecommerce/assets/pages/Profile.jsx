@@ -14,7 +14,7 @@ import FemaleProfilePic from "../components/profile/profile-pic-female.svg"
 const ProfileInfo = lazy(() => import("../components/profile/ProfileInfo"))
 const LoadingScreen = lazy(() => import("../components/LoadingScreen"))
 
-const Profile = ({ isAuth, auth }) => {
+const Profile = ({ isAuth, setIsAuth }) => {
     const outlet = useOutlet()
     const navigate = useNavigate()
     const endPoint = useLocation().pathname.split("/").at(-1)
@@ -23,10 +23,6 @@ const Profile = ({ isAuth, auth }) => {
     const [clickCheck, setClickCheck] = useState(1)
 
     useEffect(() => {
-        if (!isAuth) {
-            console.log("hello")
-            navigate("/")
-        }
         const baseURL = config.url.API_URL
         async function getUserDetails() {
             await axios.get(`${baseURL}user/${localStorage.getItem("akey")}`).then((response) => {
@@ -39,7 +35,14 @@ const Profile = ({ isAuth, auth }) => {
             })
         }
         getUserDetails()
-    }, [isAuth, navigate])
+    }, [])
+
+    // useEffect(() => {
+    //     console.log(isAuth)
+    //     if (!isAuth) {
+    //         navigate("/")
+    //     }
+    // }, [isAuth, navigate])
 
     function profileMenuBarClick() {
         document.getElementById("mobileMenuButton").classList.toggle("profile-menu")
@@ -135,7 +138,7 @@ const Profile = ({ isAuth, auth }) => {
                                     <div
                                         className={`d-flex flex-wrap-wrap ${ProfileStyles.logoutButton} ${ProfileStyles.header}`}
                                         onClick={() =>
-                                            auth((oldValue) => {
+                                            setIsAuth((oldValue) => {
                                                 if (oldValue === true) {
                                                     localStorage.clear()
                                                     navigate("/")

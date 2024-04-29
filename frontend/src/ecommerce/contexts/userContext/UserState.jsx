@@ -11,10 +11,10 @@ const UserState = (props) => {
     const [userRole, setUserRole] = useState([])
 
     useEffect(() => {
-        function userLogerChecker() {
+        async function userLogerChecker() {
             console.log("Checking user")
             const baseURL = config.url.API_URL
-            axios
+            await axios
                 .post(baseURL + "userLogged", {
                     email: localStorage.getItem("email"),
                     akey: localStorage.getItem("akey"),

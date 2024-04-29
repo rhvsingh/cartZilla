@@ -110,10 +110,10 @@ const Ecommerce = () => {
         )
     }
 
-    function ProfileShow({ isAuth }) {
+    function ProfileShow({ isAuth, setIsAuth }) {
         return (
             <LayoutSuspense>
-                <Profile isAuth={isAuth} auth={setIsAuth} />
+                <Profile isAuth={isAuth} setIsAuth={setIsAuth} />
             </LayoutSuspense>
         )
     }
@@ -134,7 +134,10 @@ const Ecommerce = () => {
                 <Route path="/:catName" element={<CategoryShowPage />} />
                 <Route path="/:catName/:proName" element={<ProductShowPage />} />
                 <Route path="/admin-panel/*" element={<AdminPanelRoute />} />
-                <Route path="/profile" element={<ProfileShow isAuth={isAuth} />}>
+                <Route
+                    path="/profile"
+                    element={<ProfileShow isAuth={isAuth} setIsAuth={setIsAuth} />}
+                >
                     <Route path="orders" element={<Order />} />
                     <Route path="address" element={<Address />} />
                     <Route
