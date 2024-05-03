@@ -2,8 +2,6 @@ import OrderDetailImage from "./OrderDetailImage"
 import OrderStyles from "../../../pages/orderDetail.module.css"
 
 const OrderDetails = ({ orderId, orderDetails }) => {
-    console.log(orderDetails)
-
     let buyDate = new Date(orderDetails.order_date)
 
     console.log(buyDate.getMonth())
@@ -72,12 +70,23 @@ const OrderDetails = ({ orderId, orderDetails }) => {
                 <div>
                     <div>Billing Address</div>
                     <div>Payment Status: Paid</div>
-                    <div>Address: </div>
+                    <div>
+                        {orderDetails.address_shipped.address} <br />
+                        {orderDetails.address_shipped.city}
+                        {orderDetails.address_shipped.pinCode} <br />
+                        {orderDetails.address_shipped.state} <br />
+                        +91{orderDetails.address_shipped.mobNum} <br />
+                    </div>
                 </div>
                 <div>
                     <div>Shipping Address</div>
-                    <div>Payment Status: Paid</div>
-                    <div>Address</div>
+                    <div>Fulfillment Status: Paid</div>
+                    <div>
+                        {orderDetails.address_shipped.address} <br />
+                        {orderDetails.address_shipped.city}
+                        {orderDetails.address_shipped.pinCode} <br />
+                        {orderDetails.address_shipped.state} <br />
+                    </div>
                 </div>
             </div>
         </div>
