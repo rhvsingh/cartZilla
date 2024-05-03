@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
-import { HelmetProvider, Helmet } from "react-helmet-async"
 import { ToastContainer } from "react-toastify"
 import * as DOMPurify from "dompurify"
 import axios from "axios"
 
 import { config } from "../../utils/Constants"
+import SEO from "../components/SEO"
 
 import "./productShow.css"
 
@@ -37,17 +37,12 @@ const CategoryPage = ({ isAuth }) => {
 
     return (
         <>
-            <HelmetProvider>
-                <Helmet>
-                    <title>{cleanCatName} | CartZilla</title>
-                    {catDetails && (
-                        <>
-                            <meta name="keywords" content={catDetails.catKeyword} />
-                            <meta name="description" content={catDetails.catDesc} />
-                        </>
-                    )}
-                </Helmet>
-            </HelmetProvider>
+            <SEO
+                title={`${cleanCatName} | CartZilla`}
+                keywords={catDetails.catKeyword}
+                description={catDetails.catDesc}
+            />
+
             {isLoading === false && productsData.length === 0 ? (
                 <div className="mx-1 mt-1" style={{ fontSize: "0.75rem" }}>
                     <Link

@@ -1,0 +1,54 @@
+.orderID {
+    font-weight: 500;
+}
+
+.orderTable {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.orderTable th[data-alias="product"] {
+    width: 60%;
+}
+
+.orderTable th[data-alias="price"] {
+    width: 15%;
+}
+
+.orderTable th[data-alias="qty"] {
+    width: auto;
+}
+
+.orderTable th[data-alias="total"] {
+    width: auto;
+}
+
+.orderTable,
+.orderTable th,
+.orderTable td {
+    border: 1px solid var(--white-color-c);
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.orderTable th,
+.orderTable td {
+    padding: 0.8rem 0.5rem;
+}
+
+.orderTable td {
+    font-size: 0.95rem;
+    color: var(--black-color-7);
+}
+
+.total td {
+    color: var(--black-color-0);
+    font-weight: 600;
+}
+
+.productImage {
+    max-width: 200px;
+    border-radius: 6px;
+    overflow: hidden;
+}

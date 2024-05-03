@@ -25,7 +25,6 @@ const ProductImagePreview = ({ images }) => {
         }
 
         e.target.classList.add("product-preview-active")
-
         setActiveImage(imagePath)
     }
 

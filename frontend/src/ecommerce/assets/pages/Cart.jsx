@@ -1,12 +1,14 @@
-import { useEffect, useState, lazy } from "react"
+import { lazy, useContext } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import axios from "axios"
-import { HelmetProvider, Helmet } from "react-helmet-async"
 
 import { config } from "../../utils/Constants"
 import { commaAdder } from "../../utils/utilityFunctions"
+import SEO from "../components/SEO"
 
 import "./cart.css"
+
+import CartContext from "../../contexts/cartContext/CartContext"
 
 const CartSkeleton = lazy(() => import("../components/cart/CartSkeleton"))
 const CartEach = lazy(() => import("../components/cart/CartEach"))
@@ -14,6 +16,16 @@ const CartEach = lazy(() => import("../components/cart/CartEach"))
 const baseURL = config.url.API_URL
 
 const Cart = ({ isAuth }) => {
+    const {
+        cartCount,
+        totalCartCount,
+        setTotalCartCount,
+        tPriceShow,
+        cartDetails,
+        setCartDetails,
+        isLoading,
+    } = useContext(CartContext)
+
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -21,29 +33,6 @@ const Cart = ({ isAuth }) => {
     } else {
         navigate("/login")
     }
-
-    const [cartCount, setCartCount] = useState(-1)
-    const [totalCartCount, setTotalCartCount] = useState(0)
-    const [tPriceShow, setTPriceShow] = useState(0)
-    const [cartDetails, setCartDetails] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
-
-    useEffect(() => {
-        let apiURL = baseURL + "cartCount/" + localStorage.getItem("akey")
-        axios.get(apiURL).then((response) => {
-            setCartCount(response.data.count)
-            setTotalCartCount(response.data.totalQty)
-            setTPriceShow(response.data.tCalcPrice)
-        })
-    }, [totalCartCount, cartDetails])
-
-    useEffect(() => {
-        let apiURL = baseURL + "showCart/" + localStorage.getItem("akey")
-        axios.get(apiURL).then((response) => {
-            setCartDetails(response.data.result)
-            setIsLoading(false)
-        })
-    }, [])
 
     const changeQty = (qty, pid) => {
         let apiURL = baseURL + "addCart/" + localStorage.getItem("akey")
@@ -88,11 +77,7 @@ const Cart = ({ isAuth }) => {
         <></>
     ) : cartCount ? (
         <>
-            <HelmetProvider>
-                <Helmet>
-                    <title>Cart | CartZilla</title>
-                </Helmet>
-            </HelmetProvider>
+            <SEO title={"Cart | CartZilla"} />
             <div className="container d-flex justify-between py-2 px-2 gap-2">
                 <div className="cart-details px-2 py-2">
                     <div className="d-flex justify-between">
@@ -136,7 +121,12 @@ const Cart = ({ isAuth }) => {
                                 : `${totalCartCount} item`}
                             ):
                         </span>
-                        <span style={{ fontWeight: "600", letterSpacing: "0.5px" }}>
+                        <span
+                            style={{
+                                fontWeight: "600",
+                                letterSpacing: "0.5px",
+                            }}
+                        >
                             &nbsp;&#8377;{commaAdder(tPriceShow.toFixed(2))}
                         </span>
                         <div className="cart-submit-container">
@@ -150,17 +140,12 @@ const Cart = ({ isAuth }) => {
         </>
     ) : (
         <>
-            <HelmetProvider>
-                <Helmet>
-                    <title>Cart | CartZilla</title>
-                </Helmet>
-            </HelmetProvider>
+            <SEO title={"Cart | CartZilla"} />
             <div className="container d-flex justify-between py-2 px-2 gap-2">
                 <div className="px-2 py-2">
                     <span style={{ fontSize: "2rem", fontWeight: "500" }}>
-                        Your CartZilla Cart is empty.
+                        Your CartZilla cart is empty.
                     </span>
-
                     <br />
                     <Link to=".." relative="path">
                         Continue shopping

@@ -11,7 +11,10 @@ const SideBar = React.lazy(() => import("../components/SideBar"))
 const MainContentShow = React.lazy(() => import("../components/MainContentShow"))
 const Stats = React.lazy(() => import("../components/Stats"))
 const Payments = React.lazy(() => import("../components/Payments"))
+const Transactions = React.lazy(() => import("../components/Transactions"))
 const Products = React.lazy(() => import("../components/Products"))
+const Customers = React.lazy(() => import("../components/Customers"))
+const Messages = React.lazy(() => import("../components/Messages"))
 const AdminCat = React.lazy(() => import("../../contexts/adminContext/adminCat"))
 const NotFoundPage = React.lazy(() => import("../../assets/components/NotFoundPage"))
 
@@ -47,6 +50,7 @@ const AdminDashboard = ({ setIsAuth }) => {
                     <Route index element={<MainContentShow />} />
                     <Route path="/stats" element={<Stats />} />
                     <Route path="/payments" element={<Payments />} />
+                    <Route path="/transactions" element={<Transactions />} />
                     <Route
                         path="/products"
                         element={
@@ -55,6 +59,8 @@ const AdminDashboard = ({ setIsAuth }) => {
                             </AdminCat>
                         }
                     />
+                    <Route path="/customers" element={<Customers />} />
+                    <Route path="/messages" element={<Messages />} />
                 </Route>
                 <Route
                     path="*"

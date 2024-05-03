@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useOutletContext } from "react-router-dom"
 import { FaPlus } from "react-icons/fa"
 
+import SEO from "../SEO"
 import ProfileStyle from "../../pages/profile.module.css"
 
 const AddNewAddress = React.lazy(() => import("./address/AddNewAddress"))
@@ -14,6 +15,7 @@ const Address = () => {
 
     return (
         <>
+            <SEO title={"Address | Profile | CartZilla"} />
             <div className={ProfileStyle.containerHeading}>Manage Addresses</div>
             <div>
                 <div>

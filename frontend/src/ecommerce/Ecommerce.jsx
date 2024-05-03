@@ -1,44 +1,44 @@
-import React, { useState, useEffect, Suspense, useContext } from "react"
+import React, { useEffect, Suspense, useContext } from "react"
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
 
 import "react-toastify/dist/ReactToastify.css"
 
 import userContext from "./contexts/userContext/userContext"
+import OrderDetailPage from "./assets/pages/OrderDetailPage"
 
 const AdminState = React.lazy(() => import("./contexts/adminContext/adminState"))
 const AdminPanel = React.lazy(() => import("./admin/AdminPanel"))
-const Layout = React.lazy(() => import("./assets/layouts/Layout"))
-const LoadingScreen = React.lazy(() => import("./assets/components/LoadingScreen"))
+
+const LayoutSuspense = React.lazy(() => import("./utils/LayoutSuspense"))
 const SplitLayout = React.lazy(() => import("./assets/layouts/SplitLayout"))
+
+const LoadingScreen = React.lazy(() => import("./assets/components/LoadingScreen"))
 const ListCategory = React.lazy(() => import("./assets/components/ListCategory"))
-const ProductShow = React.lazy(() => import("./assets/pages/ProductShow"))
 const NewHome = React.lazy(() => import("./assets/pages/NewHome"))
+
+const ProductShow = React.lazy(() => import("./assets/pages/ProductShow"))
+
 const CategoryPage = React.lazy(() => import("./assets/pages/CategoryPage"))
 const ProductPage = React.lazy(() => import("./assets/pages/ProductPage"))
+const NotFoundPage = React.lazy(() => import("./assets/components/NotFoundPage"))
+
+const Login = React.lazy(() => import("./assets/components/Login"))
+
 const Cart = React.lazy(() => import("./assets/pages/Cart"))
 const Checkout = React.lazy(() => import("./assets/pages/Checkout"))
-const NotFoundPage = React.lazy(() => import("./assets/components/NotFoundPage"))
-const Login = React.lazy(() => import("./assets/components/Login"))
+
 const Profile = React.lazy(() => import("./assets/pages/Profile"))
+const Order = React.lazy(() => import("./assets/components/profile/Order"))
 const Address = React.lazy(() => import("./assets/components/profile/Address"))
 
 const Ecommerce = () => {
-    const { isAuth, setIsAuth, userLogChecker } = useContext(userContext)
-
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        userLogChecker()
-        // eslint-disable-next-line
-    }, [])
-
-    if (loading) setLoading(false)
+    const { isAuth, setIsAuth } = useContext(userContext)
 
     function AdminPanelRoute() {
         return (
             <Suspense fallback={<LoadingScreen />}>
                 <AdminState>
-                    <AdminPanel />{" "}
+                    <AdminPanel />
                 </AdminState>
             </Suspense>
         )
@@ -46,55 +46,53 @@ const Ecommerce = () => {
 
     function HomePage() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <SplitLayout div1={15} div2={85} containerFluid={true}>
-                        <ListCategory />
-                        <ProductShow isAuth={isAuth} />
-                    </SplitLayout>
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <SplitLayout div1={15} div2={85} containerFluid={true}>
+                    <ListCategory />
+                    <ProductShow isAuth={isAuth} />
+                </SplitLayout>
+            </LayoutSuspense>
         )
     }
 
     function LandingPage() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <NewHome isAuth={isAuth} />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <NewHome isAuth={isAuth} />
+            </LayoutSuspense>
         )
     }
 
     function CategoryShowPage() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <CategoryPage isAuth={isAuth} />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <CategoryPage isAuth={isAuth} />
+            </LayoutSuspense>
         )
     }
 
     function ProductShowPage() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <ProductPage isAuth={isAuth} />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <ProductPage isAuth={isAuth} />
+            </LayoutSuspense>
         )
     }
 
     function CartShow() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <Cart isAuth={isAuth} />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <Cart isAuth={isAuth} />
+            </LayoutSuspense>
         )
+    }
+
+    function LoginCheck({ isAuth }) {
+        if (!isAuth) {
+            return <LoginShow />
+        } else {
+            return <LoginRedirect />
+        }
     }
 
     function LoginRedirect() {
@@ -106,31 +104,25 @@ const Ecommerce = () => {
 
     function LoginShow() {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <Login />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <Login />
+            </LayoutSuspense>
         )
     }
 
-    function ProfileShow() {
+    function ProfileShow({ isAuth, setIsAuth }) {
         return (
-            <Layout>
-                <Suspense fallback={<LoadingScreen />}>
-                    <Profile auth={setIsAuth} />
-                </Suspense>
-            </Layout>
+            <LayoutSuspense>
+                <Profile isAuth={isAuth} setIsAuth={setIsAuth} />
+            </LayoutSuspense>
         )
     }
 
-    function CartCheckout() {
+    function CartCheckout({ isAuth }) {
         return (
-            !loading && (
-                <Suspense fallback={<LoadingScreen />}>
-                    <Checkout isAuth={isAuth} />
-                </Suspense>
-            )
+            <Suspense fallback={<LoadingScreen />}>
+                <Checkout isAuth={isAuth} />
+            </Suspense>
         )
     }
 
@@ -142,17 +134,35 @@ const Ecommerce = () => {
                 <Route path="/:catName" element={<CategoryShowPage />} />
                 <Route path="/:catName/:proName" element={<ProductShowPage />} />
                 <Route path="/admin-panel/*" element={<AdminPanelRoute />} />
-                {isAuth ? (
+                <Route
+                    path="/profile"
+                    element={<ProfileShow isAuth={isAuth} setIsAuth={setIsAuth} />}
+                >
+                    <Route path="orders" element={<Order />} />
+                    <Route path="address" element={<Address />} />
+                    <Route
+                        path="*"
+                        element={
+                            <Suspense fallback={<LoadingScreen />}>
+                                <NotFoundPage />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                <Route path="/login" element={<LoginCheck isAuth={isAuth} />} />
+                {isAuth && (
                     <>
                         <Route path="/cart" element={<CartShow />} />
-                        <Route path="/checkout" element={<CartCheckout />} />
-                        <Route path="/profile" element={<ProfileShow />}>
-                            <Route path="address" element={<Address />} />
-                        </Route>
-                        <Route path="/login" element={<LoginRedirect />} />
+                        <Route path="/checkout" element={<CartCheckout isAuth={isAuth} />} />
+                        <Route
+                            path="/profile/orders/:orderId"
+                            element={
+                                <LayoutSuspense>
+                                    <OrderDetailPage isAuth={isAuth} />
+                                </LayoutSuspense>
+                            }
+                        />
                     </>
-                ) : (
-                    <Route path="/login" element={<LoginShow />} />
                 )}
                 <Route
                     path="*"

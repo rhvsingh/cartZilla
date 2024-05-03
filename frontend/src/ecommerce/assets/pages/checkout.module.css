@@ -83,21 +83,41 @@
     transition: 0.3s ease-in-out;
 }
 
-.activeComponent {
-    height: max-content;
-}
-
-.notActiveComponent {
-    height: 40px;
-}
-
 .divTitle {
-    /* height: 40px; */
     padding: 0.5rem 1rem;
-    background-color: var(--main-color-2);
-    color: var(--white-color-f);
+    color: var(--main-color-2);
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.loading {
+    display: block;
+    margin: auto;
+    width: 15px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 2px solid var(--white-color-f);
+    border-right-color: transparent;
+    animation: loading 1s ease-in-out infinite;
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.error {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--black-color-5);
+}
+
+.error span {
+    font-weight: 600;
 }

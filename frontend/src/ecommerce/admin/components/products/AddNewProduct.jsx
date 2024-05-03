@@ -212,11 +212,15 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                                 <option value="DEFAULT" disabled>
                                     --Select Category--
                                 </option>
-                                {category.map((item) => (
-                                    <option value={item._id} key={item._id}>
-                                        {item.catName}
-                                    </option>
-                                ))}
+                                {category.map((item) => {
+                                    return (
+                                        !proCategory.includes(item._id) && (
+                                            <option value={item._id} key={item._id}>
+                                                {item.catName}
+                                            </option>
+                                        )
+                                    )
+                                })}
                             </select>
                         </div>
                     </div>

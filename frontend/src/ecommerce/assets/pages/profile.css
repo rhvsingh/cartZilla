@@ -1,121 +1,169 @@
 .child-selector {
-  text-decoration: none;
-  color: var(--bg-shades-2);
-  font-size: 0.85rem;
-  padding: 1rem 0;
-  letter-spacing: -0.25px;
+    text-decoration: none;
+    color: var(--bg-shades-2);
+    font-size: 0.85rem;
+    padding: 1rem 0;
+    letter-spacing: -0.25px;
 }
 
 .child-selector li {
-  padding: 12px 5px 12px 3.75rem;
+    padding: 12px 5px 12px 3.75rem;
 }
 
 .child-selector.active-child {
-  font-weight: 500;
-  color: var(--main-color-2);
+    font-weight: 500;
+    color: var(--main-color-2);
 }
 
 .child-selector.active-child li {
-  background-color: var(--bg-trans-1);
+    background-color: var(--bg-trans-1);
 }
 
 .child-selector:hover {
-  color: var(--main-color-2);
+    color: var(--main-color-2);
 }
 
 .child-selector:hover li {
-  background-color: var(--bg-trans-1);
+    background-color: var(--bg-trans-1);
 }
 
 .asideClass:has(.profile-menu) {
-  transform: translateX(0px);
-  background-color: var(--main-bg-color);
+    transform: translateX(0px);
+    background-color: var(--main-bg-color);
 }
 
 .asideClass:has(.profile-menu) #mobileMenuButton {
-  right: 0;
+    right: 0;
 }
 
 .border-bottom {
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--white-color-e);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--white-color-e);
 }
 
 .border-bottom:last-child {
-  border-bottom: 0;
+    border-bottom: 0;
 }
 
 .sm-b-heading {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 .address-container {
-  margin-block: 2rem 1rem;
+    margin-block: 2rem 1rem;
 }
 
 .each-address {
-  padding: 1.25rem 1rem;
-  border: 1px solid var(--white-color-c);
-  border-bottom: 0;
-  font-size: 0.85rem;
+    padding: 1.25rem 1rem;
+    border: 1px solid var(--white-color-c);
+    border-bottom: 0;
+    font-size: 0.85rem;
 }
 
 .each-address:first-child {
-  border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
 }
 
 .each-address:last-child {
-  border-bottom: 1px solid var(--white-color-c);
-  border-radius: 0 0 3px 3px;
+    border-bottom: 1px solid var(--white-color-c);
+    border-radius: 0 0 3px 3px;
 }
 
 .address-full-show {
-  display: block;
-  max-width: 523px;
-  line-height: 150%;
+    display: block;
+    max-width: 523px;
+    line-height: 150%;
 }
 
 .address-type {
-  font-size: 0.65rem;
-  font-weight: 600;
-  border-radius: 3px;
-  background-color: var(--white-color-e);
-  color: var(--black-color-9);
-  padding: 0.25rem 0.5rem;
-  text-transform: uppercase;
+    font-size: 0.65rem;
+    font-weight: 600;
+    border-radius: 3px;
+    background-color: var(--white-color-e);
+    color: var(--black-color-9);
+    padding: 0.25rem 0.5rem;
+    text-transform: uppercase;
 }
 
 .address-menu-option {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .address-menu-option:hover .address-updation {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 
 .address-updation {
-  position: absolute;
-  text-align: left;
-  background-color: var(--white-color-f);
-  right: 0;
-  top: 0;
-  box-shadow: 0 0 6px -1px var(--black-color-9);
-  border-radius: 3px;
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.1s ease-in-out;
+    position: absolute;
+    text-align: left;
+    background-color: var(--white-color-f);
+    right: 0;
+    top: 0;
+    box-shadow: 0 0 6px -1px var(--black-color-9);
+    border-radius: 3px;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.1s ease-in-out;
 }
 
 .address-updation > * {
-  outline: none;
-  border: 0;
-  background-color: transparent;
-  cursor: pointer;
-  padding: 0.75rem 1rem;
-  font-weight: 500;
+    outline: none;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
 }
 
 .address-updation > *:hover {
-  color: var(--main-color-2);
+    color: var(--main-color-2);
+}
+
+.order-table {
+    width: 100%;
+}
+
+.order-table td[data-alias="order-id"] a {
+    color: var(--black-color-2);
+    text-decoration: none;
+    position: relative;
+    font-weight: 500;
+}
+
+.order-table td[data-alias="order-id"] a:hover::before {
+    width: 100%;
+}
+
+.order-table td[data-alias="order-id"] a::before {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background-color: var(--black-color-2);
+    transition: 0.3s ease-in-out;
+}
+
+.order-table td[data-alias="status"] {
+    text-transform: capitalize;
+    width: 20%;
+}
+
+.order-table,
+.order-table th,
+.order-table td {
+    border: 1px solid var(--white-color-c);
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.order-table th,
+.order-table td {
+    padding: 0.8rem 0.5rem;
+}
+
+.order-table td {
+    font-size: 0.95rem;
+    color: var(--black-color-7);
 }

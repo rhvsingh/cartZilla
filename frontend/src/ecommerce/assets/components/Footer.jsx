@@ -1,4 +1,8 @@
+import { useState } from "react"
+import { Link } from "react-router-dom"
 import { FaGithubSquare, FaLinkedin, FaEnvelope } from "react-icons/fa"
+
+import Logo from "../image/logo-dark.png"
 
 const Footer = () => {
     const styles = {
@@ -8,11 +12,24 @@ const Footer = () => {
         marginRight: "2px",
     }
 
+    const [logoLoaded, setLogoLoaded] = useState(false)
+
     return (
         <footer className="footer-sec">
             <div className="footer-main container">
                 <div className="logo row">
-                    <div className="footer-header">CartZilla</div>
+                    <div className="footer-header">
+                        <Link to=".." relative="route">
+                            <img
+                                src={Logo}
+                                alt="CartZilla"
+                                title="CartZilla"
+                                style={logoLoaded ? {} : { display: "none" }}
+                                onLoad={() => setLogoLoaded(true)}
+                            />
+                            {!logoLoaded && <span>CartZilla</span>}
+                        </Link>
+                    </div>
                     <div className="logo-des">
                         <p>
                             E-commerce platform that uses ReactJS for frontend, for backend uses

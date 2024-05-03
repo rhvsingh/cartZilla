@@ -1,7 +1,6 @@
 import { useEffect, useState, Suspense, lazy } from "react"
 import { Link, Outlet, useOutlet, useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
-import { HelmetProvider, Helmet } from "react-helmet-async"
 import { FaUserAlt, FaPowerOff, FaBars, FaTimes } from "react-icons/fa"
 
 import { config } from "../../utils/Constants"
@@ -15,7 +14,7 @@ import FemaleProfilePic from "../components/profile/profile-pic-female.svg"
 const ProfileInfo = lazy(() => import("../components/profile/ProfileInfo"))
 const LoadingScreen = lazy(() => import("../components/LoadingScreen"))
 
-const Profile = ({ auth }) => {
+const Profile = ({ isAuth, setIsAuth }) => {
     const outlet = useOutlet()
     const navigate = useNavigate()
     const endPoint = useLocation().pathname.split("/").at(-1)
@@ -38,6 +37,13 @@ const Profile = ({ auth }) => {
         getUserDetails()
     }, [])
 
+    // useEffect(() => {
+    //     console.log(isAuth)
+    //     if (!isAuth) {
+    //         navigate("/")
+    //     }
+    // }, [isAuth, navigate])
+
     function profileMenuBarClick() {
         document.getElementById("mobileMenuButton").classList.toggle("profile-menu")
         if (clickCheck === 1) {
@@ -49,11 +55,6 @@ const Profile = ({ auth }) => {
 
     return (
         <>
-            <HelmetProvider>
-                <Helmet>
-                    <title>Profile</title>
-                </Helmet>
-            </HelmetProvider>
             {userDetails && userDetails.name ? (
                 <div className="container-2">
                     <div className={"d-flex gap-1 " + ProfileStyles.profileContainer}>
@@ -119,6 +120,16 @@ const Profile = ({ auth }) => {
                                         >
                                             <li>Manage Addresses</li>
                                         </Link>
+                                        <Link
+                                            to="orders"
+                                            className={
+                                                endPoint === "orders"
+                                                    ? "child-selector active-child"
+                                                    : "child-selector"
+                                            }
+                                        >
+                                            <li>Your Orders</li>
+                                        </Link>
                                     </ul>
                                 </div>
                                 {/* <div className='border-bottom'></div>
@@ -127,7 +138,7 @@ const Profile = ({ auth }) => {
                                     <div
                                         className={`d-flex flex-wrap-wrap ${ProfileStyles.logoutButton} ${ProfileStyles.header}`}
                                         onClick={() =>
-                                            auth((oldValue) => {
+                                            setIsAuth((oldValue) => {
                                                 if (oldValue === true) {
                                                     localStorage.clear()
                                                     navigate("/")
@@ -148,7 +159,7 @@ const Profile = ({ auth }) => {
                                         "d-flex flex-wrap-wrap " + ProfileStyles.smallFontList
                                     }
                                 >
-                                    <li>Change Password</li>
+                                    {/* <li>Change Password</li> */}
                                     <li>Track Order</li>
                                     <li>Help Center</li>
                                 </ul>

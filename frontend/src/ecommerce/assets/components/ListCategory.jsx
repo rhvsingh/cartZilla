@@ -13,7 +13,10 @@ const ListCategory = () => {
             .then((response) => {
                 setCatList(response.data)
             })
-            .catch((error) => console.error(error))
+            .catch((error) => {
+                //console.error(error)
+                //console.log(error)
+            })
     }, [])
 
     return (

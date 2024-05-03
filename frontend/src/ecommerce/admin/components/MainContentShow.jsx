@@ -1,8 +1,9 @@
-import React from "react"
+import SEO from "../../assets/components/SEO"
 
 const MainContentShow = () => {
     return (
         <>
+            <SEO title="Dashboard | CartZilla" />
             <div
                 className="dashboard-header d-flex px-1 py-1"
                 style={{
