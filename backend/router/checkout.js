@@ -37,13 +37,16 @@ function sliceProductDetails(products, productDetails) {
                 let productPrice = parseFloat(product.price)
                 let discountedPrice =
                     productPrice - (productPrice / 100) * parseInt(product.discount)
+                let productTotalPrice = discountedPrice * pro.productQty
                 qty += pro.productQty
-                tprice += discountedPrice * pro.productQty
+                tprice += productTotalPrice
                 let data = {
                     productId: product.pid,
                     productQty: pro.productQty,
                     productPrice: product.price,
                     productDiscount: product.discount,
+                    productDiscountedPrice: discountedPrice,
+                    productTotalPrice: productTotalPrice,
                 }
                 itemArray.push(data)
                 return true
@@ -84,6 +87,8 @@ function bindOrderID(userDetails, orderDetails, productDetails) {
     let orderedDetails = {
         order_detail_id: uniqueOrderId,
         order_id: uniqueCharacter,
+        order_date: orders.order_date,
+        order_time: orders.order_time,
         quantity: totalQty,
         discountedPrice: totalPrice,
         products: products,

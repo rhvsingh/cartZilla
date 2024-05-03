@@ -29,7 +29,7 @@ const Order = () => {
     return (
         <>
             <SEO title={"Orders | Profile | CartZilla"} />
-            {orders ? (
+            {orders && orders.length ? (
                 <div>
                     <table className="order-table">
                         <thead>

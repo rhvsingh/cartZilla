@@ -499,4 +499,43 @@ router.get("/user/orders/show", authorize, (req, res) => {
         })
 })
 
+router.get("/user/orders/:orderID", authorize, async (req, res) => {
+    const db = req.app.locals.db
+    const orderID = req.params["orderID"]
+
+    const ordersCollection = db.collection("orders")
+    const orderDetailsCollection = db.collection("order_details")
+    const productCollection = db.collection("products")
+
+    let customer_id = ObjectId(req.userID).toString()
+
+    let orderCheck = await ordersCollection.findOne({ customer_id: customer_id, order_id: orderID })
+
+    if (orderCheck === null) {
+        res.json({ result: false, msg: "No orders", data: [], error: 0 })
+        return 0
+    }
+
+    let details = await orderDetailsCollection.findOne({ order_id: orderID })
+
+    let productsArray = await Promise.all(
+        details.products.map(async (product) => {
+            let data = await productCollection.findOne({ pid: product.productId })
+            return {
+                ...product,
+                img: data.img[0],
+                name: data.name,
+            }
+        })
+    )
+
+    details.products = productsArray
+
+    if (typeof orderCheck === "object" && orderCheck != null && details != null) {
+        res.json({ result: true, status: 200, data: details, msg: "Orders" })
+    } else {
+        res.json({ result: false, msg: "No orders", data: [], error: 0 })
+    }
+})
+
 module.exports = router

@@ -157,9 +157,9 @@ const Ecommerce = () => {
                         <Route
                             path="/profile/orders/:orderId"
                             element={
-                                <Suspense fallback={<LoadingScreen />}>
+                                <LayoutSuspense>
                                     <OrderDetailPage isAuth={isAuth} />
-                                </Suspense>
+                                </LayoutSuspense>
                             }
                         />
                     </>
