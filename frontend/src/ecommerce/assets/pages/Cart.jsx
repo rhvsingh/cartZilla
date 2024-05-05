@@ -1,4 +1,4 @@
-import { lazy, useContext } from "react"
+import { lazy, startTransition, useContext } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import axios from "axios"
 
@@ -68,9 +68,12 @@ const Cart = ({ isAuth }) => {
     }
 
     const checkoutCart = () => {
-        return navigate("/checkout", {
-            state: { prevPath: location.pathname },
+        startTransition(() => {
+            navigate("/checkout", {
+                state: { prevPath: location.pathname },
+            })
         })
+        return
     }
 
     return isLoading ? (

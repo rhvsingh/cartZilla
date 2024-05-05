@@ -73,10 +73,14 @@ function bindOrderID(userDetails, orderDetails, productDetails) {
 
     const d = new Date()
 
+    console.log(d)
+
+    console.log(d.getDate(), d.getMonth())
+
     let orders = {
         order_id: uniqueCharacter,
         customer_id: customer_id,
-        order_date: d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate(),
+        order_date: d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear(),
         order_time: d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds(),
         total_amount: totalPrice,
         status: "pending",
@@ -237,37 +241,37 @@ router.post("/checkoutProcess", async (req, res) => {
 
     let [orders, orderedDetails] = bindOrderID(userData, data.orderDetails, productDetails)
 
-    let insertedOrders = setOrderCollection(db, orders)
-    if (!insertedOrders) {
-        res.json({ status: 400, msg: "Orders Collection Error", error: 2 })
-        return 0
-    }
+    // let insertedOrders = setOrderCollection(db, orders)
+    // if (!insertedOrders) {
+    //     res.json({ status: 400, msg: "Orders Collection Error", error: 2 })
+    //     return 0
+    // }
 
-    let insertedOrderCollection = setOrderDetailsCollection(db, orderedDetails)
-    if (!insertedOrderCollection) {
-        res.json({ status: 400, msg: "Order_Details Collection Error", error: 2 })
-        return 0
-    }
+    // let insertedOrderCollection = setOrderDetailsCollection(db, orderedDetails)
+    // if (!insertedOrderCollection) {
+    //     res.json({ status: 400, msg: "Order_Details Collection Error", error: 2 })
+    //     return 0
+    // }
 
-    //Updating stock here
-    let stockChangeData
-    if (stockCheckData == 0) {
-        stockChangeData = await stockChange(db, data.orderDetails)
-    }
+    // //Updating stock here
+    // let stockChangeData
+    // if (stockCheckData == 0) {
+    //     stockChangeData = await stockChange(db, data.orderDetails)
+    // }
 
-    //Clearing cart here
-    let cartData = await cartClear(db, data.email)
-    if (!cartData.deletedCount > 0) {
-        res.json({ status: 400, msg: "Error in clearing cart" })
-        return
-    }
+    // //Clearing cart here
+    // let cartData = await cartClear(db, data.email)
+    // if (!cartData.deletedCount > 0) {
+    //     res.json({ status: 400, msg: "Error in clearing cart" })
+    //     return
+    // }
 
-    if (userData && stockCheckData != 1) {
-        //&& stockChangeData
-        setTimeout(() => {
-            res.json({ status: 200, userData: userData, message: "Order placed successfully" })
-        }, 2000)
-    }
+    // if (userData && stockCheckData != 1) {
+    //     //&& stockChangeData
+    //     setTimeout(() => {
+    //         res.json({ status: 200, userData: userData, message: "Order placed successfully" })
+    //     }, 2000)
+    // }
 })
 
 module.exports = router

@@ -4,7 +4,13 @@ import OrderStyles from "../../../pages/orderDetail.module.css"
 const OrderDetails = ({ orderId, orderDetails }) => {
     let buyDate = new Date(orderDetails.order_date)
 
-    console.log(buyDate.getMonth())
+    console.log(
+        buyDate.getMonth(),
+        buyDate.getDate(),
+        buyDate.getDay(),
+        buyDate,
+        orderDetails.order_date
+    )
 
     return (
         <div className="px-50 py-25">
@@ -80,7 +86,9 @@ const OrderDetails = ({ orderId, orderDetails }) => {
                 </div>
                 <div>
                     <div>Shipping Address</div>
-                    <div>Fulfillment Status: Paid</div>
+                    <div style={{ textTransform: "capitalize" }}>
+                        Fulfillment Status: {orderDetails.status}
+                    </div>
                     <div>
                         {orderDetails.address_shipped.address} <br />
                         {orderDetails.address_shipped.city}

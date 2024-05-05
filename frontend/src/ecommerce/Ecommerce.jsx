@@ -31,6 +31,25 @@ const Profile = React.lazy(() => import("./assets/pages/Profile"))
 const Order = React.lazy(() => import("./assets/components/profile/Order"))
 const Address = React.lazy(() => import("./assets/components/profile/Address"))
 
+// const LayoutSuspense = React.lazy(() => import("./utils/LayoutSuspense"))
+// const LoadingScreen = React.lazy(() => import("./assets/components/LoadingScreen"))
+
+// const AdminPanelRoute = React.lazy(() => import("./routes/AdminPanelRoute"))
+// const HomePage = React.lazy(() => import("./routes/HomePage"))
+// const LandingPage = React.lazy(() => import("./routes/LandingPage"))
+// const ProductShowPage = React.lazy(() => import("./routes/ProductShowPage"))
+// const CategoryShowPage = React.lazy(() => import("./routes/CategoryShowPage"))
+// const CartShow = React.lazy(() => import("./routes/CartShow"))
+// const CartCheckout = React.lazy(() => import("./routes/CartCheckout"))
+// const ProfileShow = React.lazy(() => import("./routes/ProfileShow"))
+// const LoginShow = React.lazy(() => import("./routes/LoginShow"))
+// const LoginRedirect = React.lazy(() => import("./routes/LoginRedirect"))
+// const NotFoundPage = React.lazy(() => import("./assets/components/NotFoundPage"))
+
+// const Address = React.lazy(() => import("./assets/components/profile/Address"))
+// const Order = React.lazy(() => import("./assets/components/profile/Order"))
+// const OrderDetailPage = React.lazy(() => import("./assets/pages/OrderDetailPage"))
+
 const Ecommerce = () => {
     const { isAuth, setIsAuth } = useContext(userContext)
 
@@ -128,18 +147,43 @@ const Ecommerce = () => {
 
     return (
         <Router>
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/home" element={<LandingPage />} />
-                <Route path="/:catName" element={<CategoryShowPage />} />
-                <Route path="/:catName/:proName" element={<ProductShowPage />} />
-                <Route path="/admin-panel/*" element={<AdminPanelRoute />} />
-                <Route
-                    path="/profile"
-                    element={<ProfileShow isAuth={isAuth} setIsAuth={setIsAuth} />}
-                >
-                    <Route path="orders" element={<Order />} />
-                    <Route path="address" element={<Address />} />
+            <Suspense fallback={<LoadingScreen />}>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/home" element={<LandingPage />} />
+                    <Route path="/:catName" element={<CategoryShowPage />} />
+                    <Route path="/:catName/:proName" element={<ProductShowPage />} />
+                    <Route path="/admin-panel/*" element={<AdminPanelRoute />} />
+                    <Route
+                        path="/profile"
+                        element={<ProfileShow isAuth={isAuth} setIsAuth={setIsAuth} />}
+                    >
+                        <Route path="orders" element={<Order />} />
+                        <Route path="address" element={<Address />} />
+                        <Route
+                            path="*"
+                            element={
+                                <Suspense fallback={<LoadingScreen />}>
+                                    <NotFoundPage />
+                                </Suspense>
+                            }
+                        />
+                    </Route>
+                    <Route path="/login" element={<LoginCheck isAuth={isAuth} />} />
+                    {isAuth && (
+                        <>
+                            <Route path="/cart" element={<CartShow />} />
+                            <Route path="/checkout" element={<CartCheckout isAuth={isAuth} />} />
+                            <Route
+                                path="/profile/orders/:orderId"
+                                element={
+                                    <LayoutSuspense>
+                                        <OrderDetailPage isAuth={isAuth} />
+                                    </LayoutSuspense>
+                                }
+                            />
+                        </>
+                    )}
                     <Route
                         path="*"
                         element={
@@ -148,31 +192,8 @@ const Ecommerce = () => {
                             </Suspense>
                         }
                     />
-                </Route>
-                <Route path="/login" element={<LoginCheck isAuth={isAuth} />} />
-                {isAuth && (
-                    <>
-                        <Route path="/cart" element={<CartShow />} />
-                        <Route path="/checkout" element={<CartCheckout isAuth={isAuth} />} />
-                        <Route
-                            path="/profile/orders/:orderId"
-                            element={
-                                <LayoutSuspense>
-                                    <OrderDetailPage isAuth={isAuth} />
-                                </LayoutSuspense>
-                            }
-                        />
-                    </>
-                )}
-                <Route
-                    path="*"
-                    element={
-                        <Suspense fallback={<LoadingScreen />}>
-                            <NotFoundPage />
-                        </Suspense>
-                    }
-                />
-            </Routes>
+                </Routes>
+            </Suspense>
         </Router>
     )
 }

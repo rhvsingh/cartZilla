@@ -33,15 +33,10 @@ const Checkout = (props) => {
 
     const [error, setError] = useState(null)
 
-    function LocationRedirect() {
-        const navigate = useNavigate()
+    function locationRedirect() {
         navigate("/login")
     }
 
-    function LocationRedirectToHome() {
-        const navigate = useNavigate()
-        navigate("/")
-    }
     const baseURL = config.url.API_URL
 
     useEffect(() => {
@@ -86,14 +81,20 @@ const Checkout = (props) => {
         })
     }, [])
 
-    if (!props.isAuth) {
-        return <LocationRedirect />
-    }
+    useEffect(() => {
+        function locationRedirectToHome() {
+            navigate("/")
+        }
+        if (loc.state === null) {
+            locationRedirectToHome()
+        } else if (!loc.state.prevPath === "/cart") {
+            locationRedirectToHome()
+        }
+    }, [loc, navigate])
 
-    if (loc.state === null) {
-        return <LocationRedirectToHome />
-    } else if (!loc.state.prevPath === "/cart") {
-        return <LocationRedirectToHome />
+    if (!props.isAuth) {
+        locationRedirect()
+        return
     }
 
     function placeOrder() {
