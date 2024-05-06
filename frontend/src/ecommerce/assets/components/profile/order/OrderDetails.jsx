@@ -1,27 +1,29 @@
 import OrderDetailImage from "./OrderDetailImage"
 import OrderStyles from "../../../pages/orderDetail.module.css"
+import SEO from "../../SEO"
 
 const OrderDetails = ({ orderId, orderDetails }) => {
-    let buyDate = new Date(orderDetails.order_date)
+    let buyDate = new Date(orderDetails.order_date + " " + orderDetails.order_time)
 
-    console.log(
-        buyDate.getMonth(),
-        buyDate.getDate(),
-        buyDate.getDay(),
-        buyDate,
-        orderDetails.order_date
-    )
+    let year = buyDate.getFullYear()
+    let month = buyDate.toLocaleString("default", { month: "long" })
+    let date = ("0" + buyDate.getDate()).slice(-2)
+    let time = buyDate.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+    })
 
     return (
         <div className="px-50 py-25">
+            <SEO title={"Order Details | CartZilla"} />
             <div className="mb-1 mt-50">
-                <div>
-                    Order ID: <span className={OrderStyles.orderID}>{orderId}</span>
+                <div className={OrderStyles.orderID}>
+                    Order ID: <span>{orderId}</span>
                 </div>
-                <div>
-                    Placed on {orderDetails.order_date} {orderDetails.order_time} January 13,2024
-                    01:36AM
-                </div>
+                <div
+                    className={OrderStyles.time}
+                >{`Placed on ${month} ${date}, ${year} ${time}`}</div>
             </div>
             <div>
                 <table className={OrderStyles.orderTable}>
@@ -40,7 +42,7 @@ const OrderDetails = ({ orderId, orderDetails }) => {
                                     <div className={OrderStyles.productImage}>
                                         <OrderDetailImage imageName={product.img} />
                                     </div>
-                                    <div>{product.name}</div>
+                                    <div data-alias="product-name">{product.name}</div>
                                 </td>
                                 <td>Rs. {product.productPrice.toLocaleString("en-IN")}</td>
                                 <td>{product.productQty}</td>
@@ -74,25 +76,30 @@ const OrderDetails = ({ orderId, orderDetails }) => {
             </div>
             <div className="d-flex gap-2 mt-1 mb-1">
                 <div>
-                    <div>Billing Address</div>
-                    <div>Payment Status: Paid</div>
-                    <div>
+                    <div className={OrderStyles.fw_6 + " mb-25"}>Billing Address</div>
+                    <div className={OrderStyles.status}>
+                        Payment Method{/*Status*/}:{" "}
+                        <span style={{ textTransform: "uppercase" }}>
+                            {orderDetails.payment_method}
+                        </span>
+                    </div>
+                    <div className={OrderStyles.address}>
                         {orderDetails.address_shipped.address} <br />
-                        {orderDetails.address_shipped.city}
-                        {orderDetails.address_shipped.pinCode} <br />
+                        {orderDetails.address_shipped.city} {orderDetails.address_shipped.pinCode}{" "}
+                        <br />
                         {orderDetails.address_shipped.state} <br />
                         +91{orderDetails.address_shipped.mobNum} <br />
                     </div>
                 </div>
                 <div>
-                    <div>Shipping Address</div>
-                    <div style={{ textTransform: "capitalize" }}>
+                    <div className={OrderStyles.fw_6 + " mb-25"}>Shipping Address</div>
+                    <div className={OrderStyles.status}>
                         Fulfillment Status: {orderDetails.status}
                     </div>
-                    <div>
+                    <div className={OrderStyles.address}>
                         {orderDetails.address_shipped.address} <br />
-                        {orderDetails.address_shipped.city}
-                        {orderDetails.address_shipped.pinCode} <br />
+                        {orderDetails.address_shipped.city} {orderDetails.address_shipped.pinCode}{" "}
+                        <br />
                         {orderDetails.address_shipped.state} <br />
                     </div>
                 </div>
