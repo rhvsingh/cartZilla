@@ -121,7 +121,7 @@ router.post("/login", (req, res) => {
                     { $set: { otp: newOTP } },
                     function (err, object) {}
                 )
-                /* transporter.sendMail(mailOptions, function (error, info) {
+                transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
                         console.log(error)
                     } else {
@@ -134,9 +134,7 @@ router.post("/login", (req, res) => {
                             msg: "Login successful",
                         })
                     }
-                }) */
-
-                console.log(newOTP)
+                })
 
                 res.json({
                     email: email,

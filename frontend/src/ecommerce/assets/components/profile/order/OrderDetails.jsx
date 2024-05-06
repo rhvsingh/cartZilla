@@ -74,7 +74,7 @@ const OrderDetails = ({ orderId, orderDetails }) => {
                     </tbody>
                 </table>
             </div>
-            <div className="d-flex gap-2 mt-1 mb-1">
+            <div className="d-flex gap-2 flex-wrap-wrap mt-1 mb-1">
                 <div>
                     <div className={OrderStyles.fw_6 + " mb-25"}>Billing Address</div>
                     <div className={OrderStyles.status}>
