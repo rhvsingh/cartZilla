@@ -1,5 +1,15 @@
 .orderID {
+    font-size: 0.95rem;
+    margin-bottom: 0.15rem;
+}
+.orderID span {
     font-weight: 500;
+}
+
+.time {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--black-color-3);
 }
 
 .orderTable {
@@ -38,8 +48,13 @@
 }
 
 .orderTable td {
-    font-size: 0.95rem;
-    color: var(--black-color-7);
+    font-size: clamp(0.75rem, 2vw, 0.95rem);
+    color: var(--black-color-5);
+}
+
+.orderTable td [data-alias="product-name"] {
+    font-weight: 600;
+    color: var(--black-color-3);
 }
 
 .total td {
@@ -48,7 +63,30 @@
 }
 
 .productImage {
-    max-width: 200px;
+    max-width: 150px;
     border-radius: 6px;
     overflow: hidden;
+}
+
+@media screen and (max-width: 500px) {
+    .orderTable th,
+    .orderTable td {
+        padding: 0.4rem 0.25rem;
+    }
+}
+
+.fw_6 {
+    font-weight: 600;
+}
+
+.status {
+    text-transform: capitalize;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+
+.address {
+    font-size: 0.85rem;
+    line-height: 1.35;
 }
