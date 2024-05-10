@@ -196,3 +196,19 @@
     font-size: 1.15rem;
     cursor: pointer;
 }
+
+/* Product Show Table */
+
+.proTable {
+    text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.proTable tr {
+    border: 1px solid var(--black-color-5);
+}
+
+.proTable img {
+    max-width: 50px;
+}
