@@ -203,6 +203,7 @@
     text-align: left;
     width: 100%;
     border-collapse: collapse;
+    font-size: 0.85rem;
 }
 
 .proTable tr {
@@ -211,4 +212,14 @@
 
 .proTable img {
     max-width: 50px;
+}
+
+.proTable td[data-alias="category"] span:not(:last-child)::after {
+    content: ",";
+    margin-right: 5px;
+}
+
+.proTable td[data-alias="price"] {
+    width: 200px;
+    background-color: #eee;
 }
