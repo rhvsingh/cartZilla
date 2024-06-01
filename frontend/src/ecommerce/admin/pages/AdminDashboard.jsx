@@ -35,7 +35,7 @@ const AdminDashboard = ({ setIsAuth }) => {
             >
                 <SideBar setIsAuth={setIsAuth} />
                 <Suspense fallback={<LoadingScreen />}>
-                    <div style={{ paddingRight: "2rem" }}>
+                    <div className="admin-panel-secton-2">
                         <Outlet />
                     </div>
                 </Suspense>

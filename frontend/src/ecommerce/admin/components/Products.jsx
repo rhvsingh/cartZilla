@@ -10,7 +10,7 @@ import Category from "./products/Category"
 import AdminStyle from "./css-modules/admin.module.css"
 
 const Products = () => {
-    const { products, fetchProductDetails } = useContext(AdminCatContext)
+    const { products } = useContext(AdminCatContext)
 
     const [newProductComponent, setNewProductComponent] = useState(false)
     const [categoryComponent, setCategoryComponent] = useState(false)
@@ -25,7 +25,8 @@ const Products = () => {
                 className="d-flex px-1 py-1 justify-between align-items-center"
                 style={{
                     borderBottom: "1px solid var(--white-color-d)",
-                    padding: "1.35rem 1.5rem",
+                    paddingInline: "1.5rem",
+                    height: "4.9rem",
                 }}
             >
                 <div style={{ fontSize: "1.4rem", fontWeight: "600" }}>Products</div>
@@ -82,7 +83,7 @@ const Products = () => {
                     </div>
                 </CSSTransition>
             </div>
-            <div className="px-2 py-2" style={{ overflow: "hidden" }}>
+            <div className="px-2 pb-2">
                 <CSSTransition
                     in={newProductButton}
                     nodeRef={nodeRef2}
@@ -90,7 +91,7 @@ const Products = () => {
                     classNames="my-node"
                     unmountOnExit
                 >
-                    <div ref={nodeRef2}>
+                    <div ref={nodeRef2} style={{ overflow: "auto" }}>
                         <ProductShow products={products} />
                     </div>
                 </CSSTransition>

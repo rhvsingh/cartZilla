@@ -17,7 +17,12 @@ const SplitLayout = (props) => {
             >
                 {props.children[0]}
             </div>
-            <div style={{ flex: `${props.div2 ? props.div2 : "auto"}` }}>{props.children[1]}</div>
+            <div
+                className="split-layout-box-2"
+                style={{ flex: `${props.div2 ? props.div2 : "auto"}` }}
+            >
+                {props.children[1]}
+            </div>
         </section>
     )
 }

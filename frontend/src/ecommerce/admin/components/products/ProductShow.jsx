@@ -22,7 +22,7 @@ const ProductShow = ({ products }) => {
             <tbody>
                 {products.map((product) => (
                     <tr key={product.pid}>
-                        <td>
+                        <td data-alias="product-image">
                             <Link to={"product/" + product.pid}>
                                 <ProductImage imagePath={baseURL + product.img[0]} />
                             </Link>

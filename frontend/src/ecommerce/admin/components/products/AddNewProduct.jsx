@@ -13,7 +13,7 @@ import AdminStyle from "../css-modules/admin.module.css"
 import "../css-modules/productAdd.css"
 
 const AddNewProduct = ({ setNewProductComponent }) => {
-    const { category } = useContext(AdminCatContext)
+    const { category,fetchProductDetails } = useContext(AdminCatContext)
 
     const [imgFile, setImgFile] = useState([])
     const proName = useRef()
@@ -79,6 +79,8 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                     setTimeout(() => {
                         setNewProductComponent((oldValue) => !oldValue)
                     }, 1500)
+
+                    fetchProductDetails()
 
                     /* setProducts((oldValue) => {
                         return [newData].concat(oldValue) //[...oldValue, data]
