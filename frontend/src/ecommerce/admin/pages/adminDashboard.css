@@ -6,3 +6,7 @@
 .admin-panel-secton-2 {
     padding-right: 2rem;
 }
+
+.rsw-editor {
+    background-color: var(--white-color-f);
+}

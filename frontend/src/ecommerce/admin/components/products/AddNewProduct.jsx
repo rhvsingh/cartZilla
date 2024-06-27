@@ -8,16 +8,19 @@ import { config } from "../../../utils/Constants"
 import AdminCatContext from "../../../contexts/adminContext/adminCatContext"
 import SelectCategory from "./SelectCategory"
 import UploadImagePreview from "./UploadImagePreview"
+import TextEditor from "../../../utils/TextEditor"
 
 import AdminStyle from "../css-modules/admin.module.css"
 import "../css-modules/productAdd.css"
 
 const AddNewProduct = ({ setNewProductComponent }) => {
-    const { category,fetchProductDetails } = useContext(AdminCatContext)
+    const { category, fetchProductDetails } = useContext(AdminCatContext)
+
+    const [proDesc, setProDesc] = useState()
 
     const [imgFile, setImgFile] = useState([])
     const proName = useRef()
-    const proDesc = useRef()
+    //const proDesc = useRef()
     const proPrice = useRef()
     const proDiscount = useRef()
     const proStock = useRef()
@@ -110,7 +113,8 @@ const AddNewProduct = ({ setNewProductComponent }) => {
         })
 
         let name = proName.current.value
-        let desc = proDesc.current.value
+        //let desc = proDesc.current.value
+        let desc = proDesc
         let price = parseInt(proPrice.current.value)
         let discount = parseInt(proDiscount.current.value)
         let stock = parseInt(proStock.current.value)
@@ -158,7 +162,7 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                     <div className="add-pro-form">
                         <div className="form-inputs">
                             <input type="text" placeholder="Enter name" ref={proName} required />
-                        </div>
+                        </div>{" "}
                     </div>
 
                     <div className="form-inputs">
@@ -168,7 +172,9 @@ const AddNewProduct = ({ setNewProductComponent }) => {
                                 ref={proDesc}
                                 required
                             /> */}
-                        <textarea placeholder="Enter description" ref={proDesc} required></textarea>
+
+                        <TextEditor context={proDesc} setContext={setProDesc} />
+                        {/* <textarea placeholder="Enter description" ref={proDesc} required></textarea> */}
                     </div>
 
                     <div className="add-pro-form">
