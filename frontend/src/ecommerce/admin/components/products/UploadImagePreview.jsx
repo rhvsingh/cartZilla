@@ -1,9 +1,13 @@
 import React from "react"
 import { RiImageAddFill, RiFileExcelFill } from "react-icons/ri"
 
+import { config } from "../../../utils/Constants"
+
 import AdminStyle from "../css-modules/admin.module.css"
 
 const UploadImagePreview = ({ image, index, imageReplacerButton, removeImage }) => {
+    const baseURL = config.url.API_URL + "uploads/"
+    console.log()
     return (
         <div
             key={index}
@@ -13,7 +17,12 @@ const UploadImagePreview = ({ image, index, imageReplacerButton, removeImage }) 
                     : AdminStyle.imageLabel
             }
         >
-            <img src={URL.createObjectURL(image)} className={AdminStyle.imagePreview} alt="" />
+            {typeof image === "object" && (
+                <img src={URL.createObjectURL(image)} className={AdminStyle.imagePreview} alt="" />
+            )}
+            {typeof image === "string" && (
+                <img src={baseURL + image} className={AdminStyle.imagePreview} alt="" />
+            )}
             <div className={AdminStyle.imageOptions + " d-flex align-items-center"}>
                 <RiImageAddFill
                     onClick={() => imageReplacerButton(index)}

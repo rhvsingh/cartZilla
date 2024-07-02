@@ -1,24 +1,25 @@
-import { useRef, useState, useContext } from "react"
+import { useRef, useState, useContext, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import { FaArrowLeftLong } from "react-icons/fa6"
-import { RiImageAddFill } from "react-icons/ri"
 import axios from "axios"
 import { ToastContainer, toast } from "react-toastify"
 
 import { config } from "../../../utils/Constants"
 import AdminCatContext from "../../../contexts/adminContext/adminCatContext"
 import SelectCategory from "./SelectCategory"
-import UploadImagePreview from "./UploadImagePreview"
+import ProductUploadImage from "./ProductUploadImage"
+
 import TextEditor from "../../../utils/TextEditor"
 
 import AdminStyle from "../css-modules/admin.module.css"
 import "../css-modules/productAdd.css"
 
-const AddNewProduct = ({ setNewProductComponent }) => {
+const AddNewProduct = ({ setNewProductComponent, pid, product }) => {
     const { category, fetchProductDetails } = useContext(AdminCatContext)
+    const navigate = useNavigate()
 
-    const [proDesc, setProDesc] = useState()
-
-    const [imgFile, setImgFile] = useState([])
+    const [proDesc, setProDesc] = useState(product?.desc || null)
+    const [imgFile, setImgFile] = useState(product?.img || [])
     const proName = useRef()
     //const proDesc = useRef()
     const proPrice = useRef()
@@ -26,38 +27,9 @@ const AddNewProduct = ({ setNewProductComponent }) => {
     const proStock = useRef()
     const [proCategory, setProCategory] = useState([])
 
-    const inputReplacer = useRef()
-
     const baseURL = config.url.API_URL + "admin/"
 
-    let imageIndexSelected = null
-
-    /* These are iamge functions to add new images, replace single image, click on hidden input from edit icon
-     and remove image to remove from array of images */
-
-    const imageChanger = (e) => {
-        setImgFile((oldValue) => {
-            for (let i = 0; i < e.target.files.length; i++) {
-                oldValue = [...oldValue, e.target.files[i]]
-            }
-            return oldValue
-        })
-    }
-
-    const imageReplacer = (e) => {
-        setImgFile((oldValue) =>
-            oldValue.map((item, i) => (i === imageIndexSelected ? e.target.files[0] : item))
-        )
-    }
-
-    const imageReplacerButton = (index) => {
-        imageIndexSelected = index
-        inputReplacer.current.click()
-    }
-
-    const removeImage = (index) => {
-        setImgFile((oldValue) => oldValue.filter((item, i) => i !== index && item))
-    }
+    console.log(imgFile)
 
     const productAdd = (data) => {
         axios
@@ -137,158 +109,175 @@ const AddNewProduct = ({ setNewProductComponent }) => {
         e.target.value = "DEFAULT"
     }
 
+    const prevStep = () => {
+        console.log()
+        if (typeof setNewProductComponent === "undefined") {
+            navigate(-1)
+        } else {
+            setNewProductComponent((oldValue) => !oldValue)
+        }
+    }
+
+    useEffect(() => {
+        function proCatExt(data) {
+            let cat = []
+            data.forEach((item) => {
+                cat.push(item._id)
+            })
+            return cat
+        }
+
+        if (typeof product !== "undefined" && typeof product === "object") {
+            proName.current.value = product.name
+            //setProDesc(product.desc)
+            proPrice.current.value = product.price
+            proDiscount.current.value = product.discount
+            proStock.current.value = product.stock
+
+            setProCategory(proCatExt(product.category))
+            //setImgFile(product.img)
+        }
+    }, [product])
+
     return (
         <>
-            <div
-                className={AdminStyle.backButton}
-                onClick={() => {
-                    setNewProductComponent((oldValue) => !oldValue)
-                }}
-                role="button"
-            >
+            <div className={AdminStyle.backButton} onClick={prevStep} role="button">
                 <div className="d-flex align-items-center gap-2">
                     <div>
                         <FaArrowLeftLong className={AdminStyle.smallArrowSize} />
                     </div>
                     <div>
                         <div className={AdminStyle.smallTitle}>Back to product list</div>
-                        <div className={AdminStyle.mainTitle}>Add New Product</div>
+                        <div className={AdminStyle.mainTitle}>
+                            {typeof pid === "undefined" ? "Add New Product" : "Edit Product"}
+                        </div>
                     </div>
                 </div>
             </div>
             <div className="pl-1 py-1">
-                <p className={AdminStyle.mainTitle}>Product Details</p>
                 <form onSubmit={formData} encType="multipart/form-data">
-                    <div className="add-pro-form">
-                        <div className="form-inputs">
-                            <input type="text" placeholder="Enter name" ref={proName} required />
-                        </div>{" "}
-                    </div>
-
-                    <div className="form-inputs">
-                        {/* <input
+                    <div className="d-flex gap-2 flex-wrap-wrap">
+                        <div style={{ flex: "3" }}>
+                            <label htmlFor="product-name" className={AdminStyle.mainTitle}>
+                                Name
+                            </label>
+                            <div className="add-pro-form">
+                                <div className="form-inputs">
+                                    <input
+                                        type="text"
+                                        id="product-name"
+                                        placeholder="Enter name"
+                                        ref={proName}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-inputs">
+                                <p className={AdminStyle.mainTitle}>Description</p>
+                                <TextEditor context={proDesc} setContext={setProDesc} />
+                                {/* <input
                                 type="text"
                                 placeholder="Enter description"
                                 ref={proDesc}
                                 required
                             /> */}
 
-                        <TextEditor context={proDesc} setContext={setProDesc} />
-                        {/* <textarea placeholder="Enter description" ref={proDesc} required></textarea> */}
-                    </div>
+                                {/* <textarea placeholder="Enter description" ref={proDesc} required></textarea> */}
+                            </div>
 
-                    <div className="add-pro-form">
-                        <div className="form-inputs">
-                            <input type="text" placeholder="Enter price" ref={proPrice} required />
-                        </div>
-                        <div className="form-inputs">
-                            <input
-                                type="text"
-                                placeholder="Enter discount"
-                                ref={proDiscount}
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div className="add-pro-form">
-                        <div className="form-inputs">
-                            <input type="text" placeholder="Enter stock" ref={proStock} required />
-                        </div>
-                    </div>
-                    <div className="form-inputs">
-                        <div className={AdminStyle.mainTitle}>Product Category</div>
-                        <div style={{ fontSize: "0.7rem" }}>
-                            First dropdown is main category others sub-categories.
-                        </div>
-                        <div id="category-container">
-                            {proCategory &&
-                                proCategory.map((item, index) => (
-                                    <SelectCategory
-                                        category={category}
-                                        proCategory={proCategory}
-                                        setProCategory={setProCategory}
-                                        proIndex={index}
-                                        key={index}
+                            <div className="add-pro-form">
+                                <div className="form-inputs">
+                                    <label htmlFor="product-price" className={AdminStyle.mainTitle}>
+                                        Price
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="product-price"
+                                        placeholder="Enter price"
+                                        ref={proPrice}
+                                        required
                                     />
-                                ))}
-                            <select
-                                name="category-select"
-                                defaultValue={"DEFAULT"}
-                                onChange={defaultSelect}
-                                required
-                            >
-                                <option value="DEFAULT" disabled>
-                                    --Select Category--
-                                </option>
-                                {category.map((item) => {
-                                    return (
-                                        !proCategory.includes(item._id) && (
-                                            <option value={item._id} key={item._id}>
-                                                {item.catName}
-                                            </option>
-                                        )
-                                    )
-                                })}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="py-1">
-                        <div className={AdminStyle.mainTitle}>Product Images</div>
-                        <div className={AdminStyle.grid}>
-                            <input
-                                id="product-image-replacer"
-                                name="product-image-replacer"
-                                type="file"
-                                ref={inputReplacer}
-                                onChange={imageReplacer}
-                                hidden
-                            />
-                            <input
-                                id="product-image-input"
-                                name="product-image-input[]"
-                                type="file"
-                                onChange={imageChanger}
-                                hidden
-                                multiple
-                            />
-                            <label htmlFor="product-image-input" id={AdminStyle.productImageInput}>
-                                <div>
-                                    <RiImageAddFill className={AdminStyle.productImageIcon} />
-                                    <br />
-                                    <span
-                                        style={{
-                                            textDecoration: "underline",
-                                            color: "var(--main-color-2)",
-                                        }}
-                                    >
-                                        Click to upload
-                                    </span>{" "}
-                                    or drag and drop
                                 </div>
-                            </label>
-                            {imgFile &&
-                                imgFile.map((image, index) => (
-                                    <UploadImagePreview
-                                        key={index}
-                                        image={image}
-                                        index={index}
-                                        imageReplacerButton={imageReplacerButton}
-                                        removeImage={removeImage}
+                                <div className="form-inputs">
+                                    <label
+                                        htmlFor="product-discount"
+                                        className={AdminStyle.mainTitle}
+                                    >
+                                        Discount
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="product-discount"
+                                        placeholder="Enter discount"
+                                        ref={proDiscount}
+                                        required
                                     />
-                                ))}
-
-                            {/* <img
-                            src={imgFile[0] === "" ? "" : URL.createObjectURL(imgFile)}
-                            className={AdminStyle.imagePreview}
-                            alt=""
-                        />*/}
+                                </div>
+                            </div>
+                            <div className="add-pro-form">
+                                <div className="form-inputs">
+                                    <label htmlFor="product-stock" className={AdminStyle.mainTitle}>
+                                        Stock
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="product-stock"
+                                        placeholder="Enter stock"
+                                        ref={proStock}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-inputs">
+                                <label className={AdminStyle.mainTitle} htmlFor="product-category">
+                                    Product Category
+                                </label>
+                                <div style={{ fontSize: "0.7rem" }}>
+                                    First dropdown is main category others sub-categories.
+                                </div>
+                                <div id="category-container" aria-labelledby="product-category">
+                                    {proCategory &&
+                                        proCategory.map((item, index) => (
+                                            <SelectCategory
+                                                category={category}
+                                                proCategory={proCategory}
+                                                setProCategory={setProCategory}
+                                                proIndex={index}
+                                                key={index}
+                                            />
+                                        ))}
+                                    <select
+                                        name="category-select"
+                                        defaultValue={"DEFAULT"}
+                                        id="product-category"
+                                        onChange={defaultSelect}
+                                        required
+                                    >
+                                        <option value="DEFAULT" disabled>
+                                            --Select Category--
+                                        </option>
+                                        {category.map((item) => {
+                                            return (
+                                                !proCategory.includes(item._id) && (
+                                                    <option value={item._id} key={item._id}>
+                                                        {item.catName}
+                                                    </option>
+                                                )
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div style={{ fontSize: "0.7rem" }}>
-                            Max 5 images can be uploaded at a time.
+                        <div className="py-1" style={{ flexGrow: "1" }}>
+                            <ProductUploadImage imgFile={imgFile} setImgFile={setImgFile} />
                         </div>
                     </div>
                     <div className="form-inputs">
-                        <input type="submit" value="Add" />
+                        <input
+                            type="submit"
+                            value={typeof pid === "undefined" ? "Add" : "Update"}
+                        />
                     </div>
                 </form>
             </div>
