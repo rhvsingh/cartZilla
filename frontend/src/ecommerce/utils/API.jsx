@@ -1,5 +1,5 @@
 const API = () => {
-    return <div>API Creation</div>
+    return <div>API</div>
 }
 
 export default API
