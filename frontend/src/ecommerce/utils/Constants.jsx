@@ -1,7 +1,7 @@
 const prod = {
     url: {
-        API_URL: "https://giddy-visor-pig.cyclic.app/",
-        API_URL_USERS: "https://giddy-visor-pig.cyclic.app/",
+        API_URL: "https://cartzilla-backend-0xc4.onrender.com/",
+        API_URL_USERS: "https://cartzilla-backend-0xc4.onrender.com/",
     },
 }
 const dev = {

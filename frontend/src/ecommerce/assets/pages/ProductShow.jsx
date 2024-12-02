@@ -26,7 +26,7 @@ const ProductShow = ({ isAuth }) => {
                     setIsLoading(false)
                 })
                 .catch(function (error) {
-                    console.log(error)
+                    console.error(error)
                 })
         } else {
             apiURL = baseURL + "productList/"
