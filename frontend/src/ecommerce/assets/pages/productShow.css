@@ -2,7 +2,7 @@
 
 .products {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     /* justify-content: center; */
     gap: 1rem;
     padding: 1rem;
@@ -30,12 +30,19 @@
     background-color: #eee;
     width: 100%;
     border-radius: 4px;
-    display: block;
     object-fit: cover;
 }
 
 .product-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     color: #333;
+    font-weight: bold;
+    font-size: 1.35rem;
 }
 
 .product-desc {
@@ -165,6 +172,7 @@
 
 .image-big-container img {
     border-radius: 5px;
+    object-fit: contain;
 }
 
 .image-big-slide {

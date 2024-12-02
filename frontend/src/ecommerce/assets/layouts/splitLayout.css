@@ -6,6 +6,10 @@
     gap: 2rem;
 }
 
+.split-layout-box-2:has(table) {
+    overflow: hidden;
+}
+
 @media screen and (max-width: 600px) {
     .split-layout {
         flex-direction: column-reverse;

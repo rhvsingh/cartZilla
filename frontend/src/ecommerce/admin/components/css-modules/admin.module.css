@@ -93,6 +93,7 @@
 
 .mainTitle {
     margin-block: 0.25rem;
+    font-size: 0.9rem;
     font-weight: bold;
 }
 
@@ -195,4 +196,45 @@
     top: 4px;
     font-size: 1.15rem;
     cursor: pointer;
+}
+
+/* Product Show Table */
+
+.proTable {
+    text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.proTable tr {
+    border: 1px solid var(--black-color-5);
+}
+
+.proTable th {
+    padding-block: 0.5rem;
+    padding-inline: 0 0.5rem;
+}
+
+.proTable td {
+    padding-inline: 0 1rem;
+}
+
+.proTable img {
+    max-width: 50px;
+}
+
+.proTable td[data-alias="product-image"] {
+    position: sticky;
+    left: 0;
+    background-color: var(--main-bg-color);
+}
+
+.proTable td[data-alias="category"] span:not(:last-child)::after {
+    content: ",";
+    margin-right: 5px;
+}
+
+.proTable td[data-alias="price"] {
+    max-width: 200px;
 }

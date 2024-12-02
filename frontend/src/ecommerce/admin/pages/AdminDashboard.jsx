@@ -13,6 +13,7 @@ const Stats = React.lazy(() => import("../components/Stats"))
 const Payments = React.lazy(() => import("../components/Payments"))
 const Transactions = React.lazy(() => import("../components/Transactions"))
 const Products = React.lazy(() => import("../components/Products"))
+const ProductUpdate = React.lazy(() => import("../components/products/ProductUpdate"))
 const Customers = React.lazy(() => import("../components/Customers"))
 const Messages = React.lazy(() => import("../components/Messages"))
 const AdminCat = React.lazy(() => import("../../contexts/adminContext/adminCat"))
@@ -35,7 +36,7 @@ const AdminDashboard = ({ setIsAuth }) => {
             >
                 <SideBar setIsAuth={setIsAuth} />
                 <Suspense fallback={<LoadingScreen />}>
-                    <div style={{ paddingRight: "2rem" }}>
+                    <div className="admin-panel-secton-2">
                         <Outlet />
                     </div>
                 </Suspense>
@@ -51,14 +52,25 @@ const AdminDashboard = ({ setIsAuth }) => {
                     <Route path="/stats" element={<Stats />} />
                     <Route path="/payments" element={<Payments />} />
                     <Route path="/transactions" element={<Transactions />} />
-                    <Route
-                        path="/products"
-                        element={
-                            <AdminCat>
-                                <Products />
-                            </AdminCat>
-                        }
-                    />
+                    <Route path="/products">
+                        <Route
+                            index
+                            element={
+                                <AdminCat>
+                                    <Products />
+                                </AdminCat>
+                            }
+                        />
+                        <Route
+                            path="product/:pid"
+                            element={
+                                <AdminCat>
+                                    <ProductUpdate />
+                                </AdminCat>
+                            }
+                        />
+                    </Route>
+
                     <Route path="/customers" element={<Customers />} />
                     <Route path="/messages" element={<Messages />} />
                 </Route>

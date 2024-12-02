@@ -4,9 +4,30 @@ const path = require("path")
 const multer = require("multer")
 const uuid = require("uuid")
 const fs = require("fs")
+const ObjectId = require("mongodb").ObjectId
 
 async function authorize(req, res, next) {
     const { email, akey } = req.body
+    const db = req.app.locals.db
+
+    const userCollection = db.collection("user")
+
+    let userData = await userCollection.findOne({ email: email, akey: akey })
+
+    if (!(userData == null)) {
+        if (userData.role.includes("admin")) {
+            next()
+        } else {
+            //User not authorized
+            res.json({ error: true, status: 401, message: "User unauthorized" })
+        }
+    } else {
+        res.json({ error: true, status: 404, message: "User not found" })
+    }
+}
+
+async function authorizeByQuery(req, res, next) {
+    const { email, akey } = req.query
     const db = req.app.locals.db
 
     const userCollection = db.collection("user")
@@ -140,6 +161,56 @@ router.post("/product/img", upload.array("productImage", 5), authorizeUser, (req
             msg: "Upload successful",
         })
     }
+})
+
+function categoryFetch(db) {
+    return new Promise((resolve, reject) => {
+        const catCollection = db.collection("category")
+        catCollection.find({}, { projection: { catName: 1 } }).toArray(function (err, result) {
+            if (err) {
+                reject(err)
+            } else if (result.length > 0) {
+                resolve(result)
+            }
+        })
+    })
+}
+
+router.get("/products", authorizeByQuery, (req, res) => {
+    const db = req.app.locals.db
+    let productsCollections = db.collection("products")
+
+    productsCollections
+        .find({})
+        .limit(50)
+        .sort({ _id: -1 })
+        .toArray(async function (err2, result2) {
+            if (err2) {
+                console.log(err2)
+            } else if (result2.length) {
+                const catData = await categoryFetch(db)
+                //console.log(catData[0]._id.toString())
+                let newResult = result2.map((product) => {
+                    if (Array.isArray(product.category)) {
+                        let category = []
+                        product.category.map((cat) =>
+                            catData.some((catId) => {
+                                if (catId._id.toString() === cat) {
+                                    category.push({ catName: catId.catName, _id: cat })
+                                    return true
+                                }
+                            })
+                        )
+
+                        return { ...product, category: category }
+                    }
+                    return product
+                })
+                res.json({ result: true, found: newResult.length, data: newResult })
+            } else {
+                res.json({ result: false, data: [] })
+            }
+        })
 })
 
 module.exports = router
